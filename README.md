@@ -88,7 +88,11 @@
 #### chromium 启动, 用户操作
 
 - N1 捕获用户行为 --> 翻译成代码 --> N2 --> N4 --> 操作页面实时显示到脚本编辑区
-- 监听事件：click（可跳转事件）、keyboard up（对同一个控件的输入要覆盖）、前进/后退、关闭/打开页面
+- 监听事件：click（过滤无效的点击）、keyboard up（对同一个控件的输入要覆盖）、前进/后退、关闭/打开页面
+- 跳转之间的区别
+  - target self: url change
+  - target blank: targetcreated + popup
+  - ## 手动 new tab: targetcreated
 
 #### 点击「结束录制」
 
