@@ -92,7 +92,7 @@
 - 跳转之间的区别
   - target self: url change
   - target blank: targetcreated + popup
-  - ## 手动 new tab: targetcreated
+  - 手动 new tab: targetcreated
 
 #### 点击「结束录制」
 
