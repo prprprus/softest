@@ -49,7 +49,7 @@ async function reportEvent(info, page) {
         ws.send(xpath);
         ws.close();
     });
-    await page.waitFor(1000);
+    await page.waitFor(500);
     // receive data from wss
     // ws.on('message', function incoming(data) {
     //   console.log('receive from wss: %s', data);
