@@ -99,6 +99,21 @@ async function main() {
     browser.on('targetcreated', function (e) {
         console.log('New Tab Created');
         // console.log(e);
+        (async () => {
+            // switch tab
+            let pages = await browser.pages();
+            let newPage = pages[pages.length - 1];
+            await newPage.bringToFront();
+            console.log('页面数量：', pages.length);
+
+            // bind listener
+            await bindListener(newPage);
+            await newPage.waitFor(1000);
+            await newPage.evaluate(() => {
+                location.reload(true);
+            });
+            await newPage.waitFor(1000);
+        })();
     });
     browser.on('targetdestroyed', function (e) {
         console.log('Tab Close');
@@ -115,22 +130,7 @@ async function main() {
         console.log('url change');
     });
     page.on('popup', function (e) {
-        console.log("Target Blank");
-        (async () => {
-            // switch tab
-            let pages = await browser.pages();
-            let newPage = pages[pages.length - 1];
-            await newPage.bringToFront();
-            console.log('页面数量：', pages.length);
-
-            // bind listener
-            await bindListener(newPage);
-            await newPage.waitFor(1000);
-            await newPage.evaluate(() => {
-                location.reload(true);
-            });
-            await newPage.waitFor(1000);
-        })();
+        console.log("=======================> ❤️️️️️️❤️❤️");
     });
     // bind listener
     await bindListener(page);
