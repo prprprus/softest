@@ -65,11 +65,8 @@ async function bindListener(page) {
             reportEvent(info, page);
         });
     } catch (e) {
-        // await page.evaluate((reportEvent) => {
-        //   document.removeEventListener('click', reportEvent, true);
-        //   console.log('fuxk!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        // }, reportEvent);
         console.log('fuxk!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        // don't need add click listener
         return;
     }
     // 3. Hook document with capturing event listeners that sniff all the important
@@ -102,21 +99,6 @@ async function main() {
     browser.on('targetcreated', function (e) {
         console.log('New Tab Created');
         // console.log(e);
-        (async () => {
-            // switch tab
-            let pages = await browser.pages();
-            let newPage = pages[pages.length - 1];
-            await newPage.bringToFront();
-            console.log('页面数量：', pages.length);
-
-            // bind listen
-            await bindListener(newPage);
-            await newPage.waitFor(1000);
-            await newPage.evaluate(() => {
-                location.reload(true);
-            });
-            await newPage.waitFor(1000);
-        })();
     });
     browser.on('targetdestroyed', function (e) {
         console.log('Tab Close');
@@ -132,7 +114,25 @@ async function main() {
         // console.log(e);
         console.log('url change');
     });
+    page.on('popup', function (e) {
+        console.log("Target Blank");
+        (async () => {
+            // switch tab
+            let pages = await browser.pages();
+            let newPage = pages[pages.length - 1];
+            await newPage.bringToFront();
+            console.log('页面数量：', pages.length);
 
+            // bind listener
+            await bindListener(newPage);
+            await newPage.waitFor(1000);
+            await newPage.evaluate(() => {
+                location.reload(true);
+            });
+            await newPage.waitFor(1000);
+        })();
+    });
+    // bind listener
     await bindListener(page);
 
     // 4. Navigate the page; try clicking around the website.
