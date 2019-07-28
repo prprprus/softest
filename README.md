@@ -1,7 +1,8 @@
 ### 功能介绍
 
 - 录制并自动生成测试脚本
-- 多 tab 录制
+- 支持单 tab、多 tab 录制
+- 支持浏览器前进后退操作(todo)
 - 播放测试脚本
 - 查看测试报告（可配置发邮箱）
 - 保存脚本、上传脚本
@@ -88,8 +89,8 @@
 #### chromium 启动, 用户操作
 
 - N1 捕获用户行为 --> 翻译成代码 --> N2 --> N4 --> 操作页面实时显示到脚本编辑区
-- 监听事件：click（过滤无效的点击）、keyboard up（对同一个控件的输入要覆盖）、前进/后退、关闭/打开页面
-- 跳转之间的区别
+- 监听事件：click（过滤无效的点击）、keyboard up（对同一个控件的输入要覆盖）、前进/后退(todo)、关闭/打开页面
+- 翻译时需要注意跳转之间的区别
   - target self: url change
   - target blank: targetcreated + popup
   - 手动 new tab, 输入网址: targetcreated
