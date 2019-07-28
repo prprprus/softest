@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    /* align-items: stretch; */
+    align-content: center;
+    /* flex-start | flex-end | center | space-between | space-around | space-evenly */
+}
+
+.item {
+    width: 50px;
+    height: 50px;
+    background: rebeccapurple;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.container1 {
+    position: absolute;
+    left: 110px;
+    width: 100px;
+    height: 100px;
+    background: lawngreen;
+}
+
+.codeContainer {
+    width: 550px;
+    height: 750px;
+    background: seashell;
+}
+
+textarea {
+    background: url(http://i.imgur.com/2cOaJ.png);
+    background-attachment: local;
+    background-repeat: no-repeat;
+    padding-left: 35px;
+    padding-top: 10px;
+    border-color: #ccc;
+}
