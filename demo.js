@@ -128,15 +128,34 @@ async function main() {
     browser.on('targetchanged', function (e) {
         // console.log(e);
         console.log('url change');
+        console.log(e._targetInfo.url);
     });
     page.on('popup', function (e) {
         console.log("=======================> ❤️️️️️️❤️❤️");
     });
+
     // bind listener
     await bindListener(page);
 
     // 4. Navigate the page; try clicking around the website.
-    await page.goto('https://www.qq.com');
+    await page.goto('https://www.example.com');
+
+    // test url change
+    const elm = await page.$x('/html/body/div/p[2]/a');
+    await elm[0].click();
+    await page.waitFor(10000);
+
+    let pages = await browser.pages();
+    page = pages[pages.length - 1];
+    await page.bringToFront();
+    await page.goBack();
+    await page.waitFor(10000);
+
+    pages = await browser.pages();
+    page = pages[pages.length - 1];
+    await page.bringToFront();
+    await page.goForward();
+    await page.waitFor(5000);
 }
 
 main();
