@@ -79,7 +79,7 @@ async function bindNewTabEventListener(browser) {
 
     // delay
     await page.waitFor(1000);
-    // 有效点击事件
+    // 识别有效点击事件
     let flag = queue.pageBlankEventQueue.dequeue();
     console.log('===>', flag);
     if (flag != -1) {
@@ -101,7 +101,7 @@ async function bindURLChangeEventListener(browser) {
   browser.on(event.URLChangeEvent.type, async function (e) {
     console.log('url change');
     console.log(e._targetInfo.url);
-    // 有效点击事件
+    // 识别有效点击事件
     queue.validClickQueue.enqueue('⚡️');
     // parse
   });
