@@ -4,8 +4,6 @@ const sender = require('./sender');
 const queue = require('../utils/queue');
 const event = require('./event');
 
-const uq = new queue.UniqueQueue();
-
 // common browser operation
 
 async function switch_to_last_tab(browser) {
@@ -32,8 +30,9 @@ async function clickEventCallback(page, info) {
 async function bindpageBlankEventListener(page) {
   page.on(event.pageBlankEvent.type, function (e) {
     console.log("❤️️️️️️❤️❤️");
+    // flag 说明: 🔥 代表 target_blank 跳转. ⚡️ 代表有效点击
     // put flag into queue
-    uq.enqueue('🔥');
+    queue.pageBlankEventQueue.enqueue('🔥');
   });
 }
 
@@ -74,14 +73,19 @@ async function bindNewTabEventListener(browser) {
     // switch tab and bind linstener
     let page = await switch_to_last_tab(browser);
     await bindClickEventListener(page);
-    await page.waitFor(1000);
+    // await page.waitFor(500);
     await refresh(page);
-    await page.waitFor(1000);
+    // await page.waitFor(500);
 
     // delay
-    setTimeout(() => {}, 3000);
-    // parse. 如果返回的 flag 不是 🔥 就证明这次的 click 属于 new tab
-    console.log('===>', uq.dequeue());
+    await page.waitFor(1000);
+    // 有效点击事件
+    let flag = queue.pageBlankEventQueue.dequeue();
+    console.log('===>', flag);
+    if (flag != -1) {
+      queue.validClickQueue.enqueue('⚡️');
+    }
+    // parse
   });
 }
 
@@ -97,6 +101,8 @@ async function bindURLChangeEventListener(browser) {
   browser.on(event.URLChangeEvent.type, async function (e) {
     console.log('url change');
     console.log(e._targetInfo.url);
+    // 有效点击事件
+    queue.validClickQueue.enqueue('⚡️');
     // parse
   });
 }
@@ -113,6 +119,9 @@ async function run(options) {
   await bindClickEventListener(page);
 
   await page.goto('https://www.qq.com');
+
+  // const page1 = await browser.newPage();
+  // await page1.goto('http://www.qq.com');
 }
 
 // tmp

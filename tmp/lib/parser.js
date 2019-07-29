@@ -1,8 +1,28 @@
+const queue = require('../utils/queue');
+
+async function filterInvalidCoordinates(page, info) {
+  if (info.x < 0 || info.y < 0) {
+    throw 'Error: coordinates should be greater than zero.'
+  }
+  if (info.eventType != 'click') {
+    throw 'Error: event type should be click.'
+  }
+
+  await page.waitFor(3000);
+  let flag = queue.validClickQueue.dequeue();
+  console.log('👏', flag);
+  console.log('👏', info.targetName);
+}
+
 async function parseXPath(page, info) {
-  // firebug
+  await filterInvalidCoordinates(page, info);
+
   let xpath = await page.evaluate((info) => {
-    console.log('---> info: ', info);
-    let element = document.elementFromPoint(144, 288);
+    console.log('info: ', info);
+    // get element by coordinate
+    let element = document.elementFromPoint(info.x, info.y);
+
+    // parse XPath by element
     if (element && element.id)
       return '//*[@id="' + element.id + '"]';
     else {
@@ -29,9 +49,8 @@ async function parseXPath(page, info) {
       return paths.length ? "/" + paths.join("/") : null;
     }
   }, info);
-  console.log(xpath);
-  // let e = await page.$x(xpath);
-  // await e[0].click();
+
+  console.log('XPath: ', xpath);
   return xpath;
 }
 

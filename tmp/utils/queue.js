@@ -1,20 +1,29 @@
 class UniqueQueue {
-  constructor(size = 100) {
-    this._size = size;
+  constructor(remain = 100) {
+    this._name = name
+    this._remain = remain;
     this._queue = [];
   }
 
-  get size() {
-    return this._size;
+  get remain() {
+    return this._remain;
   }
 
-  set size(size) {
-    this._size = size;
+  set remain(remain) {
+    this._remain = remain;
+  }
+
+  get name() {
+    return this._name
+  }
+
+  set name(name) {
+    this._name = name
   }
 
   enqueue(element) {
     // queue full
-    if (this._queue.length >= this._size) {
+    if (this._queue.length >= this._remain) {
       return -1;
     }
     // makesure unique
@@ -23,7 +32,7 @@ class UniqueQueue {
     }
 
     this._queue.push(element);
-    this._size--;
+    this._remain--;
     return 1;
   }
 
@@ -33,7 +42,7 @@ class UniqueQueue {
       return -1;
     }
 
-    this._size++;
+    this._remain++;
     return this._queue.shift();
   }
 
@@ -43,8 +52,19 @@ class UniqueQueue {
       return e === element;
     });
   }
+
+  getFirstElement() {
+    return this._queue[0];
+  }
 }
 
+// producer: bindpageBlankEventListener, consumer: bindNewTabEventListener
+const pageBlankEventQueue = new UniqueQueue(name = 'pageBlankEventQueue');
+// producer: bindURLChangeEventListener and bindClickEventListener(repeated error), consumer: filterInvalidCoordinates
+const validClickQueue = new UniqueQueue(name = 'validClickQueue');
+
 module.exports = {
-  UniqueQueue
+  UniqueQueue,
+  pageBlankEventQueue,
+  validClickQueue,
 }

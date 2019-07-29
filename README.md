@@ -94,6 +94,8 @@
   - target self: url change（单纯的 click）
   - target blank: targetcreated + popup（单纯的 click）
   - 手动 new tab, 输入网址: targetcreated（newPage(url)）
+- 过滤无效点击
+- 将用户行为翻译成脚本
 
 #### 点击「结束录制」
 
