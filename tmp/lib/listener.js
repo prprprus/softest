@@ -6,15 +6,7 @@ const event = require('./event');
 
 const uq = new queue.UniqueQueue();
 
-// event
-
-const clickEvent = new event.Event('click', 'clickEventCallback');
-const pageBlankEvent = new event.Event('popup', 'pageBlankEventCallback');
-const newTabEvent = new event.Event('targetcreated', 'newTabEventCallback');
-const closeTabEvent = new event.Event('targetdestroyed', 'closeTabEventCallback');
-const URLChangeEvent = new event.Event('targetchanged', 'URLChangeEventCallback');
-
-// common operation
+// common browser operation
 
 async function switch_to_last_tab(browser) {
   let pages = await browser.pages();
@@ -38,7 +30,7 @@ async function clickEventCallback(page, info) {
 }
 
 async function bindpageBlankEventListener(page) {
-  page.on(pageBlankEvent.type, function (e) {
+  page.on(event.pageBlankEvent.type, function (e) {
     console.log("❤️️️️️️❤️❤️");
     // put flag into queue
     uq.enqueue('🔥');
@@ -48,7 +40,7 @@ async function bindpageBlankEventListener(page) {
 async function bindClickEventListener(page) {
   // Execute `clickEventCallback` when `clickEvent` is triggered
   try {
-    await page.exposeFunction(clickEvent.callbackName, (info) => {
+    await page.exposeFunction(event.clickEvent.callbackName, (info) => {
       (async () => {
         await clickEventCallback(page, info);
       })();
@@ -69,14 +61,14 @@ async function bindClickEventListener(page) {
       y: e.clientY,
       d: console.log(e),
     }), true /* capture */ );
-  }, clickEvent);
+  }, event.clickEvent);
 
   // Bind the listener for the `pageBlankEvent`
   await bindpageBlankEventListener(page);
 }
 
 async function bindNewTabEventListener(browser) {
-  browser.on(newTabEvent.type, async function (e) {
+  browser.on(event.newTabEvent.type, async function (e) {
     console.log('New Tab Created');
 
     // switch tab and bind linstener
@@ -94,7 +86,7 @@ async function bindNewTabEventListener(browser) {
 }
 
 async function bindCloseTabEventListener(browser) {
-  browser.on(closeTabEvent.type, async function (e) {
+  browser.on(event.closeTabEvent.type, async function (e) {
     console.log('Tab Close');
     await switch_to_last_tab(browser);
     // parse
@@ -102,7 +94,7 @@ async function bindCloseTabEventListener(browser) {
 }
 
 async function bindURLChangeEventListener(browser) {
-  browser.on(URLChangeEvent.type, async function (e) {
+  browser.on(event.URLChangeEvent.type, async function (e) {
     console.log('url change');
     console.log(e._targetInfo.url);
     // parse

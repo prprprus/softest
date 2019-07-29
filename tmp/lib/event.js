@@ -5,6 +5,16 @@ class Event {
   }
 }
 
+const clickEvent = new Event('click', 'clickEventCallback');
+const pageBlankEvent = new Event('popup', 'pageBlankEventCallback');
+const newTabEvent = new Event('targetcreated', 'newTabEventCallback');
+const closeTabEvent = new Event('targetdestroyed', 'closeTabEventCallback');
+const URLChangeEvent = new Event('targetchanged', 'URLChangeEventCallback');
+
 module.exports = {
-  Event,
+  clickEvent,
+  pageBlankEvent,
+  newTabEvent,
+  closeTabEvent,
+  URLChangeEvent,
 }
