@@ -58,6 +58,6 @@ module.exports = {
   WebSocketServer
 }
 
-// run wss
+// tmp, run wss
 server = new WebSocketServer();
 server.run();
