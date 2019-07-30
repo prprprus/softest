@@ -1,16 +1,16 @@
 class UniqueQueue {
-  constructor(remain = 100) {
+  constructor(capacity = 1) {
     this._name = name
-    this._remain = remain;
+    this._capacity = capacity;
     this._queue = [];
   }
 
-  get remain() {
-    return this._remain;
+  get capacity() {
+    return this._capacity;
   }
 
-  set remain(remain) {
-    this._remain = remain;
+  set capacity(capacity) {
+    this._capacity = capacity;
   }
 
   get name() {
@@ -23,7 +23,7 @@ class UniqueQueue {
 
   enqueue(element) {
     // queue full
-    if (this._queue.length >= this._remain) {
+    if (this._queue.length >= this._capacity) {
       return -1;
     }
     // makesure unique
@@ -32,7 +32,7 @@ class UniqueQueue {
     }
 
     this._queue.push(element);
-    this._remain--;
+    this._capacity--;
     return 1;
   }
 
@@ -42,11 +42,42 @@ class UniqueQueue {
       return -1;
     }
 
-    this._remain++;
+    this._capacity++;
     return this._queue.shift();
   }
 
-  // return value or undefined
+  async enqueueBlocking(page, element, timeout) {
+    while (this._queue.length != 0) {
+      await page.waitFor(timeout);
+      // Error: enqueueBlocking timeout
+      if (this._queue.length != 0) {
+        return -1;
+      } else {
+        break;
+      }
+    }
+
+    this._queue.push(element);
+    this._capacity--;
+    return 1;
+  }
+
+  async dequeueBlocking(page, timeout) {
+    while (this._queue.length == 0) {
+      await page.waitFor(timeout);
+      // Error: enqueueBlocking timeout
+      if (this._queue.length == 0) {
+        return -1;
+      } else {
+        break;
+      }
+    }
+
+    this._capacity++;
+    return this._queue.shift();
+  }
+
+  // return undefined if not found
   _find(element) {
     this._queue.find((e) => {
       return e === element;
@@ -62,13 +93,13 @@ class UniqueQueue {
   }
 }
 
-// producer: bindpageBlankEventListener, consumer: bindNewTabEventListener
 const pageBlankEventQueue = new UniqueQueue(name = 'pageBlankEventQueue');
-// producer: bindURLChangeEventListener and bindClickEventListener(repeated error), consumer: filterInvalidCoordinates
-const validClickQueue = new UniqueQueue(name = 'validClickQueue');
+const validClickEventQueue = new UniqueQueue(name = 'validClickEventQueue');
+const validURLChangeEventQueue = new UniqueQueue(name = 'validURLChangeEventQueue');
 
 module.exports = {
   UniqueQueue,
   pageBlankEventQueue,
-  validClickQueue,
+  validClickEventQueue,
+  validURLChangeEventQueue,
 }

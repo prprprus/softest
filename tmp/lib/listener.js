@@ -22,8 +22,8 @@ async function refresh(page) {
 
 // bind listener
 
-async function clickEventCallback(browser, page, info) {
-  let xpath = await parser.parseXPath(browser, page, info);
+async function clickEventCallback(page, info) {
+  let xpath = await parser.parseXPath(page, info);
   // invalid click
   if (xpath == -1) {
     return;
@@ -40,12 +40,12 @@ async function bindpageBlankEventListener(page) {
   });
 }
 
-async function bindClickEventListener(browser, page) {
+async function bindClickEventListener(page) {
   // Execute `clickEventCallback` when `clickEvent` is triggered
   try {
     await page.exposeFunction(event.clickEvent.callbackName, (info) => {
       (async () => {
-        await clickEventCallback(browser, page, info);
+        await clickEventCallback(page, info);
       })();
     });
   } catch (e) {
@@ -76,18 +76,18 @@ async function bindNewTabEventListener(browser) {
 
     // switch tab and bind linstener
     let page = await switch_to_last_tab(browser);
-    await bindClickEventListener(browser, page);
+    await bindClickEventListener(page);
     await refresh(page);
 
     // Wait for `pageBlankEventQueue` enqueue because of `bindNewTabEventListener`
     // will execute before `bindpageBlankEventListener`.
-    await page.waitFor(1000);
+    // await page.waitFor(1000);
 
     // 识别有效点击事件
-    let flag = queue.pageBlankEventQueue.dequeue();
+    let flag = await queue.pageBlankEventQueue.dequeueBlocking(page, 1000);
     console.log('===>', flag);
     if (flag != -1) {
-      queue.validClickQueue.enqueue('⚡️');
+      queue.validClickEventQueue.enqueue('⚡️');
     }
     // parse
   });
@@ -106,7 +106,7 @@ async function bindURLChangeEventListener(browser) {
     console.log('url change');
     console.log(e._targetInfo.url);
     // 识别有效点击事件
-    queue.validClickQueue.enqueue('⚡️');
+    queue.validClickEventQueue.enqueue('⚡️');
     // parse
   });
 }
@@ -120,7 +120,7 @@ async function run(options) {
   await bindNewTabEventListener(browser);
   await bindCloseTabEventListener(browser);
   await bindURLChangeEventListener(browser);
-  await bindClickEventListener(browser, page);
+  await bindClickEventListener(page);
 
   await page.goto('https://www.qq.com');
 

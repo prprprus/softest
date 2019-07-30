@@ -1,19 +1,19 @@
 const queue = require('../utils/queue');
 
-async function filterInvalidCoordinates(browser, page, info) {
+function InterruptInvalidCoordinates(info) {
   if (info.x < 0 || info.y < 0) {
     throw 'Error: coordinates should be greater than zero.'
   }
   if (info.eventType != 'click') {
     throw 'Error: event type should be click.'
   }
+}
 
-  // wait for `bindNewTabEventListener` finished
-  await page.waitFor(3000);
-
-  let flag = queue.validClickQueue.dequeue();
+async function fliterInvalidClickEvent(page, info) {
+  let flag = await queue.validClickEventQueue.dequeueBlocking(page, 3000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
+
   // Condition 1: Handling the error identification problem of opening the page for the first time.
   // Condition 2: Invalid click when flag is - 1.
   if ((flag != -1 && info.targetName == 'LI') || (flag == -1)) {
@@ -22,8 +22,9 @@ async function filterInvalidCoordinates(browser, page, info) {
   return true;
 }
 
-async function parseXPath(browser, page, info) {
-  let res = await filterInvalidCoordinates(browser, page, info);
+async function parseXPath(page, info) {
+  InterruptInvalidCoordinates(info);
+  let res = await fliterInvalidClickEvent(page, info);
   if (!res) {
     return -1;
   }
