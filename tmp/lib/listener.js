@@ -4,7 +4,7 @@ const sender = require('./sender');
 const queue = require('../utils/queue');
 const event = require('./event');
 
-// common browser operation
+// common operation
 
 async function switch_to_last_tab(browser) {
   let pages = await browser.pages();
@@ -24,6 +24,10 @@ async function refresh(page) {
 
 async function clickEventCallback(page, info) {
   let xpath = await parser.parseXPath(page, info);
+  // invalid click
+  if (xpath == -1) {
+    return;
+  }
   await sender.sendData(xpath);
 }
 
@@ -73,12 +77,12 @@ async function bindNewTabEventListener(browser) {
     // switch tab and bind linstener
     let page = await switch_to_last_tab(browser);
     await bindClickEventListener(page);
-    // await page.waitFor(500);
     await refresh(page);
-    // await page.waitFor(500);
 
-    // delay
+    // Wait for `pageBlankEventQueue` enqueue because of `bindNewTabEventListener`
+    // will execute before `bindpageBlankEventListener`.
     await page.waitFor(1000);
+
     // 识别有效点击事件
     let flag = queue.pageBlankEventQueue.dequeue();
     console.log('===>', flag);

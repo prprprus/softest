@@ -56,6 +56,10 @@ class UniqueQueue {
   getFirstElement() {
     return this._queue[0];
   }
+
+  length() {
+    return this._queue.length;
+  }
 }
 
 // producer: bindpageBlankEventListener, consumer: bindNewTabEventListener

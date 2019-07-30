@@ -8,21 +8,32 @@ async function filterInvalidCoordinates(page, info) {
     throw 'Error: event type should be click.'
   }
 
+  // wait for `bindNewTabEventListener` finished
   await page.waitFor(3000);
+
+  // invalid click when flag is -1
+  console.log('👏', queue.validClickQueue.length());
   let flag = queue.validClickQueue.dequeue();
   console.log('👏', flag);
   console.log('👏', info.targetName);
+  console.log('👏', queue.validClickQueue.length());
+  if (flag == -1) {
+    return false;
+  }
+  return true;
 }
 
 async function parseXPath(page, info) {
-  await filterInvalidCoordinates(page, info);
+  let res = await filterInvalidCoordinates(page, info);
+  if (!res) {
+    return -1;
+  }
 
+  // parse XPath by element
   let xpath = await page.evaluate((info) => {
     console.log('info: ', info);
     // get element by coordinate
     let element = document.elementFromPoint(info.x, info.y);
-
-    // parse XPath by element
     if (element && element.id)
       return '//*[@id="' + element.id + '"]';
     else {
