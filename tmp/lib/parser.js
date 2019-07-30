@@ -1,6 +1,6 @@
 const queue = require('../utils/queue');
 
-async function filterInvalidCoordinates(page, info) {
+async function filterInvalidCoordinates(browser, page, info) {
   if (info.x < 0 || info.y < 0) {
     throw 'Error: coordinates should be greater than zero.'
   }
@@ -11,20 +11,19 @@ async function filterInvalidCoordinates(page, info) {
   // wait for `bindNewTabEventListener` finished
   await page.waitFor(3000);
 
-  // invalid click when flag is -1
-  console.log('👏', queue.validClickQueue.length());
   let flag = queue.validClickQueue.dequeue();
   console.log('👏', flag);
   console.log('👏', info.targetName);
-  console.log('👏', queue.validClickQueue.length());
-  if (flag == -1) {
+  // Condition 1: Handling the error identification problem of opening the page for the first time.
+  // Condition 2: Invalid click when flag is - 1.
+  if ((flag != -1 && info.targetName == 'LI') || (flag == -1)) {
     return false;
   }
   return true;
 }
 
-async function parseXPath(page, info) {
-  let res = await filterInvalidCoordinates(page, info);
+async function parseXPath(browser, page, info) {
+  let res = await filterInvalidCoordinates(browser, page, info);
   if (!res) {
     return -1;
   }
