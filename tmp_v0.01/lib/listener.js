@@ -33,7 +33,7 @@ async function clickEventCallback(browser, page, info) {
 async function bindclickTargetBlankEventListener(page) {
   page.on(event.clickTargetBlankEvent.type, function (e) {
     console.log("❤️️️️️️❤️❤️");
-    // 标记 target_blank 事件
+    // flag 说明: 🔥 代表 target_blank 跳转
     queue.clickTargetBlankEventQueue.enqueue('🔥');
   });
 }
@@ -58,10 +58,8 @@ async function bindClickEventListener(browser, page) {
     document.addEventListener(clickEvent.type, (e) => clickEventCallback({
       targetName: e.target.tagName,
       eventType: clickEvent.type,
-      // x: e.clientX,
-      // y: e.clientY,
-      x: e.pageX,
-      y: e.pageY,
+      x: e.clientX,
+      y: e.clientY,
       d: console.log(e),
     }), true /* capture */ );
   }, event.clickEvent);
@@ -79,8 +77,9 @@ async function bindNewTabEventListener(browser) {
     await bindClickEventListener(browser, page);
     await refresh(page);
 
-    // 由于 new_tab 和 target_blank 都会触发 `newTabEvent`,
-    // 所以加以区分, 如果 flag 为 🔥 代表 target_blank 事件, flag 为 -1 代表 new tab 事件.
+    // 更新当前 url
+
+    // flag 为 🔥 代表 target_blank 事件; flag 为 -1 代表 new tab 事件
     let flag = await queue.clickTargetBlankEventQueue.dequeueBlocking(page, 1000);
     console.log('===>', flag);
     // 如果 != -1 就是 target_blank 事件；否则就是 new_tab 事件
@@ -98,8 +97,8 @@ async function bindCloseTabEventListener(browser) {
     console.log('Tab Close', e._targetInfo.url);
     let page = await switch_to_last_tab(browser);
 
-    // 最后一个页面的 url
-    // console.log('🎉', page._target._targetInfo.url);
+    // 更新当前 url 为最后一个页面的 url
+    console.log('🎉', page._target._targetInfo.url);
 
     // parse
   });
@@ -110,19 +109,17 @@ async function bindURLChangeEventListener(browser) {
     console.log('url change', e._targetInfo.url);
     // 标记有效点击
     queue.validClickEventQueue.enqueue('⚡️');
-    // 标记是 target_self 事件
+    // 标记是从 url change 事件过来的
     queue.clickTargetSelfEventQueue.enqueue('🚀');
-    // wait
-    let page = await switch_to_last_tab(browser);
-    let info = await queue.coordinatesQueue.dequeueBlocking(page, 4000);
-    console.log('===> info recv ', info);
-    // 地址栏输入引起的 url_change 事件要回滚
-    if (info == -1) {
-      queue.validClickEventQueue.dequeue();
-      queue.clickTargetSelfEventQueue.dequeue();
-    }
-    console.log('✨', queue.validClickEventQueue.length());
-    console.log('✨', queue.clickTargetSelfEventQueue.length());
+
+    // 将 e.url 和当前页面的 url 比较如果不相同，则代表发生了 target_self 点击事件；
+    // 更新当前 url；拿 xpath
+    // 
+    // ps: 两个特殊情况直接更新当前 url, 不用拿 xpath
+    // New Tab Created chrome: //newtab/
+    // New Tab Created chrome - devtools: //devtools/bundled/devtools_app.html?remote
+    // Base = https: //chrome-devtools-frontend.appspot.com/serve_file/@aac427d544069
+    // c29d53f89d960a06dbb512f24e1 / & can_dock = true & dockSide = undocked
 
     // parse
   });
@@ -137,20 +134,17 @@ async function run(options) {
   await bindNewTabEventListener(browser);
   await bindCloseTabEventListener(browser);
   await bindURLChangeEventListener(browser);
-  await bindClickEventListener(browser, page);
+  await bindClickEventListener(page);
 
   // 记录当前 url
 
-  await page.goto('http://example.com', {
-    waitUntil: 'networkidle0'
-  });
-  let pages = await browser.pages();
-  await pages[0].close();
-  // fix pptr 的 bug
-  queue.clickTargetBlankEventQueue.dequeue();
-  queue.validClickEventQueue.dequeue();
-  queue.clickTargetSelfEventQueue.dequeue();
-  queue.coordinatesQueue.dequeue();
+  await page.goto('https://www.qq.com');
+
+  // await page.goto('https://www.example.com', {
+  //   waitUntil: 'networkidle0'
+  // });
+  // let pages = await browser.pages();
+  // await pages[0].close();
 
   // close tab
   // await page.waitFor(3000);

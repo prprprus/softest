@@ -96,9 +96,16 @@
 - N1 捕获用户行为 --> 翻译成代码 --> N2 --> N4 --> 操作页面实时显示到脚本编辑区
 - 监听事件：click（过滤无效的点击）、keyboard up（对同一个控件的输入要覆盖）、前进/后退(todo)、关闭/打开页面
 - 事件的识别
-  - target self: 先有 click 事件，再有 url change 事件（属于 click 操作）
-  - target blank: targetcreated + popup（属于 click 操作）
-  - 手动 new tab, 输入网址: targetcreated（newPage(url)）；pptr 有个 bug，打开某个网站时会自动 click 一下页面...
+  - target_self: 先有 click 事件，再有 url change 事件（属于有效 click）
+    - 引起 url change 的操作
+      - 正常的 target-self 点击
+      - newtab、地址栏输入
+      - 手动在地址栏输入（不支持）
+  - target_blank: targetcreated + popup（属于有效 click）
+  - new_tab: targetcreated（newPage(url)）
+- 不支持的操作
+  - 手动地切换 tab，再点击、输入
+  - 直接地址栏输入（注意和 newtab、地址栏输入的区别）
 - 过滤无效点击（识别有效点击事件）
 - 将用户行为翻译成脚本
 

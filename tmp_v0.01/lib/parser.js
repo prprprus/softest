@@ -13,37 +13,20 @@ async function fliterInvalidClickEvent(page, info) {
   let flag = await queue.validClickEventQueue.dequeueBlocking(page, 3000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
+
   // Condition 1: Handling the error identification problem of opening the page for the first time.
-  // Condition 2: Invalid click when flag is -1.
+  // Condition 2: Invalid click when flag is - 1.
   if ((flag != -1 && info.targetName == 'LI') || (flag == -1)) {
     return false;
   }
   return true;
 }
 
-async function handleclickTargetSelfEvent(page) {
-  console.log('原来长度:', queue.clickTargetSelfEventQueue.length());
-  let flag = await queue.clickTargetSelfEventQueue.dequeueBlocking(page, 1000);
-  console.log('剩下长度:', queue.clickTargetSelfEventQueue.length());
-  console.log('👺', flag);
-  if (flag != -1) {
-    return false;
-  }
-  return true
-}
-
-async function parseXPath(browser, page, info) {
+async function parseXPath(page, info) {
   InterruptInvalidCoordinates(info);
   let res = await fliterInvalidClickEvent(page, info);
   if (!res) {
     return -1;
-  }
-
-  res = await handleclickTargetSelfEvent(page);
-  if (!res) {
-    console.log('===> info send ', info);
-    queue.coordinatesQueue.enqueue(info);
-    return;
   }
 
   // parse XPath by element

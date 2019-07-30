@@ -93,14 +93,13 @@ class UniqueQueue {
   }
 }
 
-const clickTargetBlankEventQueue = new UniqueQueue(name = 'clickTargetBlankEventQueue');
+const pageBlankEventQueue = new UniqueQueue(name = 'pageBlankEventQueue');
 const validClickEventQueue = new UniqueQueue(name = 'validClickEventQueue');
-const clickTargetSelfEventQueue = new UniqueQueue(name = 'clickTargetSelfEventQueue');
-const coordinatesQueue = new UniqueQueue(name = 'coordinatesQueue');
+const validURLChangeEventQueue = new UniqueQueue(name = 'validURLChangeEventQueue');
 
 module.exports = {
-  clickTargetBlankEventQueue,
+  UniqueQueue,
+  pageBlankEventQueue,
   validClickEventQueue,
-  clickTargetSelfEventQueue,
-  coordinatesQueue,
+  validURLChangeEventQueue,
 }
