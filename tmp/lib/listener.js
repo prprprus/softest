@@ -58,10 +58,8 @@ async function bindClickEventListener(browser, page) {
     document.addEventListener(clickEvent.type, (e) => clickEventCallback({
       targetName: e.target.tagName,
       eventType: clickEvent.type,
-      // x: e.clientX,
-      // y: e.clientY,
-      x: e.pageX,
-      y: e.pageY,
+      x: e.clientX,
+      y: e.clientY,
       d: console.log(e),
     }), true /* capture */ );
   }, event.clickEvent);

@@ -12,7 +12,7 @@ function InterruptInvalidCoordinates(info) {
 async function fliterInvalidClickEvent(page, info) {
   // 考虑到网络延迟的因素，url change 的触发可能比 click 事件的触发要慢得多，
   // 所以这里必须要等待足够长的时间。
-  let flag = await queue.validClickEventQueue.dequeueBlocking(page, 40000);
+  let flag = await queue.validClickEventQueue.dequeueBlocking(page, 60000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
 
@@ -70,20 +70,18 @@ async function parseXPath(browser, page, info) {
     // }
     // console.log('=>fuxk', elements);
 
-    // tmp
-    window.scrollBy(info.x, info.y);
-
     // get element by coordinate
     let element = document.elementFromPoint(info.x, info.y);
+    if (element === null) {
+      window.scrollTo(info.x, info.y);
+      element = document.elementFromPoint(info.x, info.y);
+    }
 
     if (element && element.id)
       return '//*[@id="' + element.id + '"]';
     else {
       var paths = [];
-      console.log(info.x, info.y);
-      console.log(element);
       console.log('=>fuxk', element.nodeType);
-      console.log('=>fuxk', Node.ELEMENT_NODE);
       // Use nodeName (instead of localName) so namespace prefix is included (if any).
       for (; element && element.nodeType == Node.ELEMENT_NODE; element = element.parentNode) {
         var index = 0;
@@ -103,7 +101,6 @@ async function parseXPath(browser, page, info) {
         var pathIndex = (index || hasFollowingSiblings ? "[" + (index + 1) + "]" : "");
         paths.splice(0, 0, tagName + pathIndex);
       }
-      console.log('🐢', paths);
       return paths.length ? "/" + paths.join("/") : null;
     }
   }, info);
