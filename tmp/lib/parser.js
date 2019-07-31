@@ -10,9 +10,12 @@ function InterruptInvalidCoordinates(info) {
 }
 
 async function fliterInvalidClickEvent(page, info) {
-  let flag = await queue.validClickEventQueue.dequeueBlocking(page, 3000);
+  // 考虑到网络延迟的因素，url change 的触发可能比 click 事件的触发要慢得多，
+  // 所以这里必须要等待足够长的时间。
+  let flag = await queue.validClickEventQueue.dequeueBlocking(page, 40000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
+
   // Condition 1: Handling the error identification problem of opening the page for the first time.
   // Condition 2: Invalid click when flag is -1.
   if ((flag != -1 && info.targetName == 'LI') || (flag == -1)) {
@@ -23,7 +26,8 @@ async function fliterInvalidClickEvent(page, info) {
 
 async function handleclickTargetSelfEvent(page) {
   console.log('原来长度:', queue.clickTargetSelfEventQueue.length());
-  let flag = await queue.clickTargetSelfEventQueue.dequeueBlocking(page, 1000);
+  // 有了 `fliterInvalidClickEvent` 的等待作为保证，这里只需要意思意思就可以。
+  let flag = await queue.clickTargetSelfEventQueue.dequeueBlocking(page, 1);
   console.log('剩下长度:', queue.clickTargetSelfEventQueue.length());
   console.log('👺', flag);
   if (flag != -1) {

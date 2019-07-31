@@ -1,5 +1,5 @@
 class UniqueQueue {
-  constructor(capacity = 1) {
+  constructor(capacity = 1000) {
     this._name = name
     this._capacity = capacity;
     this._queue = [];
