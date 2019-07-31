@@ -53,12 +53,37 @@ async function parseXPath(browser, page, info) {
   // parse XPath by element
   let xpath = await page.evaluate((info) => {
     console.log('info: ', info);
+
+    // tmp
+    // var elements = [];
+    // var display = [];
+    // var item = document.elementFromPoint(info.x, info.y);
+    // while (item && item !== document.body && item !== window && item !== document && item !== document.documentElement) {
+    //   elements.push(item);
+    //   display.push(item.style.display);
+    //   item.style.display = "none";
+    //   item = document.elementFromPoint(info.x, info.y);
+    // }
+    // // restore display property
+    // for (var i = 0; i < elements.length; i++) {
+    //   elements[i].style.display = display[i];
+    // }
+    // console.log('=>fuxk', elements);
+
+    // tmp
+    window.scrollBy(info.x, info.y);
+
     // get element by coordinate
     let element = document.elementFromPoint(info.x, info.y);
+
     if (element && element.id)
       return '//*[@id="' + element.id + '"]';
     else {
       var paths = [];
+      console.log(info.x, info.y);
+      console.log(element);
+      console.log('=>fuxk', element.nodeType);
+      console.log('=>fuxk', Node.ELEMENT_NODE);
       // Use nodeName (instead of localName) so namespace prefix is included (if any).
       for (; element && element.nodeType == Node.ELEMENT_NODE; element = element.parentNode) {
         var index = 0;
@@ -78,6 +103,7 @@ async function parseXPath(browser, page, info) {
         var pathIndex = (index || hasFollowingSiblings ? "[" + (index + 1) + "]" : "");
         paths.splice(0, 0, tagName + pathIndex);
       }
+      console.log('🐢', paths);
       return paths.length ? "/" + paths.join("/") : null;
     }
   }, info);

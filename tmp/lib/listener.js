@@ -79,6 +79,12 @@ async function bindNewTabEventListener(browser) {
     await bindClickEventListener(browser, page);
     await refresh(page);
 
+    // tmp
+    await page.setViewport({
+      width: 2540,
+      height: 1318
+    })
+
     // 由于 new_tab 和 target_blank 都会触发 `newTabEvent`,
     // 所以加以区分, 如果 flag 为 🔥 代表 target_blank 事件, flag 为 -1 代表 new tab 事件.
     // 因为 target_blank 会紧随着 new_tab 事件触发，所以这里只需要等待 1s 就可以。
@@ -146,13 +152,16 @@ async function run(options) {
   await bindClickEventListener(browser, page);
 
   // 记录当前 url
+  await page.setViewport({
+    width: 2540,
+    height: 1318
+  })
+  await page.goto('http://qq.com', {
+    waitUntil: 'networkidle0'
+  });
+  let pages = await browser.pages();
+  await pages[0].close();
 
-  // await page.goto('http://qq.com', {
-  //   waitUntil: 'networkidle0'
-  // });
-  // let pages = await browser.pages();
-  // await pages[0].close();
-  await page.goto('http://qq.com');
   // fix pptr 的 bug
   queue.clickTargetBlankEventQueue.dequeue();
   queue.validClickEventQueue.dequeue();
@@ -172,7 +181,10 @@ async function run(options) {
 (async () => {
   await run({
     'headless': false,
-    'devtools': true,
+    // 'devtools': true,
     'executablePath': '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    args: [
+      `--window-size=2540,1318`,
+    ],
   });
 })();
