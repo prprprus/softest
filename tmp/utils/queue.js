@@ -63,14 +63,16 @@ class UniqueQueue {
   }
 
   async dequeueBlocking(page, timeout) {
+    const start = Date.now();
     while (this._queue.length == 0) {
-      await page.waitFor(timeout);
-      // Error: enqueueBlocking timeout
-      if (this._queue.length == 0) {
-        return -1;
-      } else {
-        break;
+      if (Date.now() - start > timeout) {
+        if (this._queue.length == 0) {
+          return -1;
+        } else {
+          break;
+        }
       }
+      await page.waitFor(100);
     }
 
     this._capacity++;

@@ -27,7 +27,7 @@ async function fliterInvalidClickEvent(page, info) {
 async function handleclickTargetSelfEvent(page) {
   console.log('原来长度:', queue.clickTargetSelfEventQueue.length());
   // 有了 `fliterInvalidClickEvent` 的等待作为保证，这里只需要意思意思就可以。
-  let flag = await queue.clickTargetSelfEventQueue.dequeueBlocking(page, 1);
+  let flag = await queue.clickTargetSelfEventQueue.dequeueBlocking(page, 1000);
   console.log('剩下长度:', queue.clickTargetSelfEventQueue.length());
   console.log('👺', flag);
   if (flag != -1) {

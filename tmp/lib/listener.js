@@ -147,11 +147,12 @@ async function run(options) {
 
   // 记录当前 url
 
-  await page.goto('http://douban.com', {
-    waitUntil: 'networkidle0'
-  });
-  let pages = await browser.pages();
-  await pages[0].close();
+  // await page.goto('http://qq.com', {
+  //   waitUntil: 'networkidle0'
+  // });
+  // let pages = await browser.pages();
+  // await pages[0].close();
+  await page.goto('http://qq.com');
   // fix pptr 的 bug
   queue.clickTargetBlankEventQueue.dequeue();
   queue.validClickEventQueue.dequeue();
