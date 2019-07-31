@@ -38,7 +38,7 @@ class UniqueQueue {
 
   dequeue() {
     // queue empty
-    if (this._queue.length <= 0) {
+    if (this._queue.length == 0) {
       return -1;
     }
 
@@ -47,14 +47,21 @@ class UniqueQueue {
   }
 
   async enqueueBlocking(page, element, timeout) {
-    while (this._queue.length != 0) {
-      await page.waitFor(timeout);
-      // Error: enqueueBlocking timeout
-      if (this._queue.length != 0) {
-        return -1;
-      } else {
-        break;
+    const start = Date.now();
+    while (this._queue.this.length >= this._capacity) {
+      if (Date.now() - start > timeout) {
+        if (this._queue.this.length >= this._capacity) {
+          return -1;
+        } else {
+          break;
+        }
       }
+      await page.waitFor(100);
+    }
+
+    // makesure unique
+    if (this._find(element) !== undefined) {
+      return 0;
     }
 
     this._queue.push(element);
