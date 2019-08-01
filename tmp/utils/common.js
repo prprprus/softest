@@ -1,4 +1,6 @@
-// common browser operation
+// common operation
+
+const queue = require('../utils/queue');
 
 /**
  * Switch the current page to the latest.
@@ -42,8 +44,31 @@ async function refresh(page) {
   });
 }
 
+/**
+ * Close default blank page.
+ * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
+ */
+async function closeBlankPage(browser) {
+  let pages = await browser.pages();
+  await pages[0].close();
+}
+
+/**
+ * For some websites(such as www.qq.com), it will automatically
+ * trigger a click event after opening, which will cause the queue initialization error,
+ * so we need to reinitialize the queue after the open operation.
+ */
+function initAllQueue() {
+  queue.eventClickTargetBlank.dequeue();
+  queue.eventValidClick.dequeue();
+  queue.eventClickTargetSelf.dequeue();
+  queue.eventClickTargetSelfCoordinates.dequeue();
+}
+
 module.exports = {
   switch_to_latest_tab,
   setViewport,
   refresh,
+  closeBlankPage,
+  initAllQueue,
 }

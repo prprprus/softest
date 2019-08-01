@@ -113,32 +113,27 @@ async function bindURLChangeEventListener(browser) {
 }
 
 /**
- * Run the puppeteer.
+ * Run the listener.
  * @param {object} options - Configure of the puppeteer.
  */
 async function run(options) {
   const browser = await pptr.launch(options);
   const page = await browser.newPage();
 
-  // bind listener
+  // bind browser listener
   await bindNewTabEventListener(browser);
   await bindCloseTabEventListener(browser);
   await bindURLChangeEventListener(browser);
+
+  // // bind page listener
   await bindClickEventListener(browser, page);
 
   await common.setViewport(page, 2540, 1318);
-
-  await page.goto('http://qq.com', {
+  await page.goto('http://www.qq.com', {
     waitUntil: 'networkidle0'
   });
-  let pages = await browser.pages();
-  await pages[0].close();
-
-  // fix pptr's bug
-  queue.eventClickTargetBlank.dequeue();
-  queue.eventValidClick.dequeue();
-  queue.eventClickTargetSelf.dequeue();
-  queue.eventClickTargetSelfCoordinates.dequeue();
+  await common.closeBlankPage(browser);
+  common.initAllQueue();
 }
 
 (async () => {
