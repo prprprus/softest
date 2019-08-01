@@ -33,26 +33,26 @@ async function clickEventCallback(browser, page, info) {
 async function bindclickTargetBlankEventListener(page) {
   page.on(event.clickTargetBlankEvent.type, function (e) {
     console.log("❤️️️️️️❤️❤️");
-    // 标记 target_blank 事件
+    // mark target_blank event occurs
     queue.clickTargetBlankEventQueue.enqueue('🔥');
   });
 }
 
 async function bindClickEventListener(browser, page) {
-  // Execute `clickEventCallback` when `clickEvent` is triggered
+  // execute `clickEventCallback` when `clickEvent` is triggered
   try {
-    await page.exposeFunction(event.clickEvent.callbackName, (info) => {
+    await page.exposeFunction('clickEventCallback', (info) => {
       (async () => {
         await clickEventCallback(browser, page, info);
       })();
     });
   } catch (e) {
     console.log('⚠️ Repeat binding listener, return.');
-    // Don't need add click listener
+    // fix pptr bug, don't need add click listener
     return;
   }
 
-  // Register the `clickEventCallback` function for the `clickEvent`
+  // register the `clickEventCallback` function for the `clickEvent`
   await page.evaluateOnNewDocument((clickEvent) => {
     console.log('in evaluateOnNewDocument...');
     document.addEventListener(clickEvent.type, (e) => clickEventCallback({
@@ -64,7 +64,7 @@ async function bindClickEventListener(browser, page) {
     }), true /* capture */ );
   }, event.clickEvent);
 
-  // Bind the listener for the `clickTargetBlankEvent`
+  // bind the listener for the `clickTargetBlankEvent`
   await bindclickTargetBlankEventListener(page);
 }
 
@@ -98,7 +98,6 @@ async function bindNewTabEventListener(browser) {
 
 async function bindCloseTabEventListener(browser) {
   browser.on(event.closeTabEvent.type, async function (e) {
-    // console.log(e);
     console.log('Tab Close', e._targetInfo.url);
     let page = await switch_to_last_tab(browser);
 
