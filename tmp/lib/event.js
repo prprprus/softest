@@ -1,5 +1,5 @@
 class Event {
-  constructor(type, callbackName) {
+  constructor(type) {
     this.type = type
   }
 }

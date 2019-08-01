@@ -12,8 +12,8 @@ const common = require('../utils/common');
  * @param {puppeteer.Page} page - The current page.
  * @param {object} info - Callback information for `click` event.
  */
-async function clickCallback(browser, page, info) {
-  let xpath = await parser.parseXPath(browser, page, info);
+async function clickCallback(page, info) {
+  let xpath = await parser.parseStatement(page, info);
   if (xpath == -1) {
     return;
   }
@@ -49,14 +49,14 @@ async function bindClickTargetBlankListener(page) {
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  * @param {puppeteer.Page} page - The current page.
  */
-async function bindClickListener(browser, page) {
+async function bindClickListener(page) {
   try {
     // Expose the callback function of the `click` event in Node environment,
     // when the `click` event is captured, switches back to the node environment
     // from the browser environment, and executes the callback function.
     await page.exposeFunction('clickCallback', (info) => {
       (async () => {
-        await clickCallback(browser, page, info);
+        await clickCallback(page, info);
       })();
     });
   } catch (e) {
@@ -96,7 +96,7 @@ async function bindNewTabListener(browser) {
 
     let page = await common.switch_to_latest_tab(browser);
     // bind a listener (page-level) for `click` event of the new page
-    await bindClickListener(browser, page);
+    await bindClickListener(page);
     // refresh the new page, make sure the script is running
     await common.refresh(page);
     // Set viewport for the new page
@@ -196,7 +196,7 @@ async function run(options) {
   // bind the listener (browser-level) for the `URLChange` event
   await bindURLChangeListener(browser);
   // bind the listener (page-level) for the `click` event
-  await bindClickListener(browser, page);
+  await bindClickListener(page);
 
   await common.setViewport(page, 2540, 1318);
   await page.goto('http://www.qq.com', {

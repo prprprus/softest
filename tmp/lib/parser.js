@@ -1,115 +1,93 @@
 const queue = require('../utils/queue');
+const error = require('../utils/error');
+const common = require('../utils/common');
 
-function InterruptInvalidCoordinates(info) {
+/**
+ * Check the coordinates of the callback information.
+ * 
+ * @param {object} info - Callback information for `click` event.
+ */
+function checkCoordinates(info) {
   if (info.x < 0 || info.y < 0) {
-    throw 'Error: coordinates should be greater than zero.'
-  }
-  if (info.eventType != 'click') {
-    throw 'Error: event type should be click.'
+    throw error.errorCoordinatesParam;
   }
 }
 
-async function fliterInvalidClickEvent(page, info) {
-  // 考虑到网络延迟的因素，url change 的触发可能比 click 事件的触发要慢得多，
-  // 所以这里必须要等待足够长的时间。
+/**
+ * Determine if the click is valid click.
+ * 
+ * If click on some non-jumpable elements (like `<p>xxx</p>`), it is an invalid click.
+ * If the click belongs to the click (target_blank) or click (target_self) operation,
+ * it is a valid click.
+ * 
+ * @param {puppeteer.Page} page - The current page.
+ * @param {object} info - Callback information for `click` event.
+ */
+async function isInvalidClick(page, info) {
+  // Due to the network environment, there is a need to block waiting here.
+  // See also annotate of `bindURLChangeListener`.
   // 动态配置参数：慢：60000；良好：~=4000；本地：<1000
   let flag = await queue.eventValidClick.dequeueBlocking(page, 4000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
 
-  // Condition 1: Handling the error identification problem of opening the page for the first time.
-  // Condition 2: Invalid click when flag is -1.
+  // Condition 1: See also annotate of `initAllQueue`.
+  // Condition 2: Invalid click when the flag is -1.
   if ((flag != -1 && info.targetName == 'LI') || (flag == -1)) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 }
 
-async function handleclickTargetSelfEvent(page) {
+/**
+ * Determine if the `ClickTargetSelf` event.
+ * 
+ * @param {puppeteer.Page} page - The current page.
+ */
+async function isClickTargetSelf(page) {
   console.log('原来长度:', queue.eventClickTargetSelf.length());
-  // 有了 `fliterInvalidClickEvent` 的等待作为保证，这里只需要意思意思就可以。
   let flag = await queue.eventClickTargetSelf.dequeueBlocking(page, 1000);
   console.log('剩下长度:', queue.eventClickTargetSelf.length());
   console.log('👺', flag);
-  if (flag != -1) {
+  if (flag == -1) {
     return false;
   }
   return true
 }
 
-async function parseXPath(browser, page, info) {
-  InterruptInvalidCoordinates(info);
-  let res = await fliterInvalidClickEvent(page, info);
-  if (!res) {
+/**
+ * Parse the statement of puppeteer.
+ * 
+ * @param {puppeteer.Page} page - The current page.
+ * @param {object} info - Callback information for `click` event.
+ * @return {string} The statement of puppeteer.
+ */
+async function parseStatement(page, info) {
+  checkCoordinates(info);
+
+  if ((await isInvalidClick(page, info))) {
     return -1;
   }
 
-  res = await handleclickTargetSelfEvent(page);
-  if (!res) {
+  if ((await isClickTargetSelf(page))) {
     console.log('===> info send ', info);
+    // Determined to be a click (target_self) operation and send callback information into queue.
     queue.eventClickTargetSelfCoordinates.enqueue(info);
+    // If it is a ClickTargetSelf event, the original document will be destroyed,
+    // and the following operation of parsing the XPath can no longer be run.Instead,
+    // it should jump back to bindURLChangeListener to resolve the XPath.
+    // See also annotate of `bindURLChangeListener`.
     return;
   }
 
-  // parse XPath by element
-  let xpath = await page.evaluate((info) => {
-    console.log('info: ', info);
+  const xpath = await common.parseXPath(page, info);
 
-    // tmp
-    // var elements = [];
-    // var display = [];
-    // var item = document.elementFromPoint(info.x, info.y);
-    // while (item && item !== document.body && item !== window && item !== document && item !== document.documentElement) {
-    //   elements.push(item);
-    //   display.push(item.style.display);
-    //   item.style.display = "none";
-    //   item = document.elementFromPoint(info.x, info.y);
-    // }
-    // // restore display property
-    // for (var i = 0; i < elements.length; i++) {
-    //   elements[i].style.display = display[i];
-    // }
-    // console.log('=>fuxk', elements);
-
-    // get element by coordinate
-    let element = document.elementFromPoint(info.x, info.y);
-    if (element === null) {
-      window.scrollTo(info.x, info.y);
-      element = document.elementFromPoint(info.x, info.y);
-    }
-
-    if (element && element.id)
-      return '//*[@id="' + element.id + '"]';
-    else {
-      var paths = [];
-      console.log('=>fuxk', element.nodeType);
-      // Use nodeName (instead of localName) so namespace prefix is included (if any).
-      for (; element && element.nodeType == Node.ELEMENT_NODE; element = element.parentNode) {
-        var index = 0;
-        var hasFollowingSiblings = false;
-        for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling) {
-          // Ignore document type declaration.
-          if (sibling.nodeType == Node.DOCUMENT_TYPE_NODE)
-            continue;
-          if (sibling.nodeName == element.nodeName)
-            ++index;
-        }
-        for (var sibling = element.nextSibling; sibling && !hasFollowingSiblings; sibling = sibling.nextSibling) {
-          if (sibling.nodeName == element.nodeName)
-            hasFollowingSiblings = true;
-        }
-        var tagName = (element.prefix ? element.prefix + ":" : "") + element.localName;
-        var pathIndex = (index || hasFollowingSiblings ? "[" + (index + 1) + "]" : "");
-        paths.splice(0, 0, tagName + pathIndex);
-      }
-      return paths.length ? "/" + paths.join("/") : null;
-    }
-  }, info);
+  // prase statement todo
 
   console.log('XPath: ', xpath);
   return xpath;
 }
 
 module.exports = {
-  parseXPath
+  parseStatement,
 }
