@@ -102,14 +102,14 @@ class UniqueQueue {
   }
 }
 
-const clickTargetBlankEventQueue = new UniqueQueue(name = 'clickTargetBlankEventQueue');
-const validClickEventQueue = new UniqueQueue(name = 'validClickEventQueue');
-const clickTargetSelfEventQueue = new UniqueQueue(name = 'clickTargetSelfEventQueue');
-const coordinatesQueue = new UniqueQueue(name = 'coordinatesQueue');
+const eventClickTargetBlank = new UniqueQueue(name = 'eventClickTargetBlank');
+const eventValidClick = new UniqueQueue(name = 'eventValidClick');
+const eventClickTargetSelf = new UniqueQueue(name = 'eventClickTargetSelf');
+const eventClickTargetSelfCoordinates = new UniqueQueue(name = 'eventClickTargetSelfCoordinates');
 
 module.exports = {
-  clickTargetBlankEventQueue,
-  validClickEventQueue,
-  clickTargetSelfEventQueue,
-  coordinatesQueue,
+  eventClickTargetBlank,
+  eventValidClick,
+  eventClickTargetSelf,
+  eventClickTargetSelfCoordinates,
 }

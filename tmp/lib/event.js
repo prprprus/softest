@@ -4,16 +4,16 @@ class Event {
   }
 }
 
-const clickEvent = new Event('click');
-const clickTargetBlankEvent = new Event('popup');
-const newTabEvent = new Event('targetcreated');
-const closeTabEvent = new Event('targetdestroyed');
-const URLChangeEvent = new Event('targetchanged');
+const click = new Event('click');
+const clickTargetBlank = new Event('popup');
+const newTab = new Event('targetcreated');
+const closeTab = new Event('targetdestroyed');
+const URLChange = new Event('targetchanged');
 
 module.exports = {
-  clickEvent,
-  clickTargetBlankEvent,
-  newTabEvent,
-  closeTabEvent,
-  URLChangeEvent,
+  click,
+  clickTargetBlank,
+  newTab,
+  closeTab,
+  URLChange,
 }

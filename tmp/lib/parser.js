@@ -13,7 +13,7 @@ async function fliterInvalidClickEvent(page, info) {
   // 考虑到网络延迟的因素，url change 的触发可能比 click 事件的触发要慢得多，
   // 所以这里必须要等待足够长的时间。
   // 动态配置参数：慢：60000；良好：~=4000；本地：<1000
-  let flag = await queue.validClickEventQueue.dequeueBlocking(page, 60000);
+  let flag = await queue.eventValidClick.dequeueBlocking(page, 4000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
 
@@ -26,10 +26,10 @@ async function fliterInvalidClickEvent(page, info) {
 }
 
 async function handleclickTargetSelfEvent(page) {
-  console.log('原来长度:', queue.clickTargetSelfEventQueue.length());
+  console.log('原来长度:', queue.eventClickTargetSelf.length());
   // 有了 `fliterInvalidClickEvent` 的等待作为保证，这里只需要意思意思就可以。
-  let flag = await queue.clickTargetSelfEventQueue.dequeueBlocking(page, 1000);
-  console.log('剩下长度:', queue.clickTargetSelfEventQueue.length());
+  let flag = await queue.eventClickTargetSelf.dequeueBlocking(page, 1000);
+  console.log('剩下长度:', queue.eventClickTargetSelf.length());
   console.log('👺', flag);
   if (flag != -1) {
     return false;
@@ -47,7 +47,7 @@ async function parseXPath(browser, page, info) {
   res = await handleclickTargetSelfEvent(page);
   if (!res) {
     console.log('===> info send ', info);
-    queue.coordinatesQueue.enqueue(info);
+    queue.eventClickTargetSelfCoordinates.enqueue(info);
     return;
   }
 
