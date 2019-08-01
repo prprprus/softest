@@ -58,8 +58,8 @@ async function closeBlankPage(browser) {
 }
 
 /**
- * For some websites(such as www.qq.com), it will automatically
- * trigger a click event after opening, which will cause the queue initialization error,
+ * For some websites(such as www.qq.com), it will automatically trigger a click
+ * event after opening, which will cause the queue initialization error,
  * so we need to reinitialize the queue after the open operation.
  */
 function initAllQueue() {

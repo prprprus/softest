@@ -121,8 +121,8 @@ async function bindURLChangeListener(browser) {
     let info = await queue.eventClickTargetSelfCoordinates.dequeueBlocking(page, 80000);
     console.log('===> info recv ', info);
     if (info != -1) {
-      // Since the operation 1 will destroy the original document,
-      // so cannot parse the XPath in the callback of the `click` event and need to
+      // Since the operation 1 will destroy the original document, so cannot
+      // parse the XPath in the callback of the `click` event and need to
       // parse the XPath here.
       // parse todo
       return;
@@ -157,7 +157,6 @@ async function run(options) {
     waitUntil: 'networkidle0'
   });
   await common.closeBlankPage(browser);
-
   // reinitialize queue
   common.initAllQueue();
 }
