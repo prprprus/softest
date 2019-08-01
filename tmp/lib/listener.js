@@ -5,25 +5,59 @@ const queue = require('../utils/queue');
 const event = require('./event');
 const common = require('../utils/common');
 
+/**
+ * The callback function of the `click` event.
+ * 
+ * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
+ * @param {puppeteer.Page} page - The current page.
+ * @param {object} info - Callback information for `click` event.
+ */
 async function clickCallback(browser, page, info) {
+  // parse XPath
   let xpath = await parser.parseXPath(browser, page, info);
   if (xpath == -1) {
     return;
   }
+
+  // parse todo
+
+  // send a message to the front page to display
   await sender.sendData(xpath);
 }
 
+/**
+ * Binding a page-level listener for `clickTargetBlank` event, the listener catches
+ * the event and executes the callback function when the click (target_blank) occur.
+ * 
+ * Note: Since the `clickTargetBlank` event will occur with the `newTab` event,
+ * need to use queue synchronization to distinguish. See also `bindNewTabListener` annotate.
+ * 
+ * @param {puppeteer.Page} page - The current page.
+ */
 async function bindClickTargetBlankListener(page) {
   page.on(event.clickTargetBlank.type, function (e) {
     console.log("❤️️️️️️❤️❤️");
-    // mark target_blank event occurs
+    // mark target_blank
     queue.eventClickTargetBlank.enqueue('🔥');
   });
 }
 
+/**
+ * Binding a page-level listener for `click` event, the listener catches
+ * the event and executes the callback function when the page is clicked.
+ * 
+ * Note: Since all clicks are captured, need to filter invalid clicks
+ * (such as clicking the `<p>xxx</p>` element),
+ * which is implemented by queue synchronization.
+ * 
+ * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
+ * @param {puppeteer.Page} page - The current page.
+ */
 async function bindClickListener(browser, page) {
-  // execute `clickCallback` when `click` is triggered
   try {
+    // Expose the callback function of the `click` event in Node environment,
+    // when the `click` event is captured, switches back to the node environment
+    // from the browser environment, and executes the callback function.
     await page.exposeFunction('clickCallback', (info) => {
       (async () => {
         await clickCallback(browser, page, info);
@@ -31,58 +65,74 @@ async function bindClickListener(browser, page) {
     });
   } catch (e) {
     console.log('⚠️ Repeat binding listener, return.');
-    // fix pptr bug, don't need add click listener
     return;
   }
 
-  // register the `clickCallback` function for the `click`
+  // register the listener for the `click` event in the document
   await page.evaluateOnNewDocument((click) => {
     console.log('in evaluateOnNewDocument...');
     document.addEventListener(click.type, (e) => clickCallback({
-      targetName: e.target.tagName,
-      eventType: click.type,
-      x: e.clientX,
-      y: e.clientY,
-      d: console.log(e),
+      targetName: e.target.tagName, // the tag name of the element
+      eventType: click.type, // type of event ('click')
+      x: e.clientX, // the horizontal coordinate of the element
+      y: e.clientY, // the vertical coordinate of the element
+      d: console.log(e), // debug info
     }), true /* capture */ );
   }, event.click);
 
-  // bind the listener(page-level) for the `clickTargetBlank` event
+  // bind the listener (page-level) for the `clickTargetBlank` event
   await bindClickTargetBlankListener(page);
 }
 
+/**
+ * Binding a browser-level listener for `newTab` event, the listener catches
+ * the event and executes the callback function when open the tab (window).
+ * 
+ * There are two operations that will trigger the `newTab` event:
+ *  1. new tab
+ *  2. click (target_blank)
+ * 
+ * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
+ */
 async function bindNewTabListener(browser) {
   browser.on(event.newTab.type, async function (e) {
     console.log('New Tab Created', e._targetInfo.url);
 
-    // switch tab and bind linstener
     let page = await common.switch_to_latest_tab(browser);
+    // bind a listener (page-level) for `click` event of the new page
     await bindClickListener(browser, page);
-    // refresh
+    // refresh the new page, make sure the script is running
     await common.refresh(page);
-
+    // Set viewport for the new page
     await common.setViewport(page, 2540, 1318);
 
-    // 由于 new_tab 和 target_blank 都会触发 `newTab`,
-    // 所以加以区分, 如果 flag 为 🔥 代表 target_blank 事件, flag 为 -1 代表 new tab 事件.
-    // 因为 target_blank 会紧随着 new_tab 事件触发，所以这里只需要等待 1s 就可以。
+    // Differentiate what is operation by using a queue for synchronization.
+    // Since the callback of operation 2 will happen immediately after operation 1,
+    // so just a little delay here.
     let flag = await queue.eventClickTargetBlank.dequeueBlocking(page, 1000);
     console.log('===>', flag);
-    // 如果 != -1 就是 target_blank 事件；否则就是 new_tab 事件
+    // if the return value is not equal to -1, It is operation 2, otherwise it is operation 1
     if (flag != -1) {
+      // mark valid click
       queue.eventValidClick.enqueue('⚡️');
+    } else {
+      // parse todo
+      return;
     }
-
-    // parse
   });
 }
 
-async function bindCloseTabEventListener(browser) {
+/**
+ * Binding a browser-level listener for `closeTab` event, the listener catches
+ * the event and executes the callback function when close the tab (window).
+ * 
+ * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
+ */
+async function bindCloseTabListener(browser) {
   browser.on(event.closeTab.type, async function (e) {
     console.log('Tab Close', e._targetInfo.url);
     let page = await common.switch_to_latest_tab(browser);
-
-    // parse
+    // parse todo
   });
 }
 
@@ -91,7 +141,7 @@ async function bindCloseTabEventListener(browser) {
  * the event and executes the callback function when the URL changes.
  * 
  * there are three operations that will trigger the `URLChange` event:
- *  1. click(target_self)
+ *  1. click (target_self)
  *  2. new tab and manually enter the address
  *  3. directly enter the address manually
  *  
@@ -110,8 +160,8 @@ async function bindCloseTabEventListener(browser) {
 async function bindURLChangeListener(browser) {
   browser.on(event.URLChange.type, async function (e) {
     console.log('trigger url change:', e._targetInfo.url);
-    let page = await common.switch_to_latest_tab(browser);
 
+    let page = await common.switch_to_latest_tab(browser);
     // mark valid click
     queue.eventValidClick.enqueue('⚡️');
     // mark operation 1
@@ -143,13 +193,13 @@ async function run(options) {
   const browser = await pptr.launch(options);
   const page = await browser.newPage();
 
-  // bind the listener(browser-level) for the `newTab` event
+  // bind the listener (browser-level) for the `newTab` event
   await bindNewTabListener(browser);
-  // bind the listener(browser-level) for the `closeTab` event
-  await bindCloseTabEventListener(browser);
-  // bind the listener(browser-level) for the `URLChange` event
+  // bind the listener (browser-level) for the `closeTab` event
+  await bindCloseTabListener(browser);
+  // bind the listener (browser-level) for the `URLChange` event
   await bindURLChangeListener(browser);
-  // bind the listener(page-level) for the `click` event
+  // bind the listener (page-level) for the `click` event
   await bindClickListener(browser, page);
 
   await common.setViewport(page, 2540, 1318);
