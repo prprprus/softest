@@ -13,15 +13,11 @@ const common = require('../utils/common');
  * @param {object} info - Callback information for `click` event.
  */
 async function clickCallback(browser, page, info) {
-  // parse XPath
   let xpath = await parser.parseXPath(browser, page, info);
   if (xpath == -1) {
     return;
   }
-
   // parse todo
-
-  // send a message to the front page to display
   await sender.sendData(xpath);
 }
 
@@ -37,7 +33,7 @@ async function clickCallback(browser, page, info) {
 async function bindClickTargetBlankListener(page) {
   page.on(event.clickTargetBlank.type, function (e) {
     console.log("❤️️️️️️❤️❤️");
-    // mark target_blank
+    // mark `clickTargetBlank` event
     queue.eventClickTargetBlank.enqueue('🔥');
   });
 }
@@ -113,7 +109,7 @@ async function bindNewTabListener(browser) {
     console.log('===>', flag);
     // if the return value is not equal to -1, It is operation 2, otherwise it is operation 1
     if (flag != -1) {
-      // mark valid click
+      // mark valid `click` event
       queue.eventValidClick.enqueue('⚡️');
     } else {
       // parse todo
@@ -162,7 +158,7 @@ async function bindURLChangeListener(browser) {
     console.log('trigger url change:', e._targetInfo.url);
 
     let page = await common.switch_to_latest_tab(browser);
-    // mark valid click
+    // mark valid `click` event
     queue.eventValidClick.enqueue('⚡️');
     // mark operation 1
     queue.eventClickTargetSelf.enqueue('🚀');
@@ -207,7 +203,6 @@ async function run(options) {
     waitUntil: 'networkidle0'
   });
   await common.closeBlankPage(browser);
-  // reinitialize queue
   common.initAllQueue();
 }
 
