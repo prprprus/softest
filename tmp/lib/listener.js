@@ -47,7 +47,7 @@ async function bindClickListener(browser, page) {
     }), true /* capture */ );
   }, event.click);
 
-  // bind the listener for the `clickTargetBlank`
+  // bind the listener(page-level) for the `clickTargetBlank` event
   await bindClickTargetBlankListener(page);
 }
 
@@ -113,14 +113,14 @@ async function bindURLChangeListener(browser) {
 
     // mark valid click
     queue.eventValidClick.enqueue('⚡️');
-    // mark click(target_self) operation
+    // mark operation 1
     queue.eventClickTargetSelf.enqueue('🚀');
 
     // if the return value is not equal to -1, It is operation 1, otherwise it is operation 3
     let info = await queue.eventClickTargetSelfCoordinates.dequeueBlocking(page, 80000);
     console.log('===> info recv ', info);
     if (info != -1) {
-      // Since the click(target_self) operation will destroy the original document,
+      // Since the operation 1 will destroy the original document,
       // so cannot parse the XPath in the callback of the `click` event and need to
       // parse the XPath here.
       // parse todo
@@ -141,12 +141,13 @@ async function run(options) {
   const browser = await pptr.launch(options);
   const page = await browser.newPage();
 
-  // binding browser-level listener
+  // bind the listener(browser-level) for the `newTab` event
   await bindNewTabListener(browser);
+  // bind the listener(browser-level) for the `closeTab` event
   await bindCloseTabEventListener(browser);
+  // bind the listener(browser-level) for the `URLChange` event
   await bindURLChangeListener(browser);
-
-  // binding page-level listener
+  // bind the listener(page-level) for the `click` event
   await bindClickListener(browser, page);
 
   await common.setViewport(page, 2540, 1318);
