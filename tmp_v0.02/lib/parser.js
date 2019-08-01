@@ -12,7 +12,6 @@ function InterruptInvalidCoordinates(info) {
 async function fliterInvalidClickEvent(page, info) {
   // 考虑到网络延迟的因素，url change 的触发可能比 click 事件的触发要慢得多，
   // 所以这里必须要等待足够长的时间。
-  // 慢：60000；良好：~=4000；本地：<1000
   let flag = await queue.validClickEventQueue.dequeueBlocking(page, 60000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
