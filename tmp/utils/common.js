@@ -13,16 +13,37 @@ async function switch_to_latest_tab(browser) {
   return page;
 }
 
-async function setViewport(width, height) {
-  // if () {
-
-  // }
+/**
+ * Set the width and height of viewport.
+ * 
+ * Note: width and height must be greater than the default,
+ * otherwise an exception is thrown.
+ * @param {puppeteer.Page} page - The current page.
+ * @param {number} width - Width of the viewport.
+ * @param {number} height - Height of the viewport.
+ */
+async function setViewport(page, width, height) {
+  if (width < 800 || height < 600) {
+    throw 'viewport size error';
+  }
   await page.setViewport({
-    width: 2540,
-    height: 1318
+    width: width,
+    height: height
+  });
+}
+
+/**
+ * Refresh the page.
+ * @param {puppeteer.Page} page - The current page.
+ */
+async function refresh(page) {
+  await page.evaluate(() => {
+    location.reload(true);
   });
 }
 
 module.exports = {
   switch_to_latest_tab,
+  setViewport,
+  refresh,
 }

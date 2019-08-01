@@ -5,9 +5,7 @@ const queue = require('../utils/queue');
 const event = require('./event');
 const common = require('../utils/common');
 
-// bind listener
-
-async function eventClickCallback(browser, page, info) {
+async function clickCallback(browser, page, info) {
   let xpath = await parser.parseXPath(browser, page, info);
   if (xpath == -1) {
     return;
@@ -15,7 +13,7 @@ async function eventClickCallback(browser, page, info) {
   await sender.sendData(xpath);
 }
 
-async function bindeventClickTargetBlankListener(page) {
+async function bindClickTargetBlankListener(page) {
   page.on(event.clickTargetBlank.type, function (e) {
     console.log("❤️️️️️️❤️❤️");
     // mark target_blank event occurs
@@ -24,11 +22,11 @@ async function bindeventClickTargetBlankListener(page) {
 }
 
 async function bindClickEventListener(browser, page) {
-  // execute `eventClickCallback` when `click` is triggered
+  // execute `clickCallback` when `click` is triggered
   try {
-    await page.exposeFunction('eventClickCallback', (info) => {
+    await page.exposeFunction('clickCallback', (info) => {
       (async () => {
-        await eventClickCallback(browser, page, info);
+        await clickCallback(browser, page, info);
       })();
     });
   } catch (e) {
@@ -37,10 +35,10 @@ async function bindClickEventListener(browser, page) {
     return;
   }
 
-  // register the `eventClickCallback` function for the `click`
+  // register the `clickCallback` function for the `click`
   await page.evaluateOnNewDocument((click) => {
     console.log('in evaluateOnNewDocument...');
-    document.addEventListener(click.type, (e) => eventClickCallback({
+    document.addEventListener(click.type, (e) => clickCallback({
       targetName: e.target.tagName,
       eventType: click.type,
       x: e.clientX,
@@ -50,7 +48,7 @@ async function bindClickEventListener(browser, page) {
   }, event.click);
 
   // bind the listener for the `clickTargetBlank`
-  await bindeventClickTargetBlankListener(page);
+  await bindClickTargetBlankListener(page);
 }
 
 async function bindNewTabEventListener(browser) {
@@ -61,14 +59,9 @@ async function bindNewTabEventListener(browser) {
     let page = await common.switch_to_latest_tab(browser);
     await bindClickEventListener(browser, page);
     // refresh
-    await page.evaluate(() => {
-      location.reload(true);
-    });
+    await common.refresh(page);
 
-    await page.setViewport({
-      width: 2540,
-      height: 1318
-    });
+    await common.setViewport(page, 2540, 1318);
 
     // 由于 new_tab 和 target_blank 都会触发 `newTab`,
     // 所以加以区分, 如果 flag 为 🔥 代表 target_blank 事件, flag 为 -1 代表 new tab 事件.
@@ -119,6 +112,10 @@ async function bindURLChangeEventListener(browser) {
   });
 }
 
+/**
+ * Run the puppeteer.
+ * @param {object} options - Configure of the puppeteer.
+ */
 async function run(options) {
   const browser = await pptr.launch(options);
   const page = await browser.newPage();
@@ -129,10 +126,7 @@ async function run(options) {
   await bindURLChangeEventListener(browser);
   await bindClickEventListener(browser, page);
 
-  await page.setViewport({
-    width: 2540,
-    height: 1318
-  });
+  await common.setViewport(page, 2540, 1318);
 
   await page.goto('http://qq.com', {
     waitUntil: 'networkidle0'
