@@ -9,7 +9,7 @@ const queue = require('../utils/queue');
  */
 async function switch_to_latest_tab(browser) {
   let pages = await browser.pages();
-  console.log('📃 ', pages.length);
+  console.log('number of page:', pages.length);
   page = pages[pages.length - 1];
   await page.bringToFront();
   return page;

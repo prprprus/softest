@@ -21,7 +21,7 @@ async function bindClickTargetBlankListener(page) {
   });
 }
 
-async function bindClickEventListener(browser, page) {
+async function bindClickListener(browser, page) {
   // execute `clickCallback` when `click` is triggered
   try {
     await page.exposeFunction('clickCallback', (info) => {
@@ -51,13 +51,13 @@ async function bindClickEventListener(browser, page) {
   await bindClickTargetBlankListener(page);
 }
 
-async function bindNewTabEventListener(browser) {
+async function bindNewTabListener(browser) {
   browser.on(event.newTab.type, async function (e) {
     console.log('New Tab Created', e._targetInfo.url);
 
     // switch tab and bind linstener
     let page = await common.switch_to_latest_tab(browser);
-    await bindClickEventListener(browser, page);
+    await bindClickListener(browser, page);
     // refresh
     await common.refresh(page);
 
@@ -86,15 +86,37 @@ async function bindCloseTabEventListener(browser) {
   });
 }
 
-async function bindURLChangeEventListener(browser) {
+/**
+ * Binding a browser-level listener for the `URLChange` event, the listener catches
+ * the event and executes the callback function when the URL changes.
+ * 
+ * there are three operations that will trigger the `URLChange` event:
+ *  1. click (target_self)
+ *  2. new tab and manually enter the address
+ *  3. directly enter the address manually
+ *  
+ * Here, only need to recognize 1 and 3, because 2 will be recognized by 
+ * `bindNewTabListener` and `bindClickTargetBlankListener`.
+ *  
+ * For 1 and 3, it depends on whether the page listener has caught the click event.
+ * If the click event is caught, it is operation 1, otherwise, it is operation 3.
+ * 
+ * Normally, the callback of the `URLChange` event will be executed before
+ * the `click` event but when the network environment is slow, the result may be reversed.
+ * So need to use the queue for synchronization.
+ * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
+ */
+async function bindURLChangeListener(browser) {
   browser.on(event.URLChange.type, async function (e) {
-    console.log('url change', e._targetInfo.url);
+    console.log('trigger url change:', e._targetInfo.url);
     let page = await common.switch_to_latest_tab(browser);
 
-    // 标记有效点击
+    // Communication and synchronization between the `click` event callback function
+    // and the `URLChange` event callback function through the queue.
+    // 
+    // mark valid click
     queue.eventValidClick.enqueue('⚡️');
-
-    // 标记是 target_self 事件
+    // mark click (target_self) operation
     queue.eventClickTargetSelf.enqueue('🚀');
 
     // 考虑到网络延迟的因素，url change 的触发可能比 click 事件的触发要慢得多，
@@ -120,26 +142,28 @@ async function run(options) {
   const browser = await pptr.launch(options);
   const page = await browser.newPage();
 
-  // bind browser listener
-  await bindNewTabEventListener(browser);
+  // binding browser-level listener
+  await bindNewTabListener(browser);
   await bindCloseTabEventListener(browser);
-  await bindURLChangeEventListener(browser);
+  await bindURLChangeListener(browser);
 
-  // // bind page listener
-  await bindClickEventListener(browser, page);
+  // binding page-level listener
+  await bindClickListener(browser, page);
 
   await common.setViewport(page, 2540, 1318);
   await page.goto('http://www.qq.com', {
     waitUntil: 'networkidle0'
   });
   await common.closeBlankPage(browser);
+
+  // reinitialize queue
   common.initAllQueue();
 }
 
 (async () => {
   await run({
     'headless': false,
-    // 'devtools': true,
+    'devtools': false,
     'executablePath': '/Applications/Chromium.app/Contents/MacOS/Chromium',
     args: [
       `--window-size=2540,1318`,
