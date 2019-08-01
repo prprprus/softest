@@ -104,6 +104,7 @@ async function bindCloseTabEventListener(browser) {
  * Normally, the callback of the `URLChange` event will be executed before
  * the `click` event but when the network environment is slow,
  * the result may be reversed, so need to use the queue for synchronization.
+ * 
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  */
 async function bindURLChangeListener(browser) {
@@ -135,6 +136,7 @@ async function bindURLChangeListener(browser) {
 
 /**
  * Run the listener.
+ * 
  * @param {object} options - Configure of the puppeteer.
  */
 async function run(options) {

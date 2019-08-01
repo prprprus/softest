@@ -4,6 +4,7 @@ const queue = require('../utils/queue');
 
 /**
  * Switch the current page to the latest.
+ * 
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  * @return {puppeteer.Page} Latest open page.
  */
@@ -20,6 +21,7 @@ async function switch_to_latest_tab(browser) {
  * 
  * Note: width and height must be greater than the default,
  * otherwise an exception is thrown.
+ * 
  * @param {puppeteer.Page} page - The current page.
  * @param {number} width - Width of the viewport.
  * @param {number} height - Height of the viewport.
@@ -36,6 +38,7 @@ async function setViewport(page, width, height) {
 
 /**
  * Refresh the page.
+ * 
  * @param {puppeteer.Page} page - The current page.
  */
 async function refresh(page) {
@@ -46,6 +49,7 @@ async function refresh(page) {
 
 /**
  * Close default blank page.
+ * 
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  */
 async function closeBlankPage(browser) {
