@@ -77,7 +77,6 @@ async function bindNewTabEventListener(browser) {
     await bindClickEventListener(browser, page);
     await refresh(page);
 
-    // tmp
     await page.setViewport({
       width: 2540,
       height: 1318
