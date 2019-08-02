@@ -1,6 +1,7 @@
 const queue = require('../utils/queue');
 const error = require('../utils/error');
 const common = require('../utils/common');
+const sender = require('./sender');
 
 /**
  * Check the coordinates of the callback information.
@@ -62,11 +63,11 @@ async function isClickTargetSelf(page) {
  * @param {object} info - Callback information for `click` event.
  * @return {string} The statement of puppeteer.
  */
-async function parseStatement(page, info) {
+async function parseClick(page, info) {
   checkCoordinates(info);
 
   if ((await isInvalidClick(page, info))) {
-    return -1;
+    return;
   }
 
   if ((await isClickTargetSelf(page))) {
@@ -80,14 +81,32 @@ async function parseStatement(page, info) {
     return;
   }
 
-  const xpath = await common.parseXPath(page, info);
+  const statement = await parseClickTargetBlank(page, info);
+  await sender.sendData(statement);
+}
 
-  // prase statement todo
-
+/** 
+ * Parse the statement corresponding to the `clickTargetBlank` event.
+ * 
+ * @param {puppeteer.Page} page - The current page.
+ * @param {object} info - Callback information for `click` event.
+ */
+async function parseClickTargetBlank(page, info) {
+  const xpath = await common.getXPathByElement(page, info);
   console.log('XPath: ', xpath);
+  // todo statement
   return xpath;
 }
 
+function parseClickTargetSelf() {}
+
+function parseNewTab() {}
+
+function parseCloseTab() {}
+
 module.exports = {
-  parseStatement,
+  parseClick,
+  parseClickTargetSelf,
+  parseNewTab,
+  parseCloseTab,
 }

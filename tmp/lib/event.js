@@ -18,6 +18,7 @@ const clickTargetBlank = new Event('popup');
 const newTab = new Event('targetcreated');
 const closeTab = new Event('targetdestroyed');
 const URLChange = new Event('targetchanged');
+const clickTargetSelf = new Event(''); // Note: puppeteer does not provide a corresponding event, it belongs to `URLChange` event
 
 module.exports = {
   click,

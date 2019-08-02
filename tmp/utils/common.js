@@ -76,7 +76,7 @@ function initAllQueue() {
  * @param {object} info - Callback information for `click` event.
  * @return {string} The XPath.
  */
-async function parseXPath(page, info) {
+async function getXPathByElement(page, info) {
   const xpath = await page.evaluate((info) => {
     console.log('info: ', info);
     // get element by coordinate
@@ -122,5 +122,5 @@ module.exports = {
   refresh,
   closeBlankPage,
   initAllQueue,
-  parseXPath,
+  getXPathByElement,
 }
