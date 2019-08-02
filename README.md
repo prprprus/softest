@@ -160,3 +160,5 @@
 1. 重构代码
 2. 加注释
 3. 添加开发日志
+4. 设计好键盘事件的捕获方法：给 input 绑定 FocusEvent 事件（https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent）
+5. 设计好 statement.js 模块
