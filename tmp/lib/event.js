@@ -1,4 +1,13 @@
+/**
+ * Class Event refers to the event that needs to be captured,
+ * caused by user behavior (such as clicks, new tabs, etc.)
+ */
 class Event {
+  /**
+   * Create an Event object.
+   * 
+   * @param {string} type - Type of event.
+   */
   constructor(type) {
     this.type = type
   }

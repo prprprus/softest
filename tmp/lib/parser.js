@@ -9,7 +9,7 @@ const common = require('../utils/common');
  */
 function checkCoordinates(info) {
   if (info.x < 0 || info.y < 0) {
-    throw error.errorCoordinatesParam;
+    throw error.coordinatesParam;
   }
 }
 

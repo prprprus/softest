@@ -5,7 +5,7 @@ const error = require('./error');
  */
 class UniqueQueue {
   /**
-   * Create UniqueQueue object.
+   * Create an UniqueQueue object.
    * 
    * @param {string} name - Name of queue.
    * @param {number} capacity - Capacity of queue.
@@ -79,7 +79,7 @@ class UniqueQueue {
       return 0;
     }
     if (timeout < 0) {
-      throw error.errorTimeoutParam;
+      throw error.timeoutParam;
     }
     if (timeout == 0) {
       return this.enqueue(element);
@@ -113,7 +113,7 @@ class UniqueQueue {
    */
   async dequeueBlocking(page, timeout) {
     if (timeout < 0) {
-      throw error.errorTimeoutParam;
+      throw error.timeoutParam;
     }
 
     const start = Date.now();
