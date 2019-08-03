@@ -26,4 +26,5 @@ module.exports = {
   newTab,
   closeTab,
   URLChange,
+  clickTargetSelf,
 }

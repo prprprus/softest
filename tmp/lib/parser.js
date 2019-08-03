@@ -2,6 +2,8 @@ const queue = require('../utils/queue');
 const error = require('../utils/error');
 const common = require('../utils/common');
 const sender = require('./sender');
+const stmt = require('./statement');
+const event = require('./event');
 
 /**
  * Check the coordinates of the callback information.
@@ -94,8 +96,10 @@ async function parseClick(page, info) {
 async function parseClickTargetBlank(page, info) {
   const xpath = await common.getXPathByElement(page, info);
   console.log('XPath: ', xpath);
-  // todo statement
-  return xpath;
+  // parse statement
+  const ctb = new stmt.ClickTargetBlank(event.clickTargetBlank);
+  const statement = ctb.getStatement(xpath, info);
+  return statement;
 }
 
 function parseClickTargetSelf() {}

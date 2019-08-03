@@ -81,10 +81,12 @@ async function getXPathByElement(page, info) {
     console.log('info: ', info);
     // get element by coordinate
     let element = document.elementFromPoint(info.x, info.y);
+    // may need to scroll the window
     if (element === null) {
       window.scrollTo(info.x, info.y);
       element = document.elementFromPoint(info.x, info.y);
     }
+
     if (element && element.id)
       return '//*[@id="' + element.id + '"]';
     else {

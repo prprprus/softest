@@ -65,8 +65,9 @@ async function bindClickListener(page) {
     document.addEventListener(click.type, (e) => clickCallback({
       targetName: e.target.tagName, // the tag name of the element
       eventType: click.type, // type of event ('click')
-      x: e.clientX, // the horizontal coordinate of the element
-      y: e.clientY, // the vertical coordinate of the element
+      x: e.clientX, // horizontal coordinate of the element
+      y: e.clientY, // vertical coordinate of the element
+      scrollY: e.pageY, // vertical height of the scroll
       d: console.log(e), // debug info
     }), true /* capture */ );
   }, event.click);

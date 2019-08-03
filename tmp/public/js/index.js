@@ -22,10 +22,10 @@ socket.addEventListener('message', function (event) {
     // pNode2.appendChild(textNode2);
     // document.getElementById('code').appendChild(pNode2);
 
-    let code1 = `let e = await page.$x(${event.data});`
-    let code2 = '\n';
-    let code3 = "await e[0].click();"
-    let code4 = '\n\n';
+    // let code1 = `let e = await page.$x(${event.data});`
+    // let code2 = '\n';
+    // let code3 = "await e[0].click();"
+    // let code4 = '\n\n';
     let elm = document.getElementById('code');
-    elm.innerHTML += code1 + code2 + code3 + code4;
+    elm.innerHTML += event.data;
 });

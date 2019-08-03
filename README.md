@@ -162,3 +162,8 @@
 3. 添加开发日志
 4. 设计好键盘事件的捕获方法：给 input 绑定 FocusEvent 事件（https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent）
 5. 设计好 statement.js 模块
+
+## 2019-08-03
+
+1. 解决页面滚动代码的生成问题
+2. 初步编写 statement.js

@@ -30,13 +30,12 @@
 const puppeteer = require('puppeteer');
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false
+    headless: false,
+    args: [
+      `--window-size=2540,1318`,
+    ],
   })
-  const page = await browser.newPage()
-
-  const navigationPromise = page.waitForNavigation()
-
-  await navigationPromise
+  let page = await browser.newPage()
 
   await page.goto('https://www.qq.com/?fromdefault')
 
@@ -45,20 +44,57 @@ const puppeteer = require('puppeteer');
     height: 1318
   })
 
-  await page.waitForSelector('.mod > .bd > .news-list > .news-top > a')
-  await page.click('.mod > .bd > .news-list > .news-top > a')
+  let element = null;
 
-  await navigationPromise
+  element = await page.$x('/html/body/div[1]/div[5]/div[2]/div[1]/div[2]/ul/li[1]/a');
+  await element[0].click();
+  await page.waitFor(3000);
+  pages = await browser.pages();
+  page = pages[pages.length - 1];
+  await page.bringToFront();
+  await page.setViewport({
+    width: 2540,
+    height: 1318
+  });
 
-  await page.waitForSelector('.qq_navWrap > .qq_nav > .nav-list > li:nth-child(1) > a')
-  await page.click('.qq_navWrap > .qq_nav > .nav-list > li:nth-child(1) > a')
+  element = await page.$x('/html/body/div[1]/div/div/div[1]/ul/li[1]/a');
+  await element[0].click();
+  await page.waitFor(3000);
+  pages = await browser.pages();
+  page = pages[pages.length - 1];
+  await page.bringToFront();
+  await page.setViewport({
+    width: 2540,
+    height: 1318
+  });
 
-  await navigationPromise
+  await page.evaluate(async () => {
+    await new Promise((resolve, reject) => {
+      let totalHeight = 0;
+      let distance = 100;
+      let scrollHeight = 35975;
+      let timer = setInterval(() => {
+        window.scrollBy(0, distance);
+        totalHeight += distance;
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, distance);
+    });
+  });
+  await page.waitFor(1000);
+  element = await page.$x('/html/body/div/div[4]/div[2]/div/div/ul[2]/li[185]/a/img[1]');
+  await element[0].click();
+  await page.waitFor(3000);
+  pages = await browser.pages();
+  page = pages[pages.length - 1];
+  await page.bringToFront();
+  await page.setViewport({
+    width: 2540,
+    height: 1318
+  });
 
-  await page.waitForSelector('.channel_mod > .list > #\32 0190801A0592Z_179 > .picture > img')
-  await page.click('.channel_mod > .list > #\32 0190801A0592Z_179 > .picture > img')
-
-  await navigationPromise
-
-  await browser.close()
+  // await page.waitForNavigation();
+  // await browser.close()
 })()
