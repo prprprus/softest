@@ -101,7 +101,7 @@
 #### chromium 启动, 用户操作
 
 - N1 捕获用户行为 --> 翻译成代码 --> N2 --> N4 --> 实时显示
-- 监听事件：click（过滤无效的点击）、keyboard（对同一个控件的输入要覆盖）、前进/后退(todo)、关闭/打开页面
+- 监听事件：click（过滤无效的点击）、输入事件、前进/后退(todo)、关闭/打开页面
 - 事件的识别
   - target_self: 先有 click 事件，再有 url change 事件（属于有效 click）
     - 引起 url change 的操作
