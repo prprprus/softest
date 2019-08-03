@@ -27,5 +27,3 @@ class OpenTab extends Statement {
 class CloseTab extends Statement {
 
 }
-
-// ...
