@@ -166,4 +166,4 @@
 ## 2019-08-03
 
 1. 解决页面滚动代码的生成问题
-2. 初步编写 statement.js
+2. 初步编写 statement.js, 完成 ClickTargetBlank 事件的翻译

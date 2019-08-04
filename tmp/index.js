@@ -72,7 +72,7 @@ const puppeteer = require('puppeteer');
     await new Promise((resolve, reject) => {
       let totalHeight = 0;
       let distance = 100;
-      let scrollHeight = 35975;
+      let scrollHeight = 33709;
       let timer = setInterval(() => {
         window.scrollBy(0, distance);
         totalHeight += distance;
@@ -84,7 +84,8 @@ const puppeteer = require('puppeteer');
     });
   });
   await page.waitFor(1000);
-  element = await page.$x('/html/body/div/div[4]/div[2]/div/div/ul[2]/li[185]/a/img[1]');
+
+  element = await page.$x('/html/body/div/div[4]/div[2]/div/div/ul[2]/li[174]/a/img[1]');
   await element[0].click();
   await page.waitFor(3000);
   pages = await browser.pages();

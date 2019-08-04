@@ -2,7 +2,7 @@ const queue = require('../utils/queue');
 const error = require('../utils/error');
 const common = require('../utils/common');
 const sender = require('./sender');
-const stmt = require('./statement');
+const statement = require('./statement');
 const event = require('./event');
 
 /**
@@ -97,9 +97,9 @@ async function parseClickTargetBlank(page, info) {
   const xpath = await common.getXPathByElement(page, info);
   console.log('XPath: ', xpath);
   // parse statement
-  const ctb = new stmt.ClickTargetBlank(event.clickTargetBlank);
-  const statement = ctb.getStatement(xpath, info);
-  return statement;
+  const ctb = new statement.ClickTargetBlank(event.clickTargetBlank);
+  const stmt = ctb.getStatement(xpath, info);
+  return stmt;
 }
 
 function parseClickTargetSelf() {}

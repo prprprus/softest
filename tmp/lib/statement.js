@@ -1,6 +1,47 @@
+const common = require('../utils/common');
+
+/**
+ * Template of statement.
+ */
+var templateScroll = `
+await page.evaluate(async () => {
+  await new Promise((resolve, reject) => {
+    let totalHeight = 0;
+    let distance = {};
+    let scrollHeight = {};
+    let timer = setInterval(() => {
+      window.scrollBy({}, distance);
+      totalHeight += distance;
+      if (totalHeight >= scrollHeight) {
+        clearInterval(timer);
+        resolve();
+      }
+    }, distance);
+  });
+});
+await page.waitFor(1000);
+`;
+
+var templateClickTargetBlank = `
+element = await page.$x('{}');
+await element[0].click();
+await page.waitFor(3000);
+pages = await browser.pages();
+page = pages[pages.length - 1];
+await page.bringToFront();
+await page.setViewport({
+  width: 2540,
+  height: 1318
+});
+`;
+
+/**
+ * 
+ */
 class Statement {
   constructor(eventType) {
     this.eventType = eventType;
+    common.extendsStringPrototype();
   }
 
   getStatement(xpath) {}
@@ -15,52 +56,14 @@ class ClickTargetBlank extends Statement {
     const scrollY = info.scrollY;
     const scrollX = 0;
     const step = 100;
+    let statement = undefined;
 
     if (info.scrollY > 1000) {
-      const statement = `
-await page.evaluate(async () => {
-  await new Promise((resolve, reject) => {
-    let totalHeight = 0;
-    let distance = ${step};
-    let scrollHeight = ${scrollY};
-    let timer = setInterval(() => {
-      window.scrollBy(${scrollX}, distance);
-      totalHeight += distance;
-      if (totalHeight >= scrollHeight) {
-        clearInterval(timer);
-        resolve();
-      }
-    }, distance);
-  });
-});
-await page.waitFor(1000);
-element = await page.$x('${xpath}');
-await element[0].click();
-await page.waitFor(3000);
-pages = await browser.pages();
-page = pages[pages.length - 1];
-await page.bringToFront();
-await page.setViewport({
-  width: 2540,
-  height: 1318
-});
-    `
-      return statement;
+      statement = templateScroll.format(step, scrollY, scrollX) + templateClickTargetBlank.format(xpath);
     } else {
-      const statement = `
-element = await page.$x('${xpath}');
-await element[0].click();
-await page.waitFor(3000);
-pages = await browser.pages();
-page = pages[pages.length - 1];
-await page.bringToFront();
-await page.setViewport({
-  width: 2540,
-  height: 1318
-});
-    `
-      return statement;
+      statement = templateClickTargetBlank.format(xpath);
     }
+    return statement;
   }
 }
 

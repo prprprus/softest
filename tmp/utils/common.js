@@ -58,7 +58,7 @@ async function closeBlankPage(browser) {
 }
 
 /**
- * For some websites(such as www.qq.com), it will automatically trigger a click
+ * For some websites(such as https://www.qq.com), it will automatically trigger a click
  * event after opening, which will cause the queue initialization error,
  * so we need to reinitialize the queue after the open operation.
  */
@@ -118,6 +118,19 @@ async function getXPathByElement(page, info) {
   return xpath;
 }
 
+/**
+ * Extends string prototype.
+ */
+function extendsStringPrototype() {
+  String.prototype.format = function () {
+    let i = 0;
+    const args = arguments;
+    return this.replace(/{}/g, function () {
+      return typeof args[i] != 'undefined' ? args[i++] : '';
+    });
+  };
+}
+
 module.exports = {
   switch_to_latest_tab,
   setViewport,
@@ -125,4 +138,5 @@ module.exports = {
   closeBlankPage,
   initAllQueue,
   getXPathByElement,
+  extendsStringPrototype,
 }
