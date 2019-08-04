@@ -35,6 +35,15 @@ await page.setViewport({
 });
 `;
 
+var templateClickTargetSelf = `
+element = await page.$x('{}');
+await element[0].click();
+await page.waitFor(3000);
+pages = await browser.pages();
+page = pages[pages.length - 1];
+await page.bringToFront();
+`;
+
 /**
  * 
  */
@@ -43,10 +52,11 @@ class Statement {
     this.eventType = eventType;
     common.extendsStringPrototype();
   }
-
-  getStatement(xpath) {}
 }
 
+/**
+ * 
+ */
 class ClickTargetBlank extends Statement {
   constructor(eventType) {
     super(eventType);
@@ -67,28 +77,41 @@ class ClickTargetBlank extends Statement {
   }
 }
 
-class Switch extends Statement {
-  constructor(eventType) {
-    super(eventType);
-  }
-
-  getStatement() {
-
-  }
-}
-
+/**
+ * 
+ */
 class ClickTargetSelf extends Statement {
   constructor(eventType) {
     super(eventType);
   }
+
+  getStatement(xpath, info) {
+    const scrollY = info.scrollY;
+    const scrollX = 0;
+    const step = 100;
+    let statement = undefined;
+
+    if (info.scrollY > 1000) {
+      statement = templateScroll.format(step, scrollY, scrollX) + templateClickTargetSelf.format(xpath);
+    } else {
+      statement = templateClickTargetSelf.format(xpath);
+    }
+    return statement;
+  }
 }
 
+/**
+ * 
+ */
 class OpenTab extends Statement {
   constructor(eventType) {
     super(eventType);
   }
 }
 
+/**
+ * 
+ */
 class CloseTab extends Statement {
   constructor(eventType) {
     super(eventType);
@@ -97,4 +120,5 @@ class CloseTab extends Statement {
 
 module.exports = {
   ClickTargetBlank,
+  ClickTargetSelf,
 }

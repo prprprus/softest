@@ -27,8 +27,8 @@ function checkCoordinates(info) {
  * @param {object} info - Callback information for `click` event.
  */
 async function isInvalidClick(page, info) {
-  // Due to the network environment, there is a need to block waiting here.
-  // See also annotate of `bindURLChangeListener`.
+  // Make `click` event wait `URLChange` event, see also annotate of `bindURLChangeListener`.
+  // The waiting time is different depending on the network environment.
   // 动态配置参数：慢：60000；良好：~=4000；本地：<1000
   let flag = await queue.eventValidClick.dequeueBlocking(page, 4000);
   console.log('👏', flag);
@@ -72,10 +72,12 @@ async function parseClick(page, info) {
     return;
   }
 
+  // parse `clickTargetSelf` event
   if ((await isClickTargetSelf(page))) {
     console.log('===> info send ', info);
     // Determined to be a click (target_self) operation and send callback information into queue.
     queue.eventClickTargetSelfCoordinates.enqueue(info);
+
     // If it is a ClickTargetSelf event, the original document will be destroyed,
     // and the following operation of parsing the XPath can no longer be run.Instead,
     // it should jump back to bindURLChangeListener to resolve the XPath.
@@ -83,8 +85,9 @@ async function parseClick(page, info) {
     return;
   }
 
-  const statement = await parseClickTargetBlank(page, info);
-  await sender.sendData(statement);
+  // parse `clickTargetBlank` event
+  const stmt = await parseClickTargetBlank(page, info);
+  await sender.sendData(stmt);
 }
 
 /** 
@@ -96,13 +99,24 @@ async function parseClick(page, info) {
 async function parseClickTargetBlank(page, info) {
   const xpath = await common.getXPathByElement(page, info);
   console.log('XPath: ', xpath);
-  // parse statement
   const ctb = new statement.ClickTargetBlank(event.clickTargetBlank);
   const stmt = ctb.getStatement(xpath, info);
   return stmt;
 }
 
-function parseClickTargetSelf() {}
+/**
+ * Parse the statement corresponding to the `clickTargetSelf` event.
+ * 
+ * @param {puppeteer.Page} page - The current page.
+ * @param {object} info - Callback information for `click` event.
+ */
+async function parseClickTargetSelf(page, info) {
+  const xpath = await common.getXPathByElement(page, info);
+  console.log('XPath: ', xpath);
+  const cts = new statement.ClickTargetSelf(event.clickTargetSelf);
+  const stmt = cts.getStatement(xpath, info);
+  return stmt;
+}
 
 function parseNewTab() {}
 
