@@ -172,3 +172,9 @@
 
 1. 解决难题：click (target_self) 操作会破坏原来的 document，导致无法定位元素、获取 XPath；解决方法：将跳转前的页面的 url 记录下来，用另外一个 pptr 去定位元素、获取 XPath
 2. 归档 v0.03
+
+## 2019-08-05
+
+1. 完成 clickTargetBlank、clickTargetSelf、newTab、URLChange、closeTab 事件的翻译
+2. 归档 v0.04
+3. 待解决问题：WebSocket 可靠的发送方法的实现
