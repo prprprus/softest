@@ -1,6 +1,7 @@
 // common operation
 
 const queue = require('../utils/queue');
+const pptr = require('puppeteer');
 
 /**
  * Switch the current page to the latest.
@@ -131,6 +132,37 @@ function extendsStringPrototype() {
   };
 }
 
+/**
+ * Generate temporary Browser instance.
+ * 
+ * @param {string} url - The URL to open.
+ * @return
+ * @return {puppeteer.Page} page - The temporary page.
+ */
+async function genTemporaryBrowser(url) {
+  let tmpBrowser = await pptr.launch({
+    'headless': false,
+    args: [
+      `--window-size=2540,1318`,
+    ],
+  });
+  let tmpPage = await tmpBrowser.newPage();
+  await setViewport(tmpPage, 2540, 1318);
+  await tmpPage.goto(url, {
+    waitUntil: 'networkidle0',
+  });
+  return [tmpBrowser, tmpPage];
+}
+
+/**
+ * Close temporary Browser instance.
+ * 
+ * @param {puppeteer.Browser} browser - The temporary browser.
+ */
+async function closeTemporaryBrowser(browser) {
+  await browser.close();
+}
+
 module.exports = {
   switch_to_latest_tab,
   setViewport,
@@ -139,4 +171,6 @@ module.exports = {
   initAllQueue,
   getXPathByElement,
   extendsStringPrototype,
+  genTemporaryBrowser,
+  closeTemporaryBrowser,
 }

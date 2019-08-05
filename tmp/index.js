@@ -50,63 +50,63 @@ const puppeteer = require('puppeteer');
 
   element = await page.$x('/html/body/div/p[2]/a');
   await element[0].click();
-  await page.waitFor(3000);
+  await page.waitFor(5000);
   pages = await browser.pages();
   page = pages[pages.length - 1];
   await page.bringToFront();
 
-  element = await page.$x('/html/body/div/div[1]/p[2]/a[2]');
+  element = await page.$x('/html/body/div/div[1]/p[2]/a[1]');
   await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-
-  element = await page.$x('/html/body/div/pre[1]/a[1]');
-  await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-
-  element = await page.$x('/html/body/div/pre[1]/a[1]');
-  await element[0].click();
-  await page.waitFor(3000);
+  await page.waitFor(5000);
   pages = await browser.pages();
   page = pages[pages.length - 1];
   await page.bringToFront();
 
   element = await page.$x('/html/body/div/span[3]/a');
   await element[0].click();
-  await page.waitFor(3000);
+  await page.waitFor(5000);
   pages = await browser.pages();
   page = pages[pages.length - 1];
   await page.bringToFront();
 
-  element = await page.$x('/html/body/div/pre[1]/a[1]');
+  element = await page.$x('/html/body/div/pre[1]/a[2]');
   await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-
-  element = await page.$x('/html/body/div/span[3]/a');
-  await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-
-  element = await page.$x('/html/body/div/pre[1]/a[1]');
-  await element[0].click();
-  await page.waitFor(3000);
+  await page.waitFor(5000);
   pages = await browser.pages();
   page = pages[pages.length - 1];
   await page.bringToFront();
 
   element = await page.$x('/html/body/div/span[3]/a');
   await element[0].click();
-  await page.waitFor(3000);
+  await page.waitFor(5000);
+  pages = await browser.pages();
+  page = pages[pages.length - 1];
+  await page.bringToFront();
+
+  element = await page.$x('/html/body/div/pre[1]/a[2]');
+  await element[0].click();
+  await page.waitFor(5000);
+  pages = await browser.pages();
+  page = pages[pages.length - 1];
+  await page.bringToFront();
+
+  element = await page.$x('/html/body/div/span[3]/a');
+  await element[0].click();
+  await page.waitFor(5000);
+  pages = await browser.pages();
+  page = pages[pages.length - 1];
+  await page.bringToFront();
+
+  element = await page.$x('/html/body/div/pre[1]/a[2]');
+  await element[0].click();
+  await page.waitFor(5000);
+  pages = await browser.pages();
+  page = pages[pages.length - 1];
+  await page.bringToFront();
+
+  element = await page.$x('/html/body/div/span[3]/a');
+  await element[0].click();
+  await page.waitFor(5000);
   pages = await browser.pages();
   page = pages[pages.length - 1];
   await page.bringToFront();

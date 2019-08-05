@@ -66,9 +66,7 @@ async function isClickTargetSelf(page) {
  * @return {string} The statement of puppeteer.
  */
 async function parseClick(page, info) {
-  // queue.oldPage.enqueue(cloneDeep(page));
   queue.oldPage.enqueue(page._target._targetInfo.url);
-  console.log('=========================>fuxk1:', queue.oldPage.getFirstElement());
 
   checkCoordinates(info);
 
@@ -76,7 +74,7 @@ async function parseClick(page, info) {
     return;
   }
 
-  // parse `clickTargetSelf` event
+  // Return to `bindURLChangeListener` if the click is a 'ClickTargetSelf` event.
   if ((await isClickTargetSelf(page))) {
     console.log('===> info send ', info);
     // Determined to be a click (target_self) operation and send callback information into queue.
