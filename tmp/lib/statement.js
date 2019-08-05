@@ -103,7 +103,7 @@ class ClickTargetSelf extends Statement {
 /**
  * 
  */
-class OpenTab extends Statement {
+class NewTab extends Statement {
   constructor(eventType) {
     super(eventType);
   }

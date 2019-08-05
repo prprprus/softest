@@ -206,7 +206,6 @@ async function run(options) {
   await bindClickListener(page);
 
   await common.setViewport(page, 2540, 1318);
-  // https://tools.ietf.org/html/rfc2606
   await page.goto('https://www.example.com', {
     waitUntil: 'networkidle0',
   });

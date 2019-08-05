@@ -74,7 +74,7 @@ async function parseClick(page, info) {
     return;
   }
 
-  // Return to `bindURLChangeListener` if the click is a 'ClickTargetSelf` event.
+  // return to `bindURLChangeListener` if the click is a 'ClickTargetSelf` event
   if ((await isClickTargetSelf(page))) {
     console.log('===> info send ', info);
     // Determined to be a click (target_self) operation and send callback information into queue.
