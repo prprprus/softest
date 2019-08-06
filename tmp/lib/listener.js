@@ -25,9 +25,7 @@ async function clickCallback(page, info) {
  * Binding a page-level listener for `click` event, the listener catches
  * the event and executes the callback function when the page is clicked.
  * 
- * Note: Since all clicks are captured, need to filter invalid clicks
- * (such as clicking the `<p>xxx</p>` element),
- * which is implemented by queue synchronization.
+ * Note: Since all clicks are captured, need to filter invalid clicks.
  * 
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  * @param {puppeteer.Page} page - The current page.
@@ -108,7 +106,8 @@ async function bindNewTabListener(browser) {
     // so just a little delay here.
     const flag = await queue.eventClickTargetBlank.dequeueBlocking(page, 500);
     console.log('===>', flag);
-    // if the return value is not equal to -1, It is operation 2, otherwise it is operation 1
+    // If the return value is not equal to -1, It is operation 2,
+    // otherwise it is operation 1.
     if (flag != -1) {
       // mark valid `click` event
       queue.eventValidClick.enqueue('⚡️');
