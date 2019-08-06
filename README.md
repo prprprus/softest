@@ -177,4 +177,4 @@
 
 1. 完成 clickTargetBlank、clickTargetSelf、newTab、URLChange、closeTab 事件的翻译
 2. 归档 v0.04
-3. 待解决问题：WebSocket 可靠的发送方法的实现
+3. 中大重构：修改 URLChange event 的事件处理，减少消息队列的使用，大大简化代码
