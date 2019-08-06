@@ -64,10 +64,8 @@ async function closeBlankPage(browser) {
  * so we need to reinitialize the queue after the open operation.
  */
 function initAllQueue() {
-  queue.eventClickTargetBlank.dequeue();
-  queue.eventValidClick.dequeue();
-  queue.eventClickTargetSelf.dequeue();
-  queue.eventClickTargetSelfCoordinates.dequeue();
+  queue.clickTargetBlank.dequeue();
+  queue.validClick.dequeue();
 }
 
 /**

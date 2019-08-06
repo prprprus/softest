@@ -18,6 +18,7 @@ const clickTargetBlank = new Event('popup');
 const newTab = new Event('targetcreated');
 const closeTab = new Event('targetdestroyed');
 const URLChange = new Event('targetchanged');
+const input = new Event('blur');
 
 module.exports = {
   click,
@@ -25,4 +26,5 @@ module.exports = {
   newTab,
   closeTab,
   URLChange,
+  input,
 }

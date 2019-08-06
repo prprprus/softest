@@ -70,6 +70,12 @@ await page.bringToFront();
 await page.waitFor(500);
 `;
 
+var templateInput = `
+element = await page.$x('{}');
+await element[0].type('{}', {delay: 100});
+await page.waitFor(3000);
+`;
+
 /**
  * 
  */
@@ -165,10 +171,34 @@ class CloseTab extends Statement {
   }
 }
 
+/**
+ * 
+ */
+class Input extends Statement {
+  constructor(eventType) {
+    super(eventType)
+  }
+
+  getStatement(xpath, info) {
+    const scrollY = info.scrollY;
+    const scrollX = 0;
+    const step = 100;
+    let statement = undefined;
+
+    if (info.scrollY > 1000) {
+      statement = templateScroll.format(step, scrollY, scrollX) + templateInput.format(xpath, info.value);
+    } else {
+      statement = templateInput.format(xpath, info.value);
+    }
+    return statement;
+  }
+}
+
 module.exports = {
   ClickTargetBlank,
   ClickTargetSelf,
   NewTab,
   URLChange,
   CloseTab,
+  Input,
 }

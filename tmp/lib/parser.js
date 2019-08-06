@@ -27,7 +27,14 @@ function checkCoordinates(info) {
  * @param {object} info - Callback information for `click` event.
  */
 async function isInvalidClick(page, info) {
-  let flag = await queue.eventValidClick.dequeueBlocking(page, 1000);
+  // `input` event
+  if (isInput(info)) {
+    const xpath = await common.getXPathByElement(page, info);
+    queue.input.enqueue(xpath);
+    return true;
+  }
+
+  const flag = await queue.validClick.dequeueBlocking(page, 1000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
 
@@ -40,7 +47,18 @@ async function isInvalidClick(page, info) {
 }
 
 /**
- * Parse the statement of puppeteer.
+ * 
+ * @param {*} info 
+ */
+function isInput(info) {
+  if (info.targetName == 'INPUT') {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * 
  * 
  * @param {puppeteer.Page} page - The current page.
  * @param {object} info - Callback information for `click` event.
@@ -48,13 +66,13 @@ async function isInvalidClick(page, info) {
  */
 async function parseClick(page, info) {
   checkCoordinates(info);
+
   if ((await isInvalidClick(page, info))) {
     return;
   }
 
-  // parse `clickTargetBlank` event (operation 2 of `newTab` event)
   const stmt = await parseClickTargetBlank(page, info);
-  await sender.sendData(stmt);
+  return stmt;
 }
 
 /** 
@@ -106,9 +124,21 @@ function parseCloseTab() {
   return stmt;
 }
 
+/**
+ * 
+ * @param {*} xpath 
+ * @param {*} value 
+ */
+async function parseInput(xpath, info) {
+  const i = new statement.Input(event.input);
+  const stmt = i.getStatement(xpath, info);
+  return stmt;
+}
+
 module.exports = {
   parseClick,
   parseNewTab,
   parseCloseTab,
   parseURLChange,
+  parseInput,
 }
