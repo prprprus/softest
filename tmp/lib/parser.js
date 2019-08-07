@@ -1,7 +1,6 @@
 const queue = require('../utils/queue');
 const error = require('../utils/error');
 const common = require('../utils/common');
-const sender = require('./sender');
 const statement = require('./statement');
 const event = require('./event');
 
@@ -17,17 +16,16 @@ function checkCoordinates(info) {
 }
 
 /**
- * Determine if the click is valid click.
+ * Determine if the click is valid.
  * 
  * If click on some non-jumpable elements (like `<p>xxx</p>`), it is an invalid click.
- * If the click belongs to the click (target_blank) or click (target_self) operation,
- * it is a valid click.
  * 
  * @param {puppeteer.Page} page - The current page.
  * @param {object} info - Callback information for `click` event.
+ * @return {boolean} Return true if the click is valid, otherwise, return false.
  */
 async function isInvalidClick(page, info) {
-  // `input` event
+  // preparing for the parse `input` event if it is an `input` event
   if (isInput(info)) {
     const xpath = await common.getXPathByElement(page, info);
     queue.input.enqueue(xpath);
@@ -37,7 +35,6 @@ async function isInvalidClick(page, info) {
   const flag = await queue.validClick.dequeueBlocking(page, 1000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
-
   // Condition 1: See also annotate of `initAllQueue`.
   // Condition 2: Invalid click when the flag is -1.
   if ((flag != -1 && info.targetName == 'LI') || (flag == -1)) {
@@ -47,8 +44,9 @@ async function isInvalidClick(page, info) {
 }
 
 /**
+ * Determine whether `input` event.
  * 
- * @param {*} info 
+ * @param {object} info - Callback information for `click` event.
  */
 function isInput(info) {
   if (info.targetName == 'INPUT') {
@@ -58,7 +56,7 @@ function isInput(info) {
 }
 
 /**
- * 
+ * Parse `click` event.
  * 
  * @param {puppeteer.Page} page - The current page.
  * @param {object} info - Callback information for `click` event.
@@ -102,7 +100,7 @@ function parseNewTab() {
 }
 
 /**
- * Parse the statement corresponding to the `URLChange` event (operation 2 or operation 3).
+ * Parse the statement corresponding to the `URLChange` event.
  * 
  * @param {string} url - The target url.
  * @return {string} The statement of `URLChange` event.
@@ -125,9 +123,11 @@ function parseCloseTab() {
 }
 
 /**
+ * Parse the statement corresponding to the `input` event.
  * 
  * @param {*} xpath 
  * @param {*} value 
+ * @return {string} The statement of `input` event.
  */
 async function parseInput(xpath, info) {
   const i = new statement.Input(event.input);

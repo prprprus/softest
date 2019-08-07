@@ -17,7 +17,7 @@ const invalidURL = [
  * @param {object} info - Callback information for `click` event.
  */
 async function clickCallback(page, info) {
-  // parse `clickTargetBlank` event
+  // parse `click` event
   const stmt = await parser.parseClick(page, info);
   if (stmt !== undefined) {
     await sender.sendData(stmt);
@@ -28,14 +28,14 @@ async function clickCallback(page, info) {
  * Binding a page-level listener for `click` event, the listener catches
  * the event and executes the callback function when the page is clicked.
  * 
- * Note: Since all clicks are captured, need to filter invalid clicks.
+ * Note: All clicks are captured, need to filter invalid clicks.
  * 
  * @param {puppeteer.Page} page - The current page.
  */
 async function bindClickListener(page) {
   try {
-    // Expose the callback function of the `click` event in Node environment,
-    // when the `click` event is captured, switches back to the node environment
+    // Expose the callback function of the `click` event in Nodejs environment,
+    // when the `click` event is captured, switches back to the Nodejs environment
     // from the browser environment, and executes the callback function.
     await page.exposeFunction('clickCallback', (info) => {
       (async () => {
@@ -43,7 +43,7 @@ async function bindClickListener(page) {
       })();
     });
   } catch (e) {
-    console.log('⚠️ Repeat binding click listener, return.');
+    console.log('⚠️ repeat binding `click` event listener');
     return;
   }
 
@@ -63,9 +63,9 @@ async function bindClickListener(page) {
 
 /**
  * Binding a page-level listener for `clickTargetBlank` event, the listener catches
- * the event and executes the callback function when the click (target_blank) occur.
+ * the event and executes the callback function when the click (target_blank) operation occurs.
  * 
- * Note: Since the `clickTargetBlank` event will occur with the `newTab` event,
+ * Note: The `clickTargetBlank` event will occur with the `newTab` event,
  * need to use queue synchronization to distinguish. See also `bindNewTabListener` annotate.
  * 
  * @param {puppeteer.Page} page - The current page.
@@ -79,6 +79,7 @@ async function bindClickTargetBlankListener(page) {
 }
 
 /**
+ * The callback function of the `input` event.
  * 
  * @param {puppeteer.Page} page - The current page.
  * @param {object} info - Callback information for `input` event.
@@ -93,13 +94,15 @@ async function inputCallback(page, info) {
 }
 
 /**
+ * Binding a page-level listener for `input` event, the listener catches
+ * the event and executes the callback function when the input operation occurs.
  * 
  * @param {puppeteer.Page} page - The current page.
  */
 async function bindInputListener(page) {
   try {
-    // Expose the callback function of the `input` event in Node environment,
-    // when the `input` event is captured, switches back to the node environment
+    // Expose the callback function of the `input` event in Nodejs environment,
+    // when the `input` event is captured, switches back to the Nodejs environment
     // from the browser environment, and executes the callback function.
     await page.exposeFunction('inputCallback', (info) => {
       (async () => {
@@ -107,7 +110,7 @@ async function bindInputListener(page) {
       })();
     });
   } catch (e) {
-    console.log('⚠️ Repeat binding input listener, return.');
+    console.log('⚠️ repeat binding `input` event listener');
     return;
   }
 
@@ -119,7 +122,7 @@ async function bindInputListener(page) {
       eventType: input.type, // type of event
       value: e.target.value, // value of input
       d: console.log(e), // debug info
-      v: console.log(e.target.value)
+      v: console.log(e.target.value), // debug info
     }), true /* capture */ );
   }, event.input);
 }
@@ -132,8 +135,8 @@ async function bindInputListener(page) {
  *  1. new tab
  *  2. click (target_blank)
  * 
- * The callback of the `newTab` event will be executed after the `click` event,
- * need to use queue synchronization.
+ * If it is triggered by operation 2, the callback of the `newTab` event will be
+ * executed after the `click` event, need to use queue synchronization.
  * 
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  */
@@ -150,11 +153,12 @@ async function bindNewTabListener(browser) {
 
     // refresh the new page, make sure the script is running
     await common.refresh(page);
+    // set viewport for the new page
     await common.setViewport(page, 2540, 1318);
 
-    // Differentiate what is operation by using a queue for synchronization.
-    // Since the callback of operation 2 will happen immediately after operation 1,
-    // so just a little delay here.
+    // Differentiate what is operation by using a queue for synchronization,
+    // since the callback of `clickTargetBlank` event will happen immediately
+    // after `newTab` event, so just a little delay here.
     const flag = await queue.clickTargetBlank.dequeueBlocking(page, 500);
     console.log('===>', flag);
     // If the return value is not equal to -1, It is operation 2,

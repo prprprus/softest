@@ -77,9 +77,14 @@ await page.waitFor(3000);
 `;
 
 /**
- * 
+ * Class Statement represents the code statement corresponding to the user operation.
  */
 class Statement {
+  /**
+   * Create a Statement object and add a format method to string.
+   * 
+   * @param {string} eventType - Type of event.
+   */
   constructor(eventType) {
     this.eventType = eventType;
     common.extendsStringPrototype();
@@ -87,13 +92,20 @@ class Statement {
 }
 
 /**
- * 
+ * Class ClickTargetBlank represents the code statement corresponding to the `clickTargetBlank` event.
  */
 class ClickTargetBlank extends Statement {
   constructor(eventType) {
     super(eventType);
   }
 
+  /**
+   * Scroll if the position of the element is no longer visible, otherwise, get the statement directly.
+   * 
+   * @param {string} xpath - XPath of element.
+   * @param {object} info - Callback information for `click` event.
+   * @return {string} The code statement of `clickTargetBlank` event.
+   */
   getStatement(xpath, info) {
     const scrollY = info.scrollY;
     const scrollX = 0;
@@ -110,75 +122,75 @@ class ClickTargetBlank extends Statement {
 }
 
 /**
- * 
- */
-class ClickTargetSelf extends Statement {
-  constructor(eventType) {
-    super(eventType);
-  }
-
-  getStatement(xpath, info) {
-    const scrollY = info.scrollY;
-    const scrollX = 0;
-    const step = 100;
-    let statement = undefined;
-
-    if (info.scrollY > 1000) {
-      statement = templateScroll.format(step, scrollY, scrollX) + templateClickTargetSelf.format(xpath);
-    } else {
-      statement = templateClickTargetSelf.format(xpath);
-    }
-    return statement;
-  }
-}
-
-/**
- * 
+ * Class NewTab represents the code statement corresponding to the `newTab` event.
  */
 class NewTab extends Statement {
   constructor(eventType) {
     super(eventType);
   }
 
+  /**
+   * Get the statement directly.
+   * 
+   * @return {string} The code statement of `newTab` event.
+   */
   getStatement() {
     return templateNewTab;
   }
 }
 
 /**
- * 
+ * Class URLChange represents the code statement corresponding to the `URLChange` event.
  */
 class URLChange extends Statement {
   constructor(eventType) {
     super(eventType);
   }
 
+  /**
+   * Get the statement by URL.
+   * 
+   * @param {string} url - The url to change.
+   * @return {string} The code statement of `URLChange` event.
+   */
   getStatement(url) {
     return templateURLChange.format(url);
   }
 }
 
 /**
- * 
+ * Class CloseTab represents the code statement corresponding to the `closeTab` event.
  */
 class CloseTab extends Statement {
   constructor(eventType) {
     super(eventType);
   }
 
+  /**
+   * Get the statement directly.
+   * 
+   * @return {string} The code statement of `closeTab` event.
+   */
   getStatement() {
     return templateCloseTab;
   }
 }
 
 /**
- * 
+ * Class Input represents the code statement corresponding to the `input` event.
  */
 class Input extends Statement {
   constructor(eventType) {
     super(eventType)
   }
 
+  /**
+   * Scroll if the position of the element is no longer visible, otherwise, get the statement directly.
+   * 
+   * @param {string} xpath - XPath of element.
+   * @param {object} info - Callback information for `click` event.
+   * @return {string} The code statement of `input` event.
+   */
   getStatement(xpath, info) {
     const scrollY = info.scrollY;
     const scrollX = 0;

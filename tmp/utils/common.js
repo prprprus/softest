@@ -119,6 +119,8 @@ async function getXPathByElement(page, info) {
 
 /**
  * Extends string prototype.
+ * 
+ * @return {string} Filled string.
  */
 function extendsStringPrototype() {
   String.prototype.format = function () {
@@ -134,8 +136,8 @@ function extendsStringPrototype() {
  * Generate temporary Browser instance.
  * 
  * @param {string} url - The URL to open.
- * @return
- * @return {puppeteer.Page} page - The temporary page.
+ * @return {puppeteer.Browser} The temporary browser.
+ * @return {puppeteer.Page} The temporary page.
  */
 async function genTemporaryBrowser(url) {
   let tmpBrowser = await pptr.launch({

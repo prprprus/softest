@@ -16,10 +16,20 @@ class UniqueQueue {
     this._queue = [];
   }
 
+  /**
+   * Get the current capacity of the queue.
+   * 
+   * @return {number} current capacity.
+   */
   get capacity() {
     return this._capacity;
   }
 
+  /**
+   * Set the capacity of the queue.
+   * 
+   * @param {number} - Capacity of queue.
+   */
   set capacity(capacity) {
     if (capacity <= 0) {
       capacity = 100;
@@ -30,7 +40,7 @@ class UniqueQueue {
   /**
    * Put the element into the tail of the queue, non-blocking.
    * Returns -1 if the queue is full, 0 if the element already exists,
-   * otherwise returns 1 successfully.
+   * otherwise, return 1 successfully.
    * 
    * @param {*} element - Element of queue.
    * @return {number} Code of result.
@@ -51,7 +61,7 @@ class UniqueQueue {
   /**
    * Get the element from the queue, non-blocking.
    * Returns -1 if the queue is empty,
-   * otherwise returns the first element successfully.
+   * otherwise, return the first element successfully.
    * 
    * @return {*} Element of queue.
    */
@@ -65,9 +75,9 @@ class UniqueQueue {
   }
 
   /**
-   * Put the element into the tail of the queue, blocking until timeout occurs.
+   * Put the element into the tail of the queue, blocking until a timeout occurs or completed.
    * Returns -1 if the queue is full, 0 if the element already exists,
-   * otherwise returns 1 successfully.
+   * otherwise, return 1 successfully.
    * 
    * @param {puppeteer.Page} page - The current page.
    * @param {*} element - Element of queue.
@@ -103,9 +113,8 @@ class UniqueQueue {
   }
 
   /**
-   * Get the element from the queue, blocking until timeout occurs.
-   * Returns -1 if the queue is empty,
-   * otherwise returns the first element successfully.
+   * Get the element from the queue, blocking until timeout occurs or completed.
+   * Returns -1 if the queue is empty, otherwise, return the first element successfully.
    * 
    * @param {puppeteer.Page} page - The current page.
    * @param {number} timeout - Time of blocking.

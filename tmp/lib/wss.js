@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const error = require('../utils/error');
 
 /**
- * Class WebSocketServer represents a web socket server that
+ * Class WebSocketServer represents a WebSocket proxy server that
  * forwards messages from the listener to the WebSocket clients.
  */
 class WebSocketServer {
