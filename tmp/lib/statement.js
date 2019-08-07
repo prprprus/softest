@@ -208,7 +208,6 @@ class Input extends Statement {
 
 module.exports = {
   ClickTargetBlank,
-  ClickTargetSelf,
   NewTab,
   URLChange,
   CloseTab,
