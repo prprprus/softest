@@ -48,241 +48,34 @@ const puppeteer = require('puppeteer');
 
   // begin.
 
-  await page.goto('https://www.qq.com/?fromdefault', {
+  await page.goto('https://www.baidu.com/', {
     waitUntil: 'networkidle0',
   });
   await page.waitFor(500);
 
-  element = await page.$x('/html/body/div[1]/div[5]/div[2]/div[1]/div[2]/ul/li[1]/a');
-  await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.setViewport({
-    width: 2540,
-    height: 1318
-  });
-  await page.waitFor(500);
-
-  element = await page.$x('/html/body/div[1]/div/div/div[1]/ul/li[1]/a');
-  await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.setViewport({
-    width: 2540,
-    height: 1318
-  });
-  await page.waitFor(500);
-
-  await page.evaluate(async () => {
-    await new Promise((resolve, reject) => {
-      let totalHeight = 0;
-      let distance = 100;
-      let scrollHeight = 30474;
-      let timer = setInterval(() => {
-        window.scrollBy(0, distance);
-        totalHeight += distance;
-        if (totalHeight >= scrollHeight) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, distance);
-    });
-  });
-  await page.waitFor(1000);
-
-  element = await page.$x('/html/body/div/div[4]/div[2]/div/div/ul[2]/li[162]/a/img');
-  await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.setViewport({
-    width: 2540,
-    height: 1318
-  });
-  await page.waitFor(500);
-
-  await page.close();
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.waitFor(500);
-
-  await page.close();
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.waitFor(500);
-
-  await page.close();
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.waitFor(500);
-
-  element = await page.$x('/html/body/div[1]/div[5]/div[1]/div/div[2]/div[1]/ul[1]/li[1]/a');
-  await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.setViewport({
-    width: 2540,
-    height: 1318
-  });
-  await page.waitFor(500);
-
-  page = await browser.newPage();
-  await page.setViewport({
-    width: 2540,
-    height: 1318
-  });
-  await page.waitFor(500);
-
-  await page.goto('http://example.com/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://www.iana.org/domains/reserved', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc2606', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc6761', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc2606', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc6761', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc2606', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc6761', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc2606', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc6761', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc2606', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc6761', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://tools.ietf.org/html/rfc2606', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://datatracker.ietf.org/doc/rfc2606/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://datatracker.ietf.org/doc/rfc6761/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://datatracker.ietf.org/doc/rfc1918/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://datatracker.ietf.org/doc/rfc6761/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://datatracker.ietf.org/doc/rfc1918/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://datatracker.ietf.org/doc/rfc6761/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  page = await browser.newPage();
-  await page.setViewport({
-    width: 2540,
-    height: 1318
-  });
-  await page.waitFor(500);
-
-  await page.goto('https://www.douban.com/', {
-    waitUntil: 'networkidle0',
-  });
-  await page.waitFor(500);
-
-  element = await page.$x('/html/body/div[1]/div[2]/form/span[1]/input');
-  await element[0].type('123~!@#asdq', {
+  element = await page.$x('//*[@id="kw"]');
+  await element[0].type('yy7', {
     delay: 100
   });
   await page.waitFor(3000);
 
-  await page.close();
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
+  await page.goto('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=yy7&rsv_pq=d8be1931001233b4&rsv_t=9e8awbAnHHlb1IMeQWLmTWZUkraf%2F2kSjIbREZ8OJoYaoZFysOzaNrBl694&rqlang=cn&rsv_enter=0&rsv_dl=tb&rsv_sug3=4&rsv_sug1=2&rsv_sug7=100&inputT=2389&rsv_sug4=3464', {
+    waitUntil: 'networkidle0',
+  });
   await page.waitFor(500);
 
-  await page.close();
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
+  await page.goto('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=yy7&oq=yy7&rsv_pq=fb916f27000bcdd5&rsv_t=967b%2Bj%2FwBCM3eHBAeleZ5TRdHCqHFaq0xpM6O8xIZb9JIHfAzb3N%2Bu0CUBo&rqlang=cn&rsv_enter=0&rsv_dl=tb', {
+    waitUntil: 'networkidle0',
+  });
   await page.waitFor(500);
 
-  await page.close();
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
+  await page.goto('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=yy7&oq=yy7&rsv_pq=d7e2a2f8002f1ff4&rsv_t=98ceBv8ThFPqVS4bI0HSJ1yu84YO2PCprgNl9OHGlAgjoDivyzTpnLFSZQc&rqlang=cn&rsv_enter=0&rsv_dl=tb', {
+    waitUntil: 'networkidle0',
+  });
   await page.waitFor(500);
 
-  element = await page.$x('/html/body/div[1]/div[5]/div[2]/div[1]/div[2]/ul/li[3]/a[2]');
-  await element[0].click();
-  await page.waitFor(3000);
-  pages = await browser.pages();
-  page = pages[pages.length - 1];
-  await page.bringToFront();
-  await page.setViewport({
-    width: 2540,
-    height: 1318
+  await page.goto('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=yy7&oq=yy7&rsv_pq=8cb8ec82000bc95b&rsv_t=7fd8%2BSeOXhBILn9f7%2FtdF4BPd85J7T%2F1pB6AdMrrkpM0iWcUUEx%2FWsHIMHA&rqlang=cn&rsv_enter=0&rsv_dl=tb', {
+    waitUntil: 'networkidle0',
   });
   await page.waitFor(500);
 

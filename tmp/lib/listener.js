@@ -56,6 +56,7 @@ async function bindClickListener(page) {
       x: e.clientX, // horizontal coordinate of the element
       y: e.clientY, // vertical coordinate of the element
       scrollY: e.pageY, // vertical height of the scroll
+      type: e.target.type, // type of input tag
       d: console.log(e), // debug info
     }), true /* capture */ );
   }, event.click);
@@ -121,8 +122,10 @@ async function bindInputListener(page) {
       targetName: e.target.tagName, // the tag name of the element
       eventType: input.type, // type of event
       value: e.target.value, // value of input
+      type: e.target.type, // type of input tag
       d: console.log(e), // debug info
-      v: console.log(e.target.value), // debug info
+      x: console.log(e.target.type),
+      y: console.log(e.target.value),
     }), true /* capture */ );
   }, event.input);
 }

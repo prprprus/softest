@@ -1,3 +1,7 @@
+body {
+    /* background: rgb(28, 32, 34); */
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -31,10 +35,25 @@
 }
 
 textarea {
-    /* background: url(http://i.imgur.com/2cOaJ.png); */
     background-attachment: local;
     background-repeat: no-repeat;
+    border-color: #ccc;
+
+    font-size: .8rem;
+    letter-spacing: 1px;
+    line-height: 1.5;
+
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    /* box-shadow: 1px 1px 1px #999; */
+
+    color: #fff;
+    background: black;
+
+    width: 1000;
     padding-left: 35px;
     padding-top: 10px;
-    border-color: #ccc;
+    padding-bottom: 20px;
+
+    margin: 100px auto;
 }

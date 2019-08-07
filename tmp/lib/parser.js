@@ -49,7 +49,7 @@ async function isInvalidClick(page, info) {
  * @param {object} info - Callback information for `click` event.
  */
 function isInput(info) {
-  if (info.targetName == 'INPUT') {
+  if (info.targetName == 'INPUT' && info.type !== 'submit' && info.value !== '') {
     return true;
   }
   return false;
