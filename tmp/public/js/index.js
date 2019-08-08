@@ -29,3 +29,54 @@ socket.addEventListener('message', function (event) {
     let elm = document.getElementById('code');
     elm.innerHTML += event.data;
 });
+
+// bind click event listener
+window.onload = function () {
+    const recordElement = document.getElementById('record');
+    recordElement.addEventListener('click', function (event) {
+        fetch('http://localhost:3000/record')
+            .then(function (res) {
+                console.log('record: ', res.status);
+            });
+    });
+
+    const screenshotElement = document.getElementById('screenshot');
+    screenshotElement.addEventListener('click', function (event) {
+        fetch('http://localhost:3000/screenshot')
+            .then(function (res) {
+                console.log('screenshot: ', res.status);
+            });
+    });
+
+    const endElement = document.getElementById('end');
+    endElement.addEventListener('click', function (event) {
+        fetch('http://localhost:3000/end')
+            .then(function (res) {
+                console.log('end: ', res.status);
+            });
+    });
+
+    const playElement = document.getElementById('play');
+    playElement.addEventListener('click', function (event) {
+        fetch('http://localhost:3000/play')
+            .then(function (res) {
+                console.log('play: ', res.status);
+            });
+    });
+
+    const reportElement = document.getElementById('report');
+    reportElement.addEventListener('click', function (event) {
+        fetch('http://localhost:3000/report')
+            .then(function (res) {
+                console.log('report: ', res.status);
+            });
+    });
+
+    const downloadElement = document.getElementById('download');
+    downloadElement.addEventListener('click', function (event) {
+        fetch('http://localhost:3000/download')
+            .then(function (res) {
+                console.log('download: ', res.status);
+            });
+    });
+}

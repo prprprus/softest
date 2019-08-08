@@ -4,12 +4,12 @@ html
     script(src="js/index.js")
   body
     h1 Softest
-    textarea#code(cols="100%" rows="50%")
-    .menu
-      img(src="image/record.png")
-      img(src="image/screenshot.png")
-      img(src="image/end.png")
-      img(src="image/play.png")
-      img(src="image/report.png")
-      img(src="image/download.png")
-      
+    .container
+      .menu
+        #record.record
+        #screenshot.screenshot
+        #end.end
+        #play.play
+        #report.report
+        #download.download
+      textarea#code(cols="100%" rows="50%")

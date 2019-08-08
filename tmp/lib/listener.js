@@ -244,6 +244,12 @@ async function run(options) {
   common.initAllQueue();
 }
 
+// tmp
+function handle(signal) {
+  console.log(`Received ${signal}`);
+}
+process.on('SIGINT', handle);
+
 (async () => {
   await run({
     'headless': false,
