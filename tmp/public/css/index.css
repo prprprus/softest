@@ -27,7 +27,6 @@ h1 {
     height: 50%;
     margin-left: 86px;
     margin-top: -1155px;
-    padding-left: 35px;
     padding-top: 10px;
     padding-bottom: 20px;
     /* border: solid 3px olivedrab; */
@@ -175,7 +174,7 @@ h1 {
 
 #log {
     display: block;
-    width: 1035px;
+    width: 1000px;
     height: 220px;
     margin-top: 20px;
     margin-left: 86px;
@@ -184,7 +183,4 @@ h1 {
     background: black;
     border-radius: 5px;
     border: 1px solid #ccc;
-    /* padding-left: 35px;
-    padding-top: 10px;
-    padding-bottom: 20px; */
 }

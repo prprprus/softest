@@ -9,37 +9,60 @@ socket.addEventListener('open', function (event) {
 // Listen for messages
 socket.addEventListener('message', function (event) {
     console.log('received data from wss %s', event.data);
-    // dom
-    // let pNode1 = document.createElement('p');
-    // let code1 = `let e = await page.$x(${event.data});`
-    // let textNode1 = document.createTextNode(code1);
-    // pNode1.appendChild(textNode1);
-    // document.getElementById('code').appendChild(pNode1);
 
-    // let pNode2 = document.createElement('p');
-    // let code2 = "await e[0].click();"
-    // let textNode2 = document.createTextNode(code2);
-    // pNode2.appendChild(textNode2);
-    // document.getElementById('code').appendChild(pNode2);
+    // code
+    let codeElement = document.getElementById('code');
+    let subCode = document.createElement('pre');
+    subCode.innerHTML += event.data;
+    subCode.style.paddingLeft = '67.5px';
+    codeElement.appendChild(subCode);
 
-    // let code1 = `let e = await page.$x(${event.data});`
-    // let code2 = '\n';
-    // let code3 = "await e[0].click();"
-    // let code4 = '\n\n';
-    let elm = document.getElementById('code');
-    elm.innerHTML += event.data;
+    // log
+    let logElement = document.getElementById('log');
+    logElement.innerHTML += event.data;
 
-    let elmd = document.getElementById('log');
-    elmd.innerHTML += event.data;
-
+    // highlight
     document.querySelectorAll('pre').forEach((block) => {
-        console.log('========================================>', block);
         hljs.highlightBlock(block);
     });
 });
 
 // bind click event listener
 window.onload = function () {
+    // clean
+    const codeElement = document.getElementById('code');
+    codeElement.innerHTML = '';
+    // init code
+    let subCode = document.createElement('pre');
+    subCode.innerHTML += `
+const puppeteer = require('puppeteer');
+
+(async () => {
+    const browser = await puppeteer.launch({
+        headless: false,
+        args: [
+            \`--window - size = 1265, 1400 \`,
+        ],
+    })
+    let pages = await browser.pages();
+    await pages[0].close();
+
+    let page = await browser.newPage();
+    await page.setViewport({
+        width: 1265,
+        height: 1400
+    });
+
+    let element = null;
+`;
+    subCode.style.paddingLeft = '35px';
+    codeElement.appendChild(subCode);
+
+    // highlight
+    document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+
     const element = document.getElementById('record');
     element.addEventListener('click', function (event) {
         fetch('http://localhost:3000/record')
@@ -54,16 +77,32 @@ window.onload = function () {
             .then(function (res) {
                 console.log('screenshot: ', res.status);
             });
-        // const elements = document.getElementsByTagName('body');
-        // elements[0].style.cursor = 'crosshair';
     });
 
     const endElement = document.getElementById('end');
     endElement.addEventListener('click', function (event) {
-        fetch('http://localhost:3000/end')
-            .then(function (res) {
-                console.log('end: ', res.status);
-            });
+        const codeElement = document.getElementById('code');
+        codeElement.innerHTML += `
+        await page.waitFor(3000);
+        await browser.close()
+    })();
+`;
+        document.querySelectorAll('pre').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
+
+        const data = {
+            code: codeElement.textContent,
+        }
+        fetch('http://localhost:3000/end', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(res => {
+            console.log('end: ', res.status);
+        });
     });
 
     const playElement = document.getElementById('play');

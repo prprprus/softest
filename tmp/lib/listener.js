@@ -157,7 +157,7 @@ async function bindNewTabListener(browser) {
     // refresh the new page, make sure the script is running
     await common.refresh(page);
     // set viewport for the new page
-    await common.setViewport(page, 2540, 1318);
+    await common.setViewport(page, 1265, 1400);
 
     // Differentiate what is operation by using a queue for synchronization,
     // since the callback of `clickTargetBlank` event will happen immediately
@@ -239,7 +239,7 @@ async function run(options) {
   await bindClickTargetBlankListener(page);
   await bindInputListener(page);
 
-  await common.setViewport(page, 2540, 1318);
+  await common.setViewport(page, 1265, 1400);
   await common.closeBlankPage(browser);
   common.initAllQueue();
 
@@ -261,7 +261,7 @@ process.on('SIGINT', handle);
     'devtools': false,
     'executablePath': '/Applications/Chromium.app/Contents/MacOS/Chromium',
     args: [
-      `--window-size=2540,1318`,
+      `--window-size=1265,1400`,
     ],
   });
 })();

@@ -30,8 +30,8 @@ pages = await browser.pages();
 page = pages[pages.length - 1];
 await page.bringToFront();
 await page.setViewport({
-  width: 2540,
-  height: 1318
+  width: 1265,
+  height: 1400
 });
 await page.waitFor(500);
 `;
@@ -49,8 +49,8 @@ await page.waitFor(500);
 var templateNewTab = `
 page = await browser.newPage();
 await page.setViewport({
-  width: 2540,
-  height: 1318
+  width: 1265,
+  height: 1400
 });
 await page.waitFor(500);
 `;
