@@ -242,6 +242,11 @@ async function run(options) {
   await common.setViewport(page, 2540, 1318);
   await common.closeBlankPage(browser);
   common.initAllQueue();
+
+  await page.evaluate(() => {
+    const elements = document.getElementsByTagName('body');
+    elements[0].style.cursor = 'crosshair';
+  });
 }
 
 // tmp

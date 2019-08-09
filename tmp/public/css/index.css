@@ -1,3 +1,7 @@
+body {
+    background: rgb(28, 32, 34);
+}
+
 h1 {
     text-align: center;
     margin-top: 30px;
@@ -5,42 +9,36 @@ h1 {
 
 .container {
     display: block;
-    width: 1100;
-    margin-top: 90px;
+    width: 1100px;
+    margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
     /* border: solid 3px darkgoldenrod; */
 }
 
-textarea {
-    display: inline-block;
-    background-attachment: local;
-    background-repeat: no-repeat;
+#code {
     border-color: #ccc;
-
     font-size: .8rem;
     letter-spacing: 1px;
     line-height: 1.5;
-
     border-radius: 5px;
     border: 1px solid #ccc;
-
-    color: #fff;
-    background: black;
-
-    width: 1000;
+    width: 1000px;
+    height: 50%;
+    margin-left: 86px;
+    margin-top: -1155px;
     padding-left: 35px;
     padding-top: 10px;
     padding-bottom: 20px;
+    /* border: solid 3px olivedrab; */
 }
 
 .menu {
     display: inline-block;
     width: 75px;
-    height: 450px;
-    /* background: wheat; */
     margin-bottom: 530px;
     margin-right: 10px;
+    /* border: solid 3px darksalmon; */
 }
 
 .record {
@@ -52,6 +50,7 @@ textarea {
     box-shadow: 0 9px #999;
     margin-bottom: 30px;
     background: url('../image/record.png') no-repeat;
+    background-color: gainsboro;
 }
 
 .record:hover {
@@ -73,6 +72,7 @@ textarea {
     box-shadow: 0 9px #999;
     margin-bottom: 30px;
     background: url('../image/screenshot.png') no-repeat;
+    background-color: gainsboro;
 }
 
 .screenshot:hover {
@@ -94,6 +94,7 @@ textarea {
     box-shadow: 0 9px #999;
     margin-bottom: 30px;
     background: url('../image/end.png') no-repeat;
+    background-color: gainsboro;
 }
 
 .end:hover {
@@ -115,6 +116,7 @@ textarea {
     box-shadow: 0 9px #999;
     margin-bottom: 30px;
     background: url('../image/play.png') no-repeat;
+    background-color: gainsboro;
 }
 
 .play:hover {
@@ -136,6 +138,7 @@ textarea {
     box-shadow: 0 9px #999;
     margin-bottom: 30px;
     background: url('../image/report.png') no-repeat;
+    background-color: gainsboro;
 }
 
 .report:hover {
@@ -157,6 +160,7 @@ textarea {
     box-shadow: 0 9px #999;
     margin-bottom: 30px;
     background: url('../image/download.png') no-repeat;
+    background-color: gainsboro;
 }
 
 .download:hover {
@@ -167,4 +171,20 @@ textarea {
     background-color: whitesmoke;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
+}
+
+#log {
+    display: block;
+    width: 1035px;
+    height: 220px;
+    margin-top: 20px;
+    margin-left: 86px;
+    margin-right: auto;
+    color: #fff;
+    background: black;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    /* padding-left: 35px;
+    padding-top: 10px;
+    padding-bottom: 20px; */
 }

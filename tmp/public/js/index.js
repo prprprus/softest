@@ -28,12 +28,20 @@ socket.addEventListener('message', function (event) {
     // let code4 = '\n\n';
     let elm = document.getElementById('code');
     elm.innerHTML += event.data;
+
+    let elmd = document.getElementById('log');
+    elmd.innerHTML += event.data;
+
+    document.querySelectorAll('pre').forEach((block) => {
+        console.log('========================================>', block);
+        hljs.highlightBlock(block);
+    });
 });
 
 // bind click event listener
 window.onload = function () {
-    const recordElement = document.getElementById('record');
-    recordElement.addEventListener('click', function (event) {
+    const element = document.getElementById('record');
+    element.addEventListener('click', function (event) {
         fetch('http://localhost:3000/record')
             .then(function (res) {
                 console.log('record: ', res.status);
@@ -46,6 +54,8 @@ window.onload = function () {
             .then(function (res) {
                 console.log('screenshot: ', res.status);
             });
+        // const elements = document.getElementsByTagName('body');
+        // elements[0].style.cursor = 'crosshair';
     });
 
     const endElement = document.getElementById('end');

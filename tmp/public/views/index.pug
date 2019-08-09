@@ -2,6 +2,10 @@ html
   head
     link(rel="stylesheet" href="css/index.css")
     script(src="js/index.js")
+    link(rel="stylesheet" href="css/monokai-sublime.css")
+    script(src="js/highlight.pack.js")
+    script.
+      hljs.initHighlightingOnLoad();
   body
     h1 Softest
     .container
@@ -12,4 +16,8 @@ html
         #play.play
         #report.report
         #download.download
-      textarea#code(cols="100%" rows="50%")
+      //- textarea#code(cols="100%" rows="50%")
+      //- pre#code.hljs
+      //-   code.
+      pre#code.hljs
+      pre#log.

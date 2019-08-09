@@ -4,13 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <title>input输入框类型</title>
-  <style>
+  <!-- <style>
     input {
       width: 200px;
       font-family: "微软雅黑";
       font-size: 14px;
     }
-  </style>
+  </style> -->
+
+  <link rel="stylesheet" href="./public/css/monokai-sublime.css">
+  <script src="./public/js/highlight.pack.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
 </head>
 
 <body>
@@ -38,6 +44,58 @@
     <input type="url" /><br><br>
     <input type="week" />
   </div>
+
+  <pre class='hljs'>
+    <code>
+      element = await page.$x('/html/body/div[1]/div/div/div[1]/ul/li[1]/a');
+      await element[0].click();
+      await page.waitFor(3000);
+      pages = await browser.pages();
+      page = pages[pages.length - 1];
+      await page.bringToFront();
+      await page.setViewport({
+      width: 2540,
+      height: 1318
+      });
+      await page.waitFor(500);
+
+      element = await page.$x('/html/body/div[1]/div/div/div[1]/ul/li[1]/a');
+      await element[0].click();
+      await page.waitFor(3000);
+      pages = await browser.pages();
+      page = pages[pages.length - 1];
+      await page.bringToFront();
+      await page.setViewport({
+      width: 2540,
+      height: 1318
+      });
+      await page.waitFor(500);
+
+      element = await page.$x('/html/body/div[1]/div/div/div[1]/ul/li[1]/a');
+      await element[0].click();
+      await page.waitFor(3000);
+      pages = await browser.pages();
+      page = pages[pages.length - 1];
+      await page.bringToFront();
+      await page.setViewport({
+      width: 2540,
+      height: 1318
+      });
+      await page.waitFor(500);
+
+      element = await page.$x('/html/body/div[1]/div/div/div[1]/ul/li[1]/a');
+      await element[0].click();
+      await page.waitFor(3000);
+      pages = await browser.pages();
+      page = pages[pages.length - 1];
+      await page.bringToFront();
+      await page.setViewport({
+      width: 2540,
+      height: 1318
+      });
+      await page.waitFor(500);
+    </code>
+  </pre>
 </body>
 
 </html>

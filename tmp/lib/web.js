@@ -38,7 +38,9 @@ app.get('/screenshot', (req, res) => {
 });
 
 app.get('/end', (req, res) => {
-  process.kill(listenerPID, 'SIGINT');
+  if (listenerPID !== undefined) {
+    process.kill(listenerPID, 'SIGINT');
+  }
   res.send('/end');
 });
 
