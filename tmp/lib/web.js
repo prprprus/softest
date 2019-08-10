@@ -46,6 +46,9 @@ app.get('/record', (req, res) => {
 });
 
 app.get('/screenshot', (req, res) => {
+  if (listenerPID !== undefined) {
+    process.kill(listenerPID, 'SIGINT');
+  }
   res.send('/screenshot');
 });
 

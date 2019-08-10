@@ -250,10 +250,10 @@ async function run(options) {
 }
 
 // tmp
-function handle(signal) {
+function handleSIGINT(signal) {
   console.log(`Received ${signal}`);
 }
-process.on('SIGINT', handle);
+process.on('SIGINT', handleSIGINT);
 
 (async () => {
   await run({

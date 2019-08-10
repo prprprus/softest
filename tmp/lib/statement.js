@@ -20,6 +20,7 @@ await page.evaluate(async () => {
   });
 });
 await page.waitFor(1000);
+
 `;
 
 var templateClickTargetBlank = `
@@ -34,6 +35,7 @@ await page.setViewport({
   height: 1400
 });
 await page.waitFor(500);
+
 `;
 
 var templateNewTab = `
@@ -43,6 +45,7 @@ await page.setViewport({
   height: 1400
 });
 await page.waitFor(500);
+
 `;
 
 var templateURLChange = `
@@ -50,6 +53,7 @@ await page.goto('{}', {
   waitUntil: 'networkidle0',
 });
 await page.waitFor(500);
+
 `;
 
 var templateCloseTab = `
@@ -58,12 +62,14 @@ pages = await browser.pages();
 page = pages[pages.length - 1];
 await page.bringToFront();
 await page.waitFor(500);
+
 `;
 
 var templateInput = `
 element = await page.$x('{}');
 await element[0].type('{}', {delay: 100});
 await page.waitFor(3000);
+
 `;
 
 /**

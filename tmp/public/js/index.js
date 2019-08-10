@@ -1,20 +1,22 @@
+// ================================================
+
 // Create WebSocket connection.
-const socket = new WebSocket('ws://localhost:8080');
+const statementProxy = new WebSocket('ws://localhost:8080');
 
 // Connection opened
-socket.addEventListener('open', function (event) {
-    console.log('connect server!');
+statementProxy.addEventListener('open', function (event) {
+    console.log('connect statement proxy server!');
 });
 
 // Listen for messages
-socket.addEventListener('message', function (event) {
-    console.log('received data from wss %s', event.data);
+statementProxy.addEventListener('message', function (event) {
+    console.log('received data from statement proxy server %s', event.data);
 
     // code
     let codeElement = document.getElementById('code');
     let subCode = document.createElement('pre');
     subCode.innerHTML += event.data;
-    subCode.style.paddingLeft = '67.5px';
+    subCode.style.paddingLeft = '59.5px';
     codeElement.appendChild(subCode);
 
     // log
@@ -27,42 +29,53 @@ socket.addEventListener('message', function (event) {
     });
 });
 
+// ================================================
+
+// const screenshotProxy = new WebSocket('ws://localhost:8081');
+
+// screenshotProxy.addEventListener('open', function (event) {
+//     console.log('connect screenshot proxy server');
+// });
+
+// ================================================
+
 // bind click event listener
 window.onload = function () {
-    // clean
-    const codeElement = document.getElementById('code');
-    codeElement.innerHTML = '';
-    // init code
-    let subCode = document.createElement('pre');
-    subCode.innerHTML += `
+    const element = document.getElementById('record');
+    element.addEventListener('click', function (event) {
+        // clean
+        const codeElement = document.getElementById('code');
+        codeElement.innerHTML = '';
+        // init code
+        let subCode = document.createElement('pre');
+        subCode.innerHTML += `
 const puppeteer = require('puppeteer');
 
 (async () => {
-    const browser = await puppeteer.launch({
-        headless: false,
-        args: [
-            \`--window - size = 1265, 1400 \`,
-        ],
-    })
-    let pages = await browser.pages();
-    await pages[0].close();
+   const browser = await puppeteer.launch({
+   headless: false,
+     args: [
+       \`--window-size=1265, 1400\`,
+     ],
+   });
+   let pages = await browser.pages();
+   await pages[0].close();
 
-    let page = await browser.newPage();
-    await page.setViewport({
-        width: 1265,
-        height: 1400
-    });
+   let page = await browser.newPage();
+   await page.setViewport({
+     width: 1265,
+     height: 1400
+   });
 
-    let element = null;
+   let element = null;
+   let start = undefined;
+
 `;
-    subCode.style.paddingLeft = '35px';
-    codeElement.appendChild(subCode);
-    document.querySelectorAll('pre').forEach((block) => {
-        hljs.highlightBlock(block);
-    });
-
-    const element = document.getElementById('record');
-    element.addEventListener('click', function (event) {
+        subCode.style.paddingLeft = '35px';
+        codeElement.appendChild(subCode);
+        document.querySelectorAll('pre').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
         fetch('http://localhost:3000/record')
             .then(function (res) {
                 console.log('record: ', res.status);
@@ -81,6 +94,39 @@ const puppeteer = require('puppeteer');
     // full
     const fullElement = document.getElementById('full');
     fullElement.addEventListener('click', function (event) {
+        const codeElement = document.getElementById('code');
+        let subCode = document.createElement('pre');
+        const now = Date.now();
+        subCode.innerHTML += `
+await page.evaluate(async () => {
+    await new Promise((resolve, reject) => {
+        let totalHeight = 0;
+        let distance = 100;
+        let scrollHeight = document.body.scrollHeight;
+        let timer = setInterval(() => {
+            window.scrollBy(0, distance);
+            totalHeight += distance;
+            if (totalHeight >= scrollHeight) {
+                clearInterval(timer);
+                resolve();
+            }
+        }, 100);
+    });
+});
+await page.waitFor(3000);
+await page.screenshot({
+  path: '/Users/tiger/develop/tmp/script/${now}.png',
+  type: 'png',
+  fullPage: true
+});
+await page.waitFor(500);
+
+`;
+        subCode.style.paddingLeft = '59.5px';
+        codeElement.appendChild(subCode);
+        document.querySelectorAll('pre').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
         fetch('http://localhost:3000/full')
             .then(function (res) {
                 console.log('full: ', res.status);
@@ -91,11 +137,14 @@ const puppeteer = require('puppeteer');
     const endElement = document.getElementById('end');
     endElement.addEventListener('click', function (event) {
         const codeElement = document.getElementById('code');
-        codeElement.innerHTML += `
-        await page.waitFor(3000);
-        await browser.close()
-    })();
+        let subCode = document.createElement('pre');
+        subCode.innerHTML += `
+  await page.waitFor(3000);
+  await browser.close()
+})();
 `;
+        subCode.style.paddingLeft = '43px';
+        codeElement.appendChild(subCode);
         document.querySelectorAll('pre').forEach((block) => {
             hljs.highlightBlock(block);
         });
