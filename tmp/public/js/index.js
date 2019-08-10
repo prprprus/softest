@@ -57,8 +57,6 @@ const puppeteer = require('puppeteer');
 `;
     subCode.style.paddingLeft = '35px';
     codeElement.appendChild(subCode);
-
-    // highlight
     document.querySelectorAll('pre').forEach((block) => {
         hljs.highlightBlock(block);
     });
@@ -71,6 +69,7 @@ const puppeteer = require('puppeteer');
             });
     });
 
+    // screenshot
     const screenshotElement = document.getElementById('screenshot');
     screenshotElement.addEventListener('click', function (event) {
         fetch('http://localhost:3000/screenshot')
@@ -79,6 +78,16 @@ const puppeteer = require('puppeteer');
             });
     });
 
+    // full
+    const fullElement = document.getElementById('full');
+    fullElement.addEventListener('click', function (event) {
+        fetch('http://localhost:3000/full')
+            .then(function (res) {
+                console.log('full: ', res.status);
+            });
+    });
+
+    // end
     const endElement = document.getElementById('end');
     endElement.addEventListener('click', function (event) {
         const codeElement = document.getElementById('code');
@@ -105,6 +114,7 @@ const puppeteer = require('puppeteer');
         });
     });
 
+    // play
     const playElement = document.getElementById('play');
     playElement.addEventListener('click', function (event) {
         fetch('http://localhost:3000/play')
@@ -113,6 +123,7 @@ const puppeteer = require('puppeteer');
             });
     });
 
+    // report
     const reportElement = document.getElementById('report');
     reportElement.addEventListener('click', function (event) {
         fetch('http://localhost:3000/report')
@@ -121,6 +132,7 @@ const puppeteer = require('puppeteer');
             });
     });
 
+    // download
     const downloadElement = document.getElementById('download');
     downloadElement.addEventListener('click', function (event) {
         fetch('http://localhost:3000/download')

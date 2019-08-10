@@ -36,16 +36,6 @@ await page.setViewport({
 await page.waitFor(500);
 `;
 
-var templateClickTargetSelf = `
-element = await page.$x('{}');
-await element[0].click();
-await page.waitFor(3000);
-pages = await browser.pages();
-page = pages[pages.length - 1];
-await page.bringToFront();
-await page.waitFor(500);
-`;
-
 var templateNewTab = `
 page = await browser.newPage();
 await page.setViewport({

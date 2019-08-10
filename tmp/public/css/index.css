@@ -24,9 +24,9 @@ h1 {
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 1000px;
-    height: 50%;
+    height: 60%;
     margin-left: 86px;
-    margin-top: -1155px;
+    margin-top: -1260px;
     padding-top: 10px;
     padding-bottom: 20px;
     /* border: solid 3px olivedrab; */
@@ -79,6 +79,28 @@ h1 {
 }
 
 .screenshot:active {
+    background-color: whitesmoke;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.full {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    border: solid 2px whitesmoke;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    margin-bottom: 30px;
+    background: url('../image/full.png') no-repeat;
+    background-color: gainsboro;
+}
+
+.full:hover {
+    background-color: whitesmoke
+}
+
+.full:active {
     background-color: whitesmoke;
     box-shadow: 0 5px #666;
     transform: translateY(4px);

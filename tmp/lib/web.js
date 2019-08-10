@@ -49,6 +49,10 @@ app.get('/screenshot', (req, res) => {
   res.send('/screenshot');
 });
 
+app.get('/full', (req, res) => {
+  res.send('/full');
+});
+
 app.post('/end', (req, res) => {
   if (!fs.existsSync(tmpDir)) {
     console.log('The file does not exists.');
