@@ -163,6 +163,48 @@ async function closeTemporaryBrowser(browser) {
   await browser.close();
 }
 
+/**
+ * Format the data to be sent.
+ * 
+ * @param {string} statement - User operation corresponding statement.
+ * @param {string} time - Time of operation.
+ * @param {string} operation - Operation of operation.
+ * @param {string} target - Target of operation.
+ * @return Data in JSON format.
+ */
+function formatData(statement, time, operation, target) {
+  data = {
+    statement: statement,
+    log: {
+      time: time,
+      operation: operation,
+      target: target
+    }
+  }
+  return JSON.stringify(data);
+}
+
+/**
+ * Get Current Time.
+ */
+function getCurrentDateTime() {
+  const today = new Date();
+  const date = today.getFullYear() + '-' + fillZero((today.getMonth() + 1)) + '-' + fillZero(today.getDate());
+  const time = fillZero(today.getHours()) + ":" + fillZero(today.getMinutes()) + ":" + fillZero(today.getSeconds());
+  return date + ' ' + time;
+}
+
+/**
+ * 
+ * @param {number} num - Date or time.
+ * @return {string} - A number of length 2.
+ */
+function fillZero(num) {
+  if (num < 10) {
+    return '0' + num.toString();
+  }
+  return num;
+}
 module.exports = {
   switch_to_latest_tab,
   setViewport,
@@ -173,4 +215,7 @@ module.exports = {
   extendsStringPrototype,
   genTemporaryBrowser,
   closeTemporaryBrowser,
+  formatData,
+  getCurrentDateTime,
+  fillZero,
 }

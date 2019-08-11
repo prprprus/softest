@@ -174,7 +174,6 @@ h1 {
 }
 
 #log {
-    display: block;
     width: 1000px;
     height: 220px;
     margin-top: 20px;
@@ -184,4 +183,5 @@ h1 {
     background: black;
     border-radius: 5px;
     border: 1px solid #ccc;
+    overflow: scroll;
 }

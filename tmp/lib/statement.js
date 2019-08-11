@@ -52,7 +52,7 @@ var templateURLChange = `
 await page.goto('{}', {
   waitUntil: 'networkidle0',
 });
-await page.waitFor(500);
+await page.waitFor(1000);
 
 `;
 

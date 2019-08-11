@@ -60,7 +60,8 @@ function isInput(info) {
  * 
  * @param {puppeteer.Page} page - The current page.
  * @param {object} info - Callback information for `click` event.
- * @return {string} The statement of puppeteer.
+ * @return {string} The statement of `click` event.
+ * @return {string} XPath of the target element.
  */
 async function parseClick(page, info) {
   checkCoordinates(info);
@@ -69,8 +70,8 @@ async function parseClick(page, info) {
     return;
   }
 
-  const stmt = await parseClickTargetBlank(page, info);
-  return stmt;
+  const res = await parseClickTargetBlank(page, info);
+  return res;
 }
 
 /** 
@@ -79,13 +80,14 @@ async function parseClick(page, info) {
  * @param {puppeteer.Page} page - The current page.
  * @param {object} info - Callback information for `click` event.
  * @return {string} The statement of `clickTargetBlank` event.
+ * @return {string} XPath of the target element.
  */
 async function parseClickTargetBlank(page, info) {
   const xpath = await common.getXPathByElement(page, info);
   console.log('XPath: ', xpath);
   const ctb = new statement.ClickTargetBlank(event.clickTargetBlank);
   const stmt = ctb.getStatement(xpath, info);
-  return stmt;
+  return [stmt, xpath];
 }
 
 /**
@@ -125,8 +127,8 @@ function parseCloseTab() {
 /**
  * Parse the statement corresponding to the `input` event.
  * 
- * @param {*} xpath 
- * @param {*} value 
+ * @param {string} xpath - XPath of the target element.
+ * @param {object} info - Callback information for `input` event.
  * @return {string} The statement of `input` event.
  */
 async function parseInput(xpath, info) {

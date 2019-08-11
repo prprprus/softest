@@ -18,9 +18,10 @@ const invalidURL = [
  */
 async function clickCallback(page, info) {
   // parse `click` event
-  const stmt = await parser.parseClick(page, info);
-  if (stmt !== undefined) {
-    await sender.sendData(stmt);
+  const res = await parser.parseClick(page, info);
+  if (res !== undefined) {
+    const data = common.formatData(res[0], common.getCurrentDateTime(), 'click', res[1]);
+    await sender.sendData(data);
   }
 }
 
@@ -37,7 +38,7 @@ async function bindClickListener(page) {
     // Expose the callback function of the `click` event in Nodejs environment,
     // when the `click` event is captured, switches back to the Nodejs environment
     // from the browser environment, and executes the callback function.
-    await page.exposeFunction('clickCallback', (info) => {
+    await page.exposeFunction('exposeClickCallback', (info) => {
       (async () => {
         await clickCallback(page, info);
       })();
@@ -50,7 +51,7 @@ async function bindClickListener(page) {
   // register the listener for the `click` event in the document
   await page.evaluateOnNewDocument((click) => {
     console.log('in evaluateOnNewDocument...');
-    document.addEventListener(click.type, (e) => clickCallback({
+    document.addEventListener(click.type, (e) => exposeClickCallback({
       targetName: e.target.tagName, // the tag name of the element
       eventType: click.type, // type of event
       x: e.clientX, // horizontal coordinate of the element
@@ -90,7 +91,8 @@ async function inputCallback(page, info) {
   const xpath = queue.input.dequeue();
   if (xpath !== -1) {
     const stmt = await parser.parseInput(xpath, info);
-    await sender.sendData(stmt);
+    const data = common.formatData(stmt, common.getCurrentDateTime(), 'input', xpath);
+    await sender.sendData(data);
   }
 }
 
@@ -162,7 +164,7 @@ async function bindNewTabListener(browser) {
     // Differentiate what is operation by using a queue for synchronization,
     // since the callback of `clickTargetBlank` event will happen immediately
     // after `newTab` event, so just a little delay here.
-    const flag = await queue.clickTargetBlank.dequeueBlocking(page, 500);
+    const flag = await queue.clickTargetBlank.dequeue(page, 500);
     console.log('===>', flag);
     // If the return value is not equal to -1, It is operation 2,
     // otherwise it is operation 1.
@@ -172,7 +174,8 @@ async function bindNewTabListener(browser) {
     } else {
       // parse `newTab` event
       const stmt = parser.parseNewTab();
-      await sender.sendData(stmt);
+      const data = common.formatData(stmt, common.getCurrentDateTime(), 'new  ', 'window');
+      await sender.sendData(data);
     }
   });
 }
@@ -191,7 +194,8 @@ async function bindCloseTabListener(browser) {
     await common.switch_to_latest_tab(browser);
     if (!invalidURL.includes(e._targetInfo.url)) {
       const stmt = parser.parseCloseTab();
-      await sender.sendData(stmt);
+      const data = common.formatData(stmt, common.getCurrentDateTime(), 'close', 'window');
+      await sender.sendData(data);
     }
   });
 }
@@ -216,7 +220,8 @@ async function bindURLChangeListener(browser) {
     // parse `URLChange` event
     await common.switch_to_latest_tab(browser);
     const stmt = parser.parseURLChange(e._targetInfo.url);
-    await sender.sendData(stmt);
+    const data = common.formatData(stmt, common.getCurrentDateTime(), 'goto ', e._targetInfo.url);
+    await sender.sendData(data);
   });
 }
 

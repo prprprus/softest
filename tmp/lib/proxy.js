@@ -65,7 +65,7 @@ class WebSocketServer {
     });
     wss.on('connection', function connection(ws) {
       ws.on('message', function incoming(data) {
-        console.log('received data from demo.js: %s', data);
+        console.log('received statement data: %s', data);
         console.log(wss.clients.size);
         wss.clients.forEach(function each(client) {
           console.log('send data to wsc of page...');
@@ -75,28 +75,10 @@ class WebSocketServer {
         });
       });
     });
-  }
-
-  /**
-   * Run screenshot proxy server.
-   */
-  runScreenshotProxy() {
-    const wss = new WebSocket.Server({
-      host: this._host,
-      port: this._port,
-      backlog: this._backlog,
-    });
-    wss.on('connection', function connection(ws) {
-      ws.on('message', function incoming(data) {
-        console.log('received data from screenshot: %s', data);
-      });
-    });
+    console.log('run proxy server...');
   }
 }
 
 module.exports = {
   WebSocketServer
 }
-
-server = new WebSocketServer();
-server.runStatementProxy();

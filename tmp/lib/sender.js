@@ -6,9 +6,10 @@ const ws = new WebSocket('ws://localhost:8080');
  * Connect to WebSocket proxy server.
  */
 function init() {
+  // connect to statement proxy server
   try {
     ws.on('open', function open() {
-      console.log('connected to wss...');
+      console.log('connected to statement proxy server...');
     });
   } catch (e) {
     throw e;
@@ -16,15 +17,15 @@ function init() {
 }
 
 /**
- * Send the statement corresponding to the user operation to the WebSocket proxy server.
+ * Send the data to the proxy server.
  * 
- * @param {string} data - User operation corresponding statement.
+ * @param {string} data - User operation corresponding data.
  */
 async function sendData(data) {
   try {
     ws.send(data);
   } catch (e) {
-    console.debug('🐞 send error, lose statement: ' + e);
+    console.debug('🐞 send error, lose data: ' + e);
     throw e;
   }
 }
@@ -32,5 +33,5 @@ async function sendData(data) {
 init();
 
 module.exports = {
-  sendData
+  sendData,
 }
