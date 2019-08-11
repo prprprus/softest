@@ -85,35 +85,26 @@ const puppeteer = require('puppeteer');
     // screenshot
     const screenshotElement = document.getElementById('screenshot');
     screenshotElement.addEventListener('click', function (event) {
-        fetch('http://localhost:3000/screenshot')
-            .then(function (res) {
-                console.log('screenshot: ', res.status);
-            });
-    });
-
-    // full
-    const fullElement = document.getElementById('full');
-    fullElement.addEventListener('click', function (event) {
         const codeElement = document.getElementById('code');
         let subCode = document.createElement('pre');
         const now = Date.now();
         subCode.innerHTML += `
 await page.evaluate(async () => {
-    await new Promise((resolve, reject) => {
-        let totalHeight = 0;
-        let distance = 100;
-        let scrollHeight = document.body.scrollHeight;
-        let timer = setInterval(() => {
-            window.scrollBy(0, distance);
-            totalHeight += distance;
-            if (totalHeight >= scrollHeight) {
-                clearInterval(timer);
-                resolve();
-            }
-        }, 100);
-    });
+  await new Promise((resolve, reject) => {
+    let totalHeight = 0;
+    let distance = 100;
+    let scrollHeight = document.body.scrollHeight;
+    let timer = setInterval(() => {
+      window.scrollBy(0, distance);
+      totalHeight += distance;
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+    }, 100);
+  });
 });
-await page.waitFor(3000);
+await page.waitFor(2000);
 await page.screenshot({
   path: '/Users/tiger/develop/tmp/script/${now}.png',
   type: 'png',
@@ -127,9 +118,9 @@ await page.waitFor(500);
         document.querySelectorAll('pre').forEach((block) => {
             hljs.highlightBlock(block);
         });
-        fetch('http://localhost:3000/full')
+        fetch('http://localhost:3000/screenshot')
             .then(function (res) {
-                console.log('full: ', res.status);
+                console.log('screenshot: ', res.status);
             });
     });
 
