@@ -47,12 +47,16 @@ statementProxy.addEventListener('message', function (event) {
 window.onload = function () {
     const element = document.getElementById('record');
     element.addEventListener('click', function (event) {
-        // clean
-        const codeElement = document.getElementById('code');
-        codeElement.innerHTML = '';
-        // init code
-        let subCode = document.createElement('pre');
-        subCode.innerHTML += `
+        fetch('http://localhost:3000/record')
+            .then(function (res) {
+                console.log('record: ', res.status);
+                if (res.status === 200) {
+                    // clean
+                    const codeElement = document.getElementById('code');
+                    codeElement.innerHTML = '';
+                    // init code
+                    let subCode = document.createElement('pre');
+                    subCode.innerHTML += `
 const puppeteer = require('puppeteer');
 const child_process = require('child_process');
 
@@ -76,30 +80,31 @@ const child_process = require('child_process');
    let start = undefined;
 
 `;
-        subCode.style.paddingLeft = '35px';
-        codeElement.appendChild(subCode);
-        document.querySelectorAll('pre').forEach((block) => {
-            if (block.id === 'code') {
-                hljs.highlightBlock(block);
-            }
-        });
-
-        const logElement = document.getElementById('log');
-        logElement.innerHTML += '[time]                 [operation]     [target]\n';
-
-        fetch('http://localhost:3000/record')
-            .then(function (res) {
-                console.log('record: ', res.status);
+                    subCode.style.paddingLeft = '35px';
+                    codeElement.appendChild(subCode);
+                    document.querySelectorAll('pre').forEach((block) => {
+                        if (block.id === 'code') {
+                            hljs.highlightBlock(block);
+                        }
+                    });
+                    const logElement = document.getElementById('log');
+                    logElement.innerHTML = '';
+                    logElement.innerHTML += '[time]                 [operation]     [target]\n';
+                }
             });
     });
 
     // screenshot
     const screenshotElement = document.getElementById('screenshot');
     screenshotElement.addEventListener('click', function (event) {
-        const codeElement = document.getElementById('code');
-        let subCode = document.createElement('pre');
-        const now = Date.now();
-        subCode.innerHTML += `
+        fetch('http://localhost:3000/screenshot')
+            .then(function (res) {
+                console.log('screenshot: ', res.status);
+                if (res.status === 200) {
+                    const codeElement = document.getElementById('code');
+                    let subCode = document.createElement('pre');
+                    const now = Date.now();
+                    subCode.innerHTML += `
 await page.evaluate(async () => {
   await new Promise((resolve, reject) => {
     let totalHeight = 0;
@@ -124,16 +129,14 @@ await page.screenshot({
 await page.waitFor(500);
 
 `;
-        subCode.style.paddingLeft = '59.5px';
-        codeElement.appendChild(subCode);
-        document.querySelectorAll('pre').forEach((block) => {
-            if (block.id === 'code') {
-                hljs.highlightBlock(block);
-            }
-        });
-        fetch('http://localhost:3000/screenshot')
-            .then(function (res) {
-                console.log('screenshot: ', res.status);
+                    subCode.style.paddingLeft = '59.5px';
+                    codeElement.appendChild(subCode);
+                    document.querySelectorAll('pre').forEach((block) => {
+                        if (block.id === 'code') {
+                            hljs.highlightBlock(block);
+                        }
+                    });
+                }
             });
     });
 
@@ -141,34 +144,35 @@ await page.waitFor(500);
     const endElement = document.getElementById('end');
     endElement.addEventListener('click', function (event) {
         const codeElement = document.getElementById('code');
-        let subCode = document.createElement('pre');
-        subCode.innerHTML += `
+        if (codeElement.innerHTML.includes('puppeteer.launch({') && !codeElement.innerHTML.includes('browser.close();')) {
+            let subCode = document.createElement('pre');
+            subCode.innerHTML += `
   await page.waitFor(3000);
   await browser.close();
 
   child_process.spawn('tar', ['zcvf', '/Users/tiger/develop/tmp/report.tar.gz', '/Users/tiger/develop/tmp/report']);
 })();
 `;
-        subCode.style.paddingLeft = '43px';
-        codeElement.appendChild(subCode);
-        document.querySelectorAll('pre').forEach((block) => {
-            if (block.id === 'code') {
-                hljs.highlightBlock(block);
+            subCode.style.paddingLeft = '43px';
+            codeElement.appendChild(subCode);
+            document.querySelectorAll('pre').forEach((block) => {
+                if (block.id === 'code') {
+                    hljs.highlightBlock(block);
+                }
+            });
+            const data = {
+                statement: codeElement.textContent,
             }
-        });
-
-        const data = {
-            code: codeElement.textContent,
+            fetch('http://localhost:3000/end', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(res => {
+                console.log('end: ', res.status);
+            });
         }
-        fetch('http://localhost:3000/end', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then(res => {
-            console.log('end: ', res.status);
-        });
     });
 
     // play

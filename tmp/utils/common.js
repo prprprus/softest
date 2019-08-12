@@ -205,6 +205,11 @@ function fillZero(num) {
   }
   return num;
 }
+
+function stopRecorder(recorderPID) {
+  process.kill(recorderPID, 'SIGINT');
+}
+
 module.exports = {
   switch_to_latest_tab,
   setViewport,
@@ -217,5 +222,5 @@ module.exports = {
   closeTemporaryBrowser,
   formatData,
   getCurrentDateTime,
-  fillZero,
+  stopRecorder,
 }
