@@ -1,11 +1,12 @@
 const express = require('express');
 const child_process = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const port = 3000;
 var listenerPID = undefined;
-const tmpDir = '/Users/tiger/develop/tmp/script';
+const tmpDir = '/Users/tiger/develop/tmp/report';
 const tmpFile = tmpDir + '/script.js';
 
 // configure
@@ -13,7 +14,7 @@ app.set('views', '../public/views');
 app.set('view engine', 'pug');
 app.use(express.static('../public'));
 app.use(express.json());
-
+app.use(express.static(__dirname + '../'));
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -21,11 +22,17 @@ app.get('/', (req, res) => {
 
 app.get('/record', (req, res) => {
   // remove file
-  if (fs.existsSync(tmpFile)) {
-    fs.unlink(tmpFile, (err) => {
-      if (err) {
-        throw err;
-      }
+  fs.readdir(tmpDir, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      fs.unlink(path.join(tmpDir, file), err => {
+        if (err) throw err;
+      });
+    }
+  });
+  if (fs.existsSync('/Users/tiger/develop/tmp/report.tar.gz')) {
+    fs.unlink('/Users/tiger/develop/tmp/report.tar.gz', err => {
+      if (err) throw err;
     });
   }
 
@@ -102,12 +109,9 @@ app.get('/play', (req, res) => {
   res.send('/play');
 });
 
-app.get('/report', (req, res) => {
-  res.send('/report');
-});
-
 app.get('/download', (req, res) => {
-  res.send('/download');
+  const file = `${__dirname}/../report.tar.gz`;
+  res.download(file);
 });
 
 // run

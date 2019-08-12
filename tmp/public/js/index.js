@@ -54,6 +54,7 @@ window.onload = function () {
         let subCode = document.createElement('pre');
         subCode.innerHTML += `
 const puppeteer = require('puppeteer');
+const child_process = require('child_process');
 
 (async () => {
    const browser = await puppeteer.launch({
@@ -116,7 +117,7 @@ await page.evaluate(async () => {
 });
 await page.waitFor(2000);
 await page.screenshot({
-  path: '/Users/tiger/develop/tmp/script/${now}.png',
+  path: '/Users/tiger/develop/tmp/report/${now}.png',
   type: 'png',
   fullPage: true
 });
@@ -143,7 +144,9 @@ await page.waitFor(500);
         let subCode = document.createElement('pre');
         subCode.innerHTML += `
   await page.waitFor(3000);
-  await browser.close()
+  await browser.close();
+
+  child_process.spawn('tar', ['zcvf', '/Users/tiger/develop/tmp/report.tar.gz', '/Users/tiger/develop/tmp/report']);
 })();
 `;
         subCode.style.paddingLeft = '43px';
@@ -177,21 +180,9 @@ await page.waitFor(500);
             });
     });
 
-    // report
-    const reportElement = document.getElementById('report');
-    reportElement.addEventListener('click', function (event) {
-        fetch('http://localhost:3000/report')
-            .then(function (res) {
-                console.log('report: ', res.status);
-            });
-    });
-
     // download
     const downloadElement = document.getElementById('download');
     downloadElement.addEventListener('click', function (event) {
-        fetch('http://localhost:3000/download')
-            .then(function (res) {
-                console.log('download: ', res.status);
-            });
+        window.open('/download');
     });
 }

@@ -26,7 +26,7 @@ h1 {
     width: 1000px;
     height: 60%;
     margin-left: 86px;
-    margin-top: -1160px;
+    margin-top: -1052px;
     padding-top: 10px;
     padding-bottom: 20px;
     background: #23241f;
@@ -124,28 +124,6 @@ h1 {
 }
 
 .play:active {
-    background-color: whitesmoke;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-}
-
-.report {
-    width: 70px;
-    height: 70px;
-    cursor: pointer;
-    border: solid 2px whitesmoke;
-    border-radius: 15px;
-    box-shadow: 0 9px #999;
-    margin-bottom: 30px;
-    background: url('../image/report.png') no-repeat;
-    background-color: gainsboro;
-}
-
-.report:hover {
-    background-color: whitesmoke
-}
-
-.report:active {
     background-color: whitesmoke;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
