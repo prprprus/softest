@@ -32,7 +32,7 @@ async function isInvalidClick(page, info) {
     return true;
   }
 
-  const flag = await queue.validClick.dequeueBlocking(page, 1000);
+  const flag = await queue.validClick.dequeueBlocking(page, 2000);
   console.log('👏', flag);
   console.log('👏', info.targetName);
   // Condition 1: See also annotate of `initAllQueue`.

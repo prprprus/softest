@@ -1,8 +1,7 @@
 const common = require('../utils/common');
 
-/**
- * Template of statement.
- */
+// Template of statement.
+
 var templateScroll = `
 await page.evaluate(async () => {
   await new Promise((resolve, reject) => {

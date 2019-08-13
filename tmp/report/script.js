@@ -42,7 +42,7 @@ await page.evaluate(async () => {
 });
 await page.waitFor(2000);
 await page.screenshot({
-  path: '/Users/tiger/develop/tmp/report/1565615747748.png',
+  path: '/Users/tiger/develop/tmp/report/1565664614021.png',
   type: 'png',
   fullPage: true
 });
@@ -77,7 +77,7 @@ await page.evaluate(async () => {
 });
 await page.waitFor(2000);
 await page.screenshot({
-  path: '/Users/tiger/develop/tmp/report/1565615753538.png',
+  path: '/Users/tiger/develop/tmp/report/1565664621233.png',
   type: 'png',
   fullPage: true
 });
@@ -112,7 +112,7 @@ await page.evaluate(async () => {
 });
 await page.waitFor(2000);
 await page.screenshot({
-  path: '/Users/tiger/develop/tmp/report/1565615760633.png',
+  path: '/Users/tiger/develop/tmp/report/1565664630005.png',
   type: 'png',
   fullPage: true
 });
@@ -122,7 +122,7 @@ await page.evaluate(async () => {
   await new Promise((resolve, reject) => {
     let totalHeight = 0;
     let distance = 100;
-    let scrollHeight = 33433;
+    let scrollHeight = 33799;
     let timer = setInterval(() => {
       window.scrollBy(0, distance);
       totalHeight += distance;
@@ -136,7 +136,7 @@ await page.evaluate(async () => {
 await page.waitFor(1000);
 
 
-element = await page.$x('/html/body/div/div[4]/div[2]/div/div/ul[2]/li[179]/a/img');
+element = await page.$x('/html/body/div/div[4]/div[2]/div/div/ul[2]/li[180]/a/img');
 await element[0].click();
 await page.waitFor(3000);
 pages = await browser.pages();
@@ -165,7 +165,7 @@ await page.evaluate(async () => {
 });
 await page.waitFor(2000);
 await page.screenshot({
-  path: '/Users/tiger/develop/tmp/report/1565615789243.png',
+  path: '/Users/tiger/develop/tmp/report/1565664653114.png',
   type: 'png',
   fullPage: true
 });
@@ -196,57 +196,10 @@ await page.setViewport({
 });
 await page.waitFor(500);
 
-await page.goto('http://example.com/', {
+await page.goto('https://www.taptap.com/', {
   waitUntil: 'networkidle0',
 });
 await page.waitFor(1000);
-
-await page.goto('https://www.iana.org/domains/reserved', {
-  waitUntil: 'networkidle0',
-});
-await page.waitFor(1000);
-
-await page.goto('https://tools.ietf.org/html/rfc2606', {
-  waitUntil: 'networkidle0',
-});
-await page.waitFor(1000);
-
-await page.goto('https://tools.ietf.org/html/rfc6761', {
-  waitUntil: 'networkidle0',
-});
-await page.waitFor(1000);
-
-await page.goto('https://tools.ietf.org/html/rfc2606', {
-  waitUntil: 'networkidle0',
-});
-await page.waitFor(1000);
-
-await page.goto('https://tools.ietf.org/html/rfc6761', {
-  waitUntil: 'networkidle0',
-});
-await page.waitFor(1000);
-
-await page.close();
-pages = await browser.pages();
-page = pages[pages.length - 1];
-await page.bringToFront();
-await page.waitFor(500);
-
-element = await page.$x('//*[@id="sougouTxt"]');
-await element[0].type('123sdfsdf', {delay: 100});
-await page.waitFor(3000);
-
-element = await page.$x('//*[@id="searchBtn"]');
-await element[0].click();
-await page.waitFor(3000);
-pages = await browser.pages();
-page = pages[pages.length - 1];
-await page.bringToFront();
-await page.setViewport({
-  width: 1265,
-  height: 1400
-});
-await page.waitFor(500);
 
 await page.evaluate(async () => {
   await new Promise((resolve, reject) => {
@@ -265,7 +218,154 @@ await page.evaluate(async () => {
 });
 await page.waitFor(2000);
 await page.screenshot({
-  path: '/Users/tiger/develop/tmp/report/1565615845716.png',
+  path: '/Users/tiger/develop/tmp/report/1565664675427.png',
+  type: 'png',
+  fullPage: true
+});
+await page.waitFor(500);
+
+await page.goto('https://www.taptap.com/app/50500', {
+  waitUntil: 'networkidle0',
+});
+await page.waitFor(1000);
+
+await page.goto('https://www.taptap.com/app/14498', {
+  waitUntil: 'networkidle0',
+});
+await page.waitFor(1000);
+
+await page.evaluate(async () => {
+  await new Promise((resolve, reject) => {
+    let totalHeight = 0;
+    let distance = 100;
+    let scrollHeight = document.body.scrollHeight;
+    let timer = setInterval(() => {
+      window.scrollBy(0, distance);
+      totalHeight += distance;
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+    }, 100);
+  });
+});
+await page.waitFor(2000);
+await page.screenshot({
+  path: '/Users/tiger/develop/tmp/report/1565664692636.png',
+  type: 'png',
+  fullPage: true
+});
+await page.waitFor(500);
+
+page = await browser.newPage();
+await page.setViewport({
+  width: 1265,
+  height: 1400
+});
+await page.waitFor(500);
+
+await page.goto('https://www.bilibili.com/', {
+  waitUntil: 'networkidle0',
+});
+await page.waitFor(1000);
+
+await page.evaluate(async () => {
+  await new Promise((resolve, reject) => {
+    let totalHeight = 0;
+    let distance = 100;
+    let scrollHeight = document.body.scrollHeight;
+    let timer = setInterval(() => {
+      window.scrollBy(0, distance);
+      totalHeight += distance;
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+    }, 100);
+  });
+});
+await page.waitFor(2000);
+await page.screenshot({
+  path: '/Users/tiger/develop/tmp/report/1565664709571.png',
+  type: 'png',
+  fullPage: true
+});
+await page.waitFor(500);
+
+await page.close();
+pages = await browser.pages();
+page = pages[pages.length - 1];
+await page.bringToFront();
+await page.waitFor(500);
+
+await page.close();
+pages = await browser.pages();
+page = pages[pages.length - 1];
+await page.bringToFront();
+await page.waitFor(500);
+
+page = await browser.newPage();
+await page.setViewport({
+  width: 1265,
+  height: 1400
+});
+await page.waitFor(500);
+
+await page.goto('https://www.douban.com/', {
+  waitUntil: 'networkidle0',
+});
+await page.waitFor(1000);
+
+await page.evaluate(async () => {
+  await new Promise((resolve, reject) => {
+    let totalHeight = 0;
+    let distance = 100;
+    let scrollHeight = document.body.scrollHeight;
+    let timer = setInterval(() => {
+      window.scrollBy(0, distance);
+      totalHeight += distance;
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+    }, 100);
+  });
+});
+await page.waitFor(2000);
+await page.screenshot({
+  path: '/Users/tiger/develop/tmp/report/1565664739424.png',
+  type: 'png',
+  fullPage: true
+});
+await page.waitFor(500);
+
+element = await page.$x('/html/body/div[1]/div[2]/form/span[1]/input');
+await element[0].type('123sdf', {delay: 100});
+await page.waitFor(3000);
+
+await page.goto('https://www.douban.com/search?q=123sdf', {
+  waitUntil: 'networkidle0',
+});
+await page.waitFor(1000);
+
+await page.evaluate(async () => {
+  await new Promise((resolve, reject) => {
+    let totalHeight = 0;
+    let distance = 100;
+    let scrollHeight = document.body.scrollHeight;
+    let timer = setInterval(() => {
+      window.scrollBy(0, distance);
+      totalHeight += distance;
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+    }, 100);
+  });
+});
+await page.waitFor(2000);
+await page.screenshot({
+  path: '/Users/tiger/develop/tmp/report/1565664756597.png',
   type: 'png',
   fullPage: true
 });

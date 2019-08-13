@@ -269,6 +269,4 @@ process.on('SIGINT', handleSIGINT);
       `--window-size=1265,1400`,
     ],
   });
-
-  // throw 'dddd';
 })();

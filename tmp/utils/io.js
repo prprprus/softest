@@ -4,7 +4,7 @@ const error = require('../utils/error');
 
 /**
  * 
- * @param {string} dir - The absolute path.
+ * @param {string} dir - The absolute path of directory.
  */
 function createDir(pathDir) {
   if (!fs.existsSync(pathDir)) {
