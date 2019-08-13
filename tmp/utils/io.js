@@ -8,13 +8,20 @@ const fs = require('fs');
 const path = require('path');
 const error = require('../utils/error');
 
+/**
+ * Determine if a file or directory exists.
+ * 
+ * @param {string} path - The absolute path of the directory or the file.
+ * @return {boolean} Return true if it exists, false otherwise.
+ */
 function isExists(path) {
   return fs.existsSync(path);
 }
 
 /**
+ * Create a directory if it not exists.
  * 
- * @param {string} dir - The absolute path of directory.
+ * @param {string} pathDir - The absolute path of the directory.
  */
 function createDir(pathDir) {
   if (!isExists(pathDir)) {
@@ -26,7 +33,12 @@ function createDir(pathDir) {
   }
 }
 
-function removeAllFile(pathDir) {
+/**
+ * Delete all files in the directory.
+ * 
+ * @param {string} pathDir - The absolute path of the directory.
+ */
+function deleteAllFile(pathDir) {
   fs.readdir(pathDir, (err, files) => {
     if (err) throw err;
     for (const file of files) {
@@ -37,7 +49,12 @@ function removeAllFile(pathDir) {
   });
 }
 
-function removeFile(pathFile) {
+/**
+ * Delete one file.
+ * 
+ * @param {string} pathFile - The absolute path of the file.
+ */
+function deleteFile(pathFile) {
   if (isExists(pathFile)) {
     fs.unlink(pathFile, err => {
       if (err) throw err;
@@ -45,6 +62,12 @@ function removeFile(pathFile) {
   }
 }
 
+/**
+ * Write content to the file.
+ * 
+ * @param {string} pathFile - The absolute path of the file.
+ * @param {string} conent - What needs to be written.
+ */
 function writeFile(pathFile, conent) {
   fs.open(pathFile, 'w+', function (err, fd) {
     if (err) {
@@ -72,7 +95,7 @@ function writeFile(pathFile, conent) {
 module.exports = {
   isExists,
   createDir,
-  removeAllFile,
-  removeFile,
+  deleteAllFile,
+  deleteFile,
   writeFile,
 }

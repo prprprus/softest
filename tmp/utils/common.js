@@ -134,37 +134,6 @@ function addFormatFunction() {
 }
 
 /**
- * Generate temporary Browser instance.
- * 
- * @param {string} url - The URL to open.
- * @return {puppeteer.Browser} The temporary browser.
- * @return {puppeteer.Page} The temporary page.
- */
-async function genTemporaryBrowser(url) {
-  let tmpBrowser = await pptr.launch({
-    headless: false,
-    args: [
-      `--window-size=2540,1318`,
-    ],
-  });
-  let tmpPage = await tmpBrowser.newPage();
-  await setViewport(tmpPage, 2540, 1318);
-  await tmpPage.goto(url, {
-    waitUntil: 'networkidle0',
-  });
-  return [tmpBrowser, tmpPage];
-}
-
-/**
- * Close temporary Browser instance.
- * 
- * @param {puppeteer.Browser} browser - The temporary browser.
- */
-async function closeTemporaryBrowser(browser) {
-  await browser.close();
-}
-
-/**
  * Format the data to be sent.
  * 
  * @param {string} statement - User operation corresponding statement.
@@ -187,13 +156,14 @@ function formatData(statement, time, operation, target) {
 
 /**
  * Get current date time.
+ * E.g: 2019-08-13 18:29:03
  * 
  * @return {string}
  */
 function getCurrentDateTime() {
   const today = new Date();
-  const date = today.getFullYear() + '-' + fillZero((today.getMonth() + 1)) + '-' + fillZero(today.getDate());
-  const time = fillZero(today.getHours()) + ":" + fillZero(today.getMinutes()) + ":" + fillZero(today.getSeconds());
+  const date = today.getFullYear() + '-' + fill0((today.getMonth() + 1)) + '-' + fill0(today.getDate());
+  const time = fill0(today.getHours()) + ":" + fill0(today.getMinutes()) + ":" + fill0(today.getSeconds());
   return date + ' ' + time;
 }
 
@@ -203,7 +173,7 @@ function getCurrentDateTime() {
  * @param {number} num - Date or time.
  * @return {string}
  */
-function fillZero(num) {
+function fill0(num) {
   if (num < 10) {
     return '0' + num.toString();
   }
@@ -236,8 +206,6 @@ module.exports = {
   initAllQueue,
   getXPathByElement,
   addFormatFunction,
-  genTemporaryBrowser,
-  closeTemporaryBrowser,
   formatData,
   getCurrentDateTime,
   shutDownRecorder,

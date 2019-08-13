@@ -148,7 +148,6 @@ async function bindNewTabListener(browser) {
   browser.on(event.newTab.type, async function (e) {
     const page = await common.switch_to_latest_tab(browser);
 
-    // bind the listener for the new page
     await bindClickListener(page);
     await bindClickTargetBlankListener(page);
     await bindInputListener(page);

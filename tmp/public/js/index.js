@@ -1,3 +1,9 @@
+/**
+ * Copyright(c) 2019, prprprus All rights reserved.
+ * Use of this source code is governed by a BSD - style.
+ * license that can be found in the LICENSE file.
+ */
+
 // Template of statement.
 
 var templateStatementHead = `
@@ -118,7 +124,7 @@ function handleConnection() {
 }
 
 /**
- * Init operation.
+ * Init.
  */
 (() => {
     addFormatFunction();
@@ -140,6 +146,7 @@ function makeHighlight() {
  * Bind click event listener.
  */
 window.onload = function () {
+    // record
     const element = document.getElementById('record');
     element.addEventListener('click', function (event) {
         fetch('http://localhost:3000/record')

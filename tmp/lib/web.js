@@ -1,3 +1,9 @@
+/**
+ * Copyright(c) 2019, prprprus All rights reserved.
+ * Use of this source code is governed by a BSD - style.
+ * license that can be found in the LICENSE file.
+ */
+
 const express = require('express');
 const child_process = require('child_process');
 const common = require('../utils/common');
@@ -24,10 +30,10 @@ app.get('/record', (_, res) => {
   io.createDir(tmpDir);
   // Make sure there is only one recoder
   if (recorderPID === undefined) {
-    // remove old report dir
-    io.removeAllFile(tmpDir);
-    // remove old archive
-    io.removeFile('/Users/tiger/develop/tmp/report.tar.gz');
+    // delete old report dir
+    io.deleteAllFile(tmpDir);
+    // delete old archive
+    io.deleteFile('/Users/tiger/develop/tmp/report.tar.gz');
     // run recorder
     const recorder = child_process.spawn('node', ['/Users/tiger/develop/tmp/lib/listener.js', ]);
     // mark recorder is running

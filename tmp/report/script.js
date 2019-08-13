@@ -20,6 +20,11 @@ const child_process = require('child_process');
    let element = null;
    let start = undefined;
 
+await page.goto('https://www.qq.com/?fromdefault', {
+  waitUntil: 'networkidle0',
+});
+await page.waitFor(1000);
+
   await page.waitFor(3000);
   await browser.close();
 

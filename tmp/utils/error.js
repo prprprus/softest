@@ -39,6 +39,7 @@ const writtenContent = new Error('👉 The content of writing is inconsistent.')
 /**
  * common module
  */
+// viewport is returned when the width < 800 or height < 600
 const viewport = new Error('👉 The viewport size is illegal.')
 
 module.exports = {
