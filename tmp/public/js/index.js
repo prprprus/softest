@@ -82,24 +82,27 @@ function addFormatFunction() {
     };
 }
 
-/**
- * Handle WebSocket connection.
- */
-function handleConnection() {
-    // create WebSocket connection
-    const statementProxy = new WebSocket('ws://localhost:8080');
+// Make syntax highlight.
+function makeHighlight() {
+    document.querySelectorAll('pre').forEach((block) => {
+        if (block.id === 'code') {
+            hljs.highlightBlock(block);
+        }
+    });
+}
 
-    // connection opened
+// Handle WebSocket connection.
+function handleConnection() {
+    const statementProxy = new WebSocket('ws://localhost:8080');
     statementProxy.addEventListener('open', function (event) {
         console.log('connect proxy server!');
     });
 
-    // listen for messages
     statementProxy.addEventListener('message', function (event) {
         console.log('received data from proxy server %s', event.data);
         const res = JSON.parse(event.data);
 
-        // add statement
+        // real-time display statement
         let codeElement = document.getElementById('code');
         let subCode = document.createElement('pre');
         subCode.innerHTML += res.statement;
@@ -107,7 +110,7 @@ function handleConnection() {
         codeElement.appendChild(subCode);
         makeHighlight();
 
-        // add log
+        // real-time display log
         let logElement = document.getElementById('log');
         let timeElement = document.createElement('code');
         timeElement.innerHTML += res.log.time + '    ';
@@ -123,28 +126,13 @@ function handleConnection() {
     });
 }
 
-/**
- * Init.
- */
+// Init.
 (() => {
     addFormatFunction();
     handleConnection();
 })();
 
-/**
- * Make syntax highlight.
- */
-function makeHighlight() {
-    document.querySelectorAll('pre').forEach((block) => {
-        if (block.id === 'code') {
-            hljs.highlightBlock(block);
-        }
-    });
-}
-
-/**
- * Bind click event listener.
- */
+// Bind click event listener.
 window.onload = function () {
     // record
     const element = document.getElementById('record');
