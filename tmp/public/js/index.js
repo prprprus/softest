@@ -68,6 +68,32 @@ var templateStatementEnd = `
 `;
 
 /**
+ * Get current date time.
+ * E.g: 2019-08-13 18:29:03
+ * 
+ * @return {string}
+ */
+function getCurrentDateTime() {
+    const today = new Date();
+    const date = today.getFullYear() + '-' + fill0((today.getMonth() + 1)) + '-' + fill0(today.getDate());
+    const time = fill0(today.getHours()) + ":" + fill0(today.getMinutes()) + ":" + fill0(today.getSeconds());
+    return date + ' ' + time;
+}
+
+/**
+ * Fill 0.
+ * 
+ * @param {number} num - Date or time.
+ * @return {string}
+ */
+function fill0(num) {
+    if (num < 10) {
+        return '0' + num.toString();
+    }
+    return num;
+}
+
+/**
  * Add format function for string type.
  * 
  * @return {string}
@@ -91,9 +117,52 @@ function makeHighlight() {
     });
 }
 
+/**
+ * Real-time display statement.
+ * 
+ * @param {string} statement - The statement to display.
+ */
+function displayStatement(statement) {
+    let codeElement = document.getElementById('code');
+    let subCode = document.createElement('pre');
+    subCode.innerHTML += statement;
+    subCode.style.paddingLeft = '59.5px';
+    codeElement.appendChild(subCode);
+}
+
+/**
+ * Real-time display log.
+ * 
+ * @param {string} log - The log to display.
+ */
+function displayLog(log) {
+    let logElement = document.getElementById('log');
+
+    let timeElement = document.createElement('code');
+    timeElement.innerHTML += log.time + '    ';
+
+    let operationElement = document.createElement('code');
+    // operationElement.innerHTML += log.operation + '           ';
+    operationElement.innerHTML += log.operation;
+    operationElement.style.color = '#00FF00';
+
+    let targetElement = document.createElement('code');
+    targetElement.innerHTML += log.target + '\n';
+    targetElement.style.color = '#FFFF00';
+    if (log.operation !== 'screenshot') {
+        targetElement.style.marginLeft = '90px';
+    } else {
+        targetElement.style.marginLeft = '50px';
+    }
+    logElement.appendChild(timeElement);
+    logElement.appendChild(operationElement);
+    logElement.appendChild(targetElement);
+}
+
 // Handle WebSocket connection.
 function handleConnection() {
     const statementProxy = new WebSocket('ws://localhost:8080');
+
     statementProxy.addEventListener('open', function (event) {
         console.log('connect proxy server!');
     });
@@ -101,28 +170,9 @@ function handleConnection() {
     statementProxy.addEventListener('message', function (event) {
         console.log('received data from proxy server %s', event.data);
         const res = JSON.parse(event.data);
-
-        // real-time display statement
-        let codeElement = document.getElementById('code');
-        let subCode = document.createElement('pre');
-        subCode.innerHTML += res.statement;
-        subCode.style.paddingLeft = '59.5px';
-        codeElement.appendChild(subCode);
+        displayStatement(res.statement);
         makeHighlight();
-
-        // real-time display log
-        let logElement = document.getElementById('log');
-        let timeElement = document.createElement('code');
-        timeElement.innerHTML += res.log.time + '    ';
-        let operationElement = document.createElement('code');
-        operationElement.innerHTML += res.log.operation + '           ';
-        operationElement.style.color = '#00FF00';
-        let targetElement = document.createElement('code');
-        targetElement.innerHTML += res.log.target + '\n';
-        targetElement.style.color = '#FFFF00';
-        logElement.appendChild(timeElement);
-        logElement.appendChild(operationElement);
-        logElement.appendChild(targetElement);
+        displayLog(res.log);
     });
 }
 
@@ -172,6 +222,13 @@ window.onload = function () {
                     subCode.style.paddingLeft = '59.5px';
                     codeElement.appendChild(subCode);
                     makeHighlight();
+                    // display log
+                    let log = {
+                        time: getCurrentDateTime(),
+                        operation: 'screenshot',
+                        target: document.location.href,
+                    }
+                    displayLog(log);
                 }
             });
     });
