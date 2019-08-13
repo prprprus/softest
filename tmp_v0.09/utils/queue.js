@@ -1,9 +1,3 @@
-/**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
-
 const error = require('./error');
 
 /**
@@ -49,7 +43,7 @@ class UniqueQueue {
    * otherwise, return 1 successfully.
    * 
    * @param {*} element - Element of queue.
-   * @return {number} Code of result. 1: success; 0: already exists; -1: failed.
+   * @return {number} Code of result.
    */
   enqueue(element) {
     if (this._queue.length >= this._capacity) {
@@ -69,7 +63,7 @@ class UniqueQueue {
    * Returns -1 if the queue is empty,
    * otherwise, return the first element successfully.
    * 
-   * @return {*} element or result code. -1: failed.
+   * @return {*} Element of queue.
    */
   dequeue() {
     if (this._queue.length == 0) {
@@ -88,7 +82,7 @@ class UniqueQueue {
    * @param {puppeteer.Page} page - The current page.
    * @param {*} element - Element of queue.
    * @param {number} timeout - Time of blocking.
-   * @return {number} Code of result. 1: success; 0: already exists; -1: failed.
+   * @return {number} Code of result.
    */
   async enqueueBlocking(page, element, timeout) {
     if (this._find(element) !== undefined) {
@@ -124,7 +118,7 @@ class UniqueQueue {
    * 
    * @param {puppeteer.Page} page - The current page.
    * @param {number} timeout - Time of blocking.
-   * @return {*} element or result code. -1: failed.
+   * @return {*} Element of queue.
    */
   async dequeueBlocking(page, timeout) {
     if (timeout < 0) {
@@ -172,7 +166,7 @@ class UniqueQueue {
   /**
    * Returns the number of elements in the queue.
    * 
-   * @return {number} The Number of elements in the queue.
+   * @return {number} Number of elements in the queue.
    */
   length() {
     return this._queue.length;

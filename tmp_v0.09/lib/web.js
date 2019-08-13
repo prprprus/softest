@@ -39,7 +39,7 @@ app.get('/record', (_, res) => {
       console.log(`${common.getCurrentDateTime()} ${recorder.pid} stderr: ${data}`);
     });
     recorder.on('close', (code) => {
-      console.log(`${common.getCurrentDateTime()} ${recorder.pid} close: process exited with code ${code}`);
+      console.log(`${common.getCurrentDateTime()} ${recorder.pid} process exited with code ${code}`);
     });
     res.sendStatus(200);
   } else {
@@ -59,7 +59,7 @@ app.post('/end', (req, res) => {
   if (recorderPID !== undefined) {
     io.createDir(tmpDir);
     io.writeFile(tmpFile, req.body.statement);
-    common.shutDownRecorder(recorderPID);
+    common.stopRecorder(recorderPID);
     // mark recorder was stopped
     recorderPID = undefined;
     res.sendStatus(200);
@@ -69,35 +69,27 @@ app.post('/end', (req, res) => {
 });
 
 app.get('/play', (_, res) => {
-  if (io.isExists(tmpFile)) {
-    const play = child_process.spawn('node', [tmpFile, ]);
-    play.stdout.on('data', (data) => {
-      console.log(`${common.getCurrentDateTime()} ${play.pid} stdout: ${data}`);
-    });
-    play.stderr.on('data', (data) => {
-      console.log(`${common.getCurrentDateTime()} ${play.pid} stderr: ${data}`);
-    });
-    play.on('close', (code) => {
-      console.log(`${common.getCurrentDateTime()} ${play.pid} process exited with code ${code}`);
-    });
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(503);
-  }
+  const play = child_process.spawn('node', [tmpFile, ]);
+  play.stdout.on('data', (data) => {
+    console.log(`${common.getCurrentDateTime()} ${play.pid} stdout: ${data}`);
+  });
+  play.stderr.on('data', (data) => {
+    console.log(`${common.getCurrentDateTime()} ${play.pid} stderr: ${data}`);
+  });
+  play.on('close', (code) => {
+    console.log(`${common.getCurrentDateTime()} ${play.pid} process exited with code ${code}`);
+  });
+  res.sendStatus(200);
 });
 
 app.get('/download', (_, res) => {
   const file = `${__dirname}/../report.tar.gz`;
-  if (io.isExists(file)) {
-    res.download(file);
-  } else {
-    res.sendStatus(503);
-  }
+  res.download(file);
 });
 
 /**
  * Run the http server.
  */
 app.listen(port, () => {
-  console.log(`🎉 Softest is running, listening on port ${port}!`);
+  console.log(`Softest is running, listening on port ${port}!`);
 });

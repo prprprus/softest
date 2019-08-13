@@ -1,9 +1,3 @@
-/**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
-
 const queue = require('../utils/queue');
 const error = require('../utils/error');
 const common = require('../utils/common');
@@ -13,7 +7,7 @@ const event = require('./event');
 /**
  * Check the coordinates of the callback information.
  * 
- * @param {object} info - Callback information for the `click` event.
+ * @param {object} info - Callback information for `click` event.
  */
 function checkCoordinates(info) {
   if (info.x < 0 || info.y < 0) {
@@ -27,10 +21,11 @@ function checkCoordinates(info) {
  * If click on some non-jumpable elements (like `<p>xxx</p>`), it is an invalid click.
  * 
  * @param {puppeteer.Page} page - The current page.
- * @param {object} info - Callback information for the `click` event.
+ * @param {object} info - Callback information for `click` event.
  * @return {boolean} Return true if the click is valid, otherwise, return false.
  */
 async function isInvalidClick(page, info) {
+  // preparing for the parse `input` event if it is an `input` event
   if (isInput(info)) {
     const xpath = await common.getXPathByElement(page, info);
     queue.input.enqueue(xpath);
@@ -38,7 +33,10 @@ async function isInvalidClick(page, info) {
   }
 
   const flag = await queue.validClick.dequeueBlocking(page, 2000);
-
+  console.log('👏', flag);
+  console.log('👏', info.targetName);
+  // Condition 1: See also annotate of `initAllQueue`.
+  // Condition 2: Invalid click when the flag is -1.
   if ((flag != -1 && info.targetName == 'LI') || (flag == -1)) {
     return true;
   }
@@ -46,10 +44,9 @@ async function isInvalidClick(page, info) {
 }
 
 /**
- * Determine whether the `input` event.
+ * Determine whether `input` event.
  * 
- * @param {object} info - Callback information for the `click` event.
- * @return {boolean} Return true if is `input` event, otherwise, return false.
+ * @param {object} info - Callback information for `click` event.
  */
 function isInput(info) {
   if (info.targetName == 'INPUT' && info.type !== 'submit' && info.value !== '') {
@@ -59,18 +56,18 @@ function isInput(info) {
 }
 
 /**
- * Parse the `click` event.
+ * Parse `click` event.
  * 
  * @param {puppeteer.Page} page - The current page.
- * @param {object} info - Callback information for the `click` event.
+ * @param {object} info - Callback information for `click` event.
  * @return {string} The statement of `click` event.
- * @return {string} The XPath of the element.
+ * @return {string} XPath of the target element.
  */
 async function parseClick(page, info) {
   checkCoordinates(info);
 
   if ((await isInvalidClick(page, info))) {
-    return undefined;
+    return;
   }
 
   const res = await parseClickTargetBlank(page, info);
@@ -81,12 +78,13 @@ async function parseClick(page, info) {
  * Parse the statement corresponding to the `clickTargetBlank` event.
  * 
  * @param {puppeteer.Page} page - The current page.
- * @param {object} info - Callback information for the `click` event.
+ * @param {object} info - Callback information for `click` event.
  * @return {string} The statement of `clickTargetBlank` event.
- * @return {string} The XPath of the element.
+ * @return {string} XPath of the target element.
  */
 async function parseClickTargetBlank(page, info) {
   const xpath = await common.getXPathByElement(page, info);
+  console.log('XPath: ', xpath);
   const ctb = new statement.ClickTargetBlank(event.clickTargetBlank);
   const stmt = ctb.getStatement(xpath, info);
   return [stmt, xpath];
@@ -129,8 +127,8 @@ function parseCloseTab() {
 /**
  * Parse the statement corresponding to the `input` event.
  * 
- * @param {string} xpath - The XPath of the element.
- * @param {object} info - Callback information for the `input` event.
+ * @param {string} xpath - XPath of the target element.
+ * @param {object} info - Callback information for `input` event.
  * @return {string} The statement of `input` event.
  */
 async function parseInput(xpath, info) {

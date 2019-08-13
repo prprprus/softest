@@ -1,21 +1,17 @@
-/**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
+// common operation
 
 const queue = require('../utils/queue');
 const pptr = require('puppeteer');
-const error = require('./error');
 
 /**
  * Switch the current page to the latest.
  * 
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
- * @return {puppeteer.Page} The latest page.
+ * @return {puppeteer.Page} Latest open page.
  */
 async function switch_to_latest_tab(browser) {
-  const pages = await browser.pages();
+  let pages = await browser.pages();
+  console.log('number of page:', pages.length);
   page = pages[pages.length - 1];
   await page.bringToFront();
   return page;
@@ -33,7 +29,7 @@ async function switch_to_latest_tab(browser) {
  */
 async function setViewport(page, width, height) {
   if (width < 800 || height < 600) {
-    throw error.viewport;
+    throw 'viewport size error';
   }
   await page.setViewport({
     width: width,
@@ -58,7 +54,7 @@ async function refresh(page) {
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  */
 async function closeBlankPage(browser) {
-  const pages = await browser.pages();
+  let pages = await browser.pages();
   await pages[0].close();
 }
 
@@ -73,25 +69,28 @@ function initAllQueue() {
 }
 
 /**
- * Parse the Xpath of element.
+ * Parse the Xpath.
  * 
  * @param {puppeteer.Page} page - The current page.
- * @param {object} info - Callback information for the `click` event.
- * @return {string} The XPath of element.
+ * @param {object} info - Callback information for `click` event.
+ * @return {string} The XPath.
  */
 async function getXPathByElement(page, info) {
   const xpath = await page.evaluate((info) => {
+    console.log('info: ', info);
     // get element by coordinate
     let element = document.elementFromPoint(info.x, info.y);
-    // maybe need to scroll the window
+    // may need to scroll the window
     if (element === null) {
       window.scrollTo(info.x, info.y);
       element = document.elementFromPoint(info.x, info.y);
     }
+
     if (element && element.id)
       return '//*[@id="' + element.id + '"]';
     else {
       var paths = [];
+      console.log('=>fuxk', element.nodeType);
       // Use nodeName (instead of localName) so namespace prefix is included (if any).
       for (; element && element.nodeType == Node.ELEMENT_NODE; element = element.parentNode) {
         var index = 0;
@@ -119,11 +118,11 @@ async function getXPathByElement(page, info) {
 }
 
 /**
- * Add format function for string type.
+ * Extends string prototype.
  * 
- * @return {string}
+ * @return {string} Filled string.
  */
-function addFormatFunction() {
+function extendsStringPrototype() {
   String.prototype.format = function () {
     let i = 0;
     const args = arguments;
@@ -142,7 +141,7 @@ function addFormatFunction() {
  */
 async function genTemporaryBrowser(url) {
   let tmpBrowser = await pptr.launch({
-    headless: false,
+    'headless': false,
     args: [
       `--window-size=2540,1318`,
     ],
@@ -186,9 +185,7 @@ function formatData(statement, time, operation, target) {
 }
 
 /**
- * Get current date time.
- * 
- * @return {string}
+ * Get Current Time.
  */
 function getCurrentDateTime() {
   const today = new Date();
@@ -198,10 +195,9 @@ function getCurrentDateTime() {
 }
 
 /**
- * Fill 0.
  * 
  * @param {number} num - Date or time.
- * @return {string}
+ * @return {string} - A number of length 2.
  */
 function fillZero(num) {
   if (num < 10) {
@@ -210,22 +206,8 @@ function fillZero(num) {
   return num;
 }
 
-/**
- * Shut down the recorder by signal.
- * 
- * @param {string} recorderPID - The process ID of the recorder.
- */
-function shutDownRecorder(recorderPID) {
+function stopRecorder(recorderPID) {
   process.kill(recorderPID, 'SIGINT');
-}
-
-/**
- * Signal processing function.
- * 
- * @param {number} signal - Signal number.
- */
-function handleSIGINT(signal) {
-  console.log(`Received ${signal}`);
 }
 
 module.exports = {
@@ -235,11 +217,10 @@ module.exports = {
   closeBlankPage,
   initAllQueue,
   getXPathByElement,
-  addFormatFunction,
+  extendsStringPrototype,
   genTemporaryBrowser,
   closeTemporaryBrowser,
   formatData,
   getCurrentDateTime,
-  shutDownRecorder,
-  handleSIGINT,
+  stopRecorder,
 }

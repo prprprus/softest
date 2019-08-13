@@ -1,9 +1,3 @@
-/**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
-
 const WebSocket = require('ws');
 const error = require('../utils/error');
 
@@ -15,9 +9,9 @@ class WebSocketServer {
   /**
    * Create a WebSocketServer object.
    * 
-   * @param {string} host - The host of WebSocketServer.
-   * @param {number} port - The port of WebSocketServer.
-   * @param {number} backlog - The backlog of WebSocketServer.
+   * @param {string} host - Host of WebSocketServer.
+   * @param {number} port - Port of WebSocketServer.
+   * @param {number} backlog - backlog of WebSocketServer.
    */
   constructor(host = 'localhost', port = 8080, backlog = 511) {
     this._host = host;
@@ -52,6 +46,7 @@ class WebSocketServer {
   }
 
   set backlog(backlog) {
+    // todo: more in-depth backlog control
     if (typeof (backlog) !== 'number') {
       throw error.backlogParam;
     }
@@ -59,7 +54,8 @@ class WebSocketServer {
   }
 
   /**
-   * Run proxy server.
+   * Run statement proxy server.
+   * It waits for the listener's message and broadcasts it to all WebSocket clients.
    */
   runStatementProxy() {
     const wss = new WebSocket.Server({
@@ -69,20 +65,17 @@ class WebSocketServer {
     });
     wss.on('connection', function connection(ws) {
       ws.on('message', function incoming(data) {
-        console.log('received statement: %s', data);
-        // boardcast
+        console.log('received statement data: %s', data);
+        console.log(wss.clients.size);
         wss.clients.forEach(function each(client) {
+          console.log('send data to wsc of page...');
           if (client.readyState === WebSocket.OPEN) {
-            try {
-              client.send(data);
-            } catch (e) {
-              throw e;
-            }
+            client.send(data);
           }
         });
       });
     });
-    console.log('🎉 run proxy server success');
+    console.log('run proxy server...');
   }
 }
 

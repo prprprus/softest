@@ -1,9 +1,3 @@
-/**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
-
 const common = require('../utils/common');
 
 // Template of statement.
@@ -88,7 +82,7 @@ class Statement {
    */
   constructor(eventType) {
     this.eventType = eventType;
-    common.addFormatFunction();
+    common.extendsStringPrototype();
   }
 }
 
@@ -104,7 +98,7 @@ class ClickTargetBlank extends Statement {
    * Scroll if the position of the element is no longer visible, otherwise, get the statement directly.
    * 
    * @param {string} xpath - XPath of element.
-   * @param {object} info - Callback information for the `click` event.
+   * @param {object} info - Callback information for `click` event.
    * @return {string} The code statement of `clickTargetBlank` event.
    */
   getStatement(xpath, info) {
@@ -189,7 +183,7 @@ class Input extends Statement {
    * Scroll if the position of the element is no longer visible, otherwise, get the statement directly.
    * 
    * @param {string} xpath - XPath of element.
-   * @param {object} info - Callback information for the `click` event.
+   * @param {object} info - Callback information for `click` event.
    * @return {string} The code statement of `input` event.
    */
   getStatement(xpath, info) {

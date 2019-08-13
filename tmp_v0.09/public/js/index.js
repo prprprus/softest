@@ -62,11 +62,9 @@ var templateStatementEnd = `
 `;
 
 /**
- * Add format function for string type.
- * 
- * @return {string}
+ * Add format function to string.
  */
-function addFormatFunction() {
+function addFormat() {
     String.prototype.format = function () {
         let i = 0;
         const args = arguments;
@@ -121,7 +119,7 @@ function handleConnection() {
  * Init operation.
  */
 (() => {
-    addFormatFunction();
+    addFormat();
     handleConnection();
 })();
 
@@ -214,23 +212,12 @@ window.onload = function () {
         fetch('http://localhost:3000/play')
             .then(function (res) {
                 console.log('play: ', res.status);
-                if (res.status !== 200) {
-                    alert('Nothing to play.');
-                }
             });
     });
 
     // download
     const downloadElement = document.getElementById('download');
     downloadElement.addEventListener('click', function (event) {
-        fetch('http://localhost:3000/download')
-            .then(function (res) {
-                console.log('download: ', res.status);
-                if (res.status === 200) {
-                    window.open('/download');
-                } else {
-                    alert('Nothing to download.');
-                }
-            });
+        window.open('/download');
     });
 }

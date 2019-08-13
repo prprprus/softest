@@ -1,10 +1,4 @@
 /**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
-
-/**
  * queue module
  */
 // timeoutParam is returned when the timeout parameter is negative
@@ -31,15 +25,8 @@ const backlogParam = new Error('👉 Type of backlog parameter must be a number.
 /**
  * web module
  */
-// writtenNumber is returned when the number of written is inconsistent
-const writtenNumber = new Error('👉 The number of bytes written is inconsistent.');
-// writtenContent is returned when the content of written is inconsistent
-const writtenContent = new Error('👉 The content of writing is inconsistent.');
-
-/**
- * common module
- */
-const viewport = new Error('👉 The viewport size is illegal.')
+const writtenNumber = new Error('👉 The number of bytes written is inconsistent');
+const writtenContent = new Error('👉 The content of writing is inconsistent');
 
 module.exports = {
   timeoutParam,
@@ -50,5 +37,4 @@ module.exports = {
   backlogParam,
   writtenNumber,
   writtenContent,
-  viewport,
 }

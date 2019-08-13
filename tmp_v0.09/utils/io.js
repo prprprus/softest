@@ -1,23 +1,13 @@
-/**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
-
 const fs = require('fs');
 const path = require('path');
 const error = require('../utils/error');
-
-function isExists(path) {
-  return fs.existsSync(path);
-}
 
 /**
  * 
  * @param {string} dir - The absolute path of directory.
  */
 function createDir(pathDir) {
-  if (!isExists(pathDir)) {
+  if (!fs.existsSync(pathDir)) {
     fs.mkdir(pathDir, function (err) {
       if (err) {
         throw err;
@@ -38,7 +28,7 @@ function removeAllFile(pathDir) {
 }
 
 function removeFile(pathFile) {
-  if (isExists(pathFile)) {
+  if (fs.existsSync(pathFile)) {
     fs.unlink(pathFile, err => {
       if (err) throw err;
     });
@@ -70,7 +60,6 @@ function writeFile(pathFile, conent) {
 }
 
 module.exports = {
-  isExists,
   createDir,
   removeAllFile,
   removeFile,

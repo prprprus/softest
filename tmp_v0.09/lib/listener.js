@@ -1,9 +1,3 @@
-/**
- * Copyright(c) 2019, prprprus All rights reserved.
- * Use of this source code is governed by a BSD - style.
- * license that can be found in the LICENSE file.
- */
-
 const pptr = require('puppeteer');
 const parser = require('./parser');
 const sender = require('./sender');
@@ -20,9 +14,10 @@ const invalidURL = [
  * The callback function of the `click` event.
  * 
  * @param {puppeteer.Page} page - The current page.
- * @param {object} info - Callback information for the `click` event.
+ * @param {object} info - Callback information for `click` event.
  */
 async function clickCallback(page, info) {
+  // parse `click` event
   const res = await parser.parseClick(page, info);
   if (res !== undefined) {
     const data = common.formatData(res[0], common.getCurrentDateTime(), 'click', res[1]);
@@ -49,37 +44,39 @@ async function bindClickListener(page) {
       })();
     });
   } catch (e) {
-    // repeat binding
+    console.log('⚠️ repeat binding `click` event listener');
     return;
   }
 
-  // register the listener for the `click` event in the browser environment
+  // register the listener for the `click` event in the document
   await page.evaluateOnNewDocument((click) => {
+    console.log('in evaluateOnNewDocument...');
     document.addEventListener(click.type, (e) => exposeClickCallback({
-      targetName: e.target.tagName,
-      eventType: click.type,
-      x: e.clientX,
-      y: e.clientY,
-      scrollY: e.pageY,
-      type: e.target.type,
-      d: console.log(e),
+      targetName: e.target.tagName, // the tag name of the element
+      eventType: click.type, // type of event
+      x: e.clientX, // horizontal coordinate of the element
+      y: e.clientY, // vertical coordinate of the element
+      scrollY: e.pageY, // vertical height of the scroll
+      type: e.target.type, // type of input tag
+      d: console.log(e), // debug info
     }), true /* capture */ );
   }, event.click);
 }
 
 /**
- * Binding a page-level listener for the `clickTargetBlank` event, the listener catches
+ * Binding a page-level listener for `clickTargetBlank` event, the listener catches
  * the event and executes the callback function when the click (target_blank) operation occurs.
  * 
- * The `clickTargetBlank` event will occur after `newTab` event,
- * need to use queue synchronization to distinguish.
- * See also `bindNewTabListener` annotate.
+ * Note: The `clickTargetBlank` event will occur with the `newTab` event,
+ * need to use queue synchronization to distinguish. See also `bindNewTabListener` annotate.
  * 
  * @param {puppeteer.Page} page - The current page.
  */
 async function bindClickTargetBlankListener(page) {
   page.on(event.clickTargetBlank.type, function (e) {
-    queue.clickTargetBlank.enqueue(event.clickTargetBlank);
+    console.log("❤️️️️️️❤️❤️");
+    // mark `clickTargetBlank` event
+    queue.clickTargetBlank.enqueue('🔥');
   });
 }
 
@@ -87,9 +84,10 @@ async function bindClickTargetBlankListener(page) {
  * The callback function of the `input` event.
  * 
  * @param {puppeteer.Page} page - The current page.
- * @param {object} info - Callback information for the `input` event.
+ * @param {object} info - Callback information for `input` event.
  */
 async function inputCallback(page, info) {
+  // parse `input` event
   const xpath = queue.input.dequeue();
   if (xpath !== -1) {
     const stmt = await parser.parseInput(xpath, info);
@@ -99,7 +97,7 @@ async function inputCallback(page, info) {
 }
 
 /**
- * Binding a page-level listener for the `input` event, the listener catches
+ * Binding a page-level listener for `input` event, the listener catches
  * the event and executes the callback function when the input operation occurs.
  * 
  * @param {puppeteer.Page} page - The current page.
@@ -115,24 +113,27 @@ async function bindInputListener(page) {
       })();
     });
   } catch (e) {
-    // repeat binding
+    console.log('⚠️ repeat binding `input` event listener');
     return;
   }
 
-  // register the listener for the `input` event in browser environment
+  // register the listener for the `input` event in the document
   await page.evaluateOnNewDocument((input) => {
+    console.log('in evaluateOnNewDocument...');
     document.addEventListener(input.type, (e) => inputCallback({
-      targetName: e.target.tagName,
-      eventType: input.type,
-      value: e.target.value,
-      type: e.target.type,
-      d: console.log(e),
+      targetName: e.target.tagName, // the tag name of the element
+      eventType: input.type, // type of event
+      value: e.target.value, // value of input
+      type: e.target.type, // type of input tag
+      d: console.log(e), // debug info
+      x: console.log(e.target.type),
+      y: console.log(e.target.value),
     }), true /* capture */ );
   }, event.input);
 }
 
 /**
- * Binding a browser-level listener for the `newTab` event, the listener catches
+ * Binding a browser-level listener for `newTab` event, the listener catches
  * the event and executes the callback function when open the tab (window).
  * 
  * There are two operations that will trigger the `newTab` event:
@@ -146,6 +147,8 @@ async function bindInputListener(page) {
  */
 async function bindNewTabListener(browser) {
   browser.on(event.newTab.type, async function (e) {
+    console.log('New Tab Created', e._targetInfo.url);
+
     const page = await common.switch_to_latest_tab(browser);
 
     // bind the listener for the new page
@@ -153,18 +156,23 @@ async function bindNewTabListener(browser) {
     await bindClickTargetBlankListener(page);
     await bindInputListener(page);
 
+    // refresh the new page, make sure the script is running
     await common.refresh(page);
+    // set viewport for the new page
     await common.setViewport(page, 1265, 1400);
 
     // Differentiate what is operation by using a queue for synchronization,
     // since the callback of `clickTargetBlank` event will happen immediately
     // after `newTab` event, so just a little delay here.
     const flag = await queue.clickTargetBlank.dequeue(page, 500);
-
-    // If the return value is not equal to -1, It is operation 2, otherwise it is operation 1.
+    console.log('===>', flag);
+    // If the return value is not equal to -1, It is operation 2,
+    // otherwise it is operation 1.
     if (flag != -1) {
-      queue.validClick.enqueue(event.clickTargetBlank);
+      // mark valid `click` event
+      queue.validClick.enqueue('⚡️');
     } else {
+      // parse `newTab` event
       const stmt = parser.parseNewTab();
       const data = common.formatData(stmt, common.getCurrentDateTime(), 'new  ', 'window');
       await sender.sendData(data);
@@ -173,13 +181,16 @@ async function bindNewTabListener(browser) {
 }
 
 /**
- * Binding a browser-level listener for the `closeTab` event, the listener catches
+ * Binding a browser-level listener for `closeTab` event, the listener catches
  * the event and executes the callback function when close the tab (window).
  * 
  * @param {puppeteer.Browser} browser - Browser instance launched via puppeteer.
  */
 async function bindCloseTabListener(browser) {
   browser.on(event.closeTab.type, async function (e) {
+    console.log('Tab Close', e._targetInfo.url);
+
+    // parse `closeTab` event
     await common.switch_to_latest_tab(browser);
     if (!invalidURL.includes(e._targetInfo.url)) {
       const stmt = parser.parseCloseTab();
@@ -204,6 +215,9 @@ async function bindCloseTabListener(browser) {
  */
 async function bindURLChangeListener(browser) {
   browser.on(event.URLChange.type, async function (e) {
+    console.log('trigger url change:', e._targetInfo.url);
+
+    // parse `URLChange` event
     await common.switch_to_latest_tab(browser);
     const stmt = parser.parseURLChange(e._targetInfo.url);
     const data = common.formatData(stmt, common.getCurrentDateTime(), 'goto ', e._targetInfo.url);
@@ -220,28 +234,37 @@ async function run(options) {
   const browser = await pptr.launch(options);
   const page = await browser.newPage();
 
+  // bind the listener for the browser
   await bindNewTabListener(browser);
   await bindCloseTabListener(browser);
   await bindURLChangeListener(browser);
 
+  // bind the listener for the page
   await bindClickListener(page);
   await bindClickTargetBlankListener(page);
   await bindInputListener(page);
 
   await common.setViewport(page, 1265, 1400);
   await common.closeBlankPage(browser);
-
   common.initAllQueue();
 
-  process.on('SIGINT', common.handleSIGINT);
+  await page.evaluate(() => {
+    const elements = document.getElementsByTagName('body');
+    elements[0].style.cursor = 'crosshair';
+  });
 }
 
+// tmp
+function handleSIGINT(signal) {
+  console.log(`Received ${signal}`);
+}
+process.on('SIGINT', handleSIGINT);
+
 (async () => {
-  // todo: config file
   await run({
-    headless: false,
-    devtools: false,
-    executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    'headless': false,
+    'devtools': false,
+    'executablePath': '/Applications/Chromium.app/Contents/MacOS/Chromium',
     args: [
       `--window-size=1265,1400`,
     ],
