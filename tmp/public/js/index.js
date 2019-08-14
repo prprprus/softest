@@ -142,7 +142,6 @@ function displayLog(log) {
     timeElement.innerHTML += log.time + '    ';
 
     let operationElement = document.createElement('code');
-    // operationElement.innerHTML += log.operation + '           ';
     operationElement.innerHTML += log.operation;
     operationElement.style.color = '#00FF00';
 
@@ -154,6 +153,7 @@ function displayLog(log) {
     } else {
         targetElement.style.marginLeft = '50px';
     }
+
     logElement.appendChild(timeElement);
     logElement.appendChild(operationElement);
     logElement.appendChild(targetElement);
