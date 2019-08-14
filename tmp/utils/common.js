@@ -205,13 +205,13 @@ function handleSIGINT(signal) {
  */
 function captureLog(proc) {
   proc.stdout.on('data', (data) => {
-    console.log(`${getCurrentDateTime()} ${proc.pid} stdout: ${data}`);
+    console.log(`${data}`);
   });
   proc.stderr.on('data', (data) => {
-    console.log(`${getCurrentDateTime()} ${proc.pid} stderr: ${data}`);
+    console.log(`${data}`);
   });
   proc.on('close', (code) => {
-    console.log(`${getCurrentDateTime()} ${proc.pid} close: process exited with code ${code}`);
+    console.log(`exit code ${code}`);
   });
 }
 

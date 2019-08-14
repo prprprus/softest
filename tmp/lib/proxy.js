@@ -61,7 +61,7 @@ class WebSocketServer {
   /**
    * Run proxy server.
    */
-  runStatementProxy() {
+  run() {
     const wss = new WebSocket.Server({
       host: this._host,
       port: this._port,
@@ -69,7 +69,7 @@ class WebSocketServer {
     });
     wss.on('connection', function connection(ws) {
       ws.on('message', function incoming(data) {
-        console.log('received statement: %s', data);
+        // console.log('received statement: %s', data);
         // boardcast
         wss.clients.forEach(function each(client) {
           if (client.readyState === WebSocket.OPEN) {
@@ -82,9 +82,14 @@ class WebSocketServer {
         });
       });
     });
-    console.log('🎉 run proxy server success');
+    console.log('🎉 proxy server run success');
   }
 }
+
+(() => {
+  server = new WebSocketServer();
+  server.run();
+})();
 
 module.exports = {
   WebSocketServer

@@ -16,11 +16,11 @@ const tmpDir = '/Users/tiger/develop/tmp/report';
 const tmpFile = tmpDir + '/script.js';
 
 // configure
-app.set('views', '../public/views');
+app.set('views', './public/views');
 app.set('view engine', 'pug');
 app.use(express.json());
-app.use(express.static('../public'));
-app.use(express.static(__dirname + '../'));
+app.use(express.static('./public'));
+app.use(express.static(__dirname + './'));
 
 app.get('/', (_, res) => {
   res.render('index');
@@ -85,13 +85,5 @@ app.get('/download', (_, res) => {
  * Run the http server.
  */
 app.listen(port, () => {
-  console.log(`
- _______  _______  _______  _______  _______  _______  _______ 
-|       ||       ||       ||       ||       ||       ||       |     status: running
-|  _____||   _   ||    ___||_     _||    ___||  _____||_     _|     host: localhost
-| |_____ |  | |  ||   |___   |   |  |   |___ | |_____   |   |       port: 3000
-|_____  ||  |_|  ||    ___|  |   |  |    ___||_____  |  |   |  
- _____| ||       ||   |      |   |  |   |___  _____| |  |   |  
-|_______||_______||___|      |___|  |_______||_______|  |___|  
-`);
+  console.log('🎉 HTTP server run success');
 });
