@@ -198,6 +198,23 @@ function handleSIGINT(signal) {
   console.log(`Received ${signal}`);
 }
 
+/**
+ * Capture log information of process output.
+ * 
+ * @param {object} proc - The process object.
+ */
+function captureLog(proc) {
+  proc.stdout.on('data', (data) => {
+    console.log(`${getCurrentDateTime()} ${proc.pid} stdout: ${data}`);
+  });
+  proc.stderr.on('data', (data) => {
+    console.log(`${getCurrentDateTime()} ${proc.pid} stderr: ${data}`);
+  });
+  proc.on('close', (code) => {
+    console.log(`${getCurrentDateTime()} ${proc.pid} close: process exited with code ${code}`);
+  });
+}
+
 module.exports = {
   switch_to_latest_tab,
   setViewport,
@@ -210,4 +227,5 @@ module.exports = {
   getCurrentDateTime,
   shutDownRecorder,
   handleSIGINT,
+  captureLog,
 }

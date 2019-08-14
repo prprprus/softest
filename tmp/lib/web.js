@@ -18,8 +18,8 @@ const tmpFile = tmpDir + '/script.js';
 // configure
 app.set('views', '../public/views');
 app.set('view engine', 'pug');
-app.use(express.static('../public'));
 app.use(express.json());
+app.use(express.static('../public'));
 app.use(express.static(__dirname + '../'));
 
 app.get('/', (_, res) => {
@@ -28,25 +28,13 @@ app.get('/', (_, res) => {
 
 app.get('/record', (_, res) => {
   io.createDir(tmpDir);
-  // Make sure there is only one recoder
   if (recorderPID === undefined) {
-    // delete old report dir
     io.deleteAllFile(tmpDir);
-    // delete old archive
     io.deleteFile('/Users/tiger/develop/tmp/report.tar.gz');
-    // run recorder
     const recorder = child_process.spawn('node', ['/Users/tiger/develop/tmp/lib/listener.js', ]);
     // mark recorder is running
     recorderPID = recorder.pid;
-    recorder.stdout.on('data', (data) => {
-      console.log(`${common.getCurrentDateTime()} ${recorder.pid} stdout: ${data}`);
-    });
-    recorder.stderr.on('data', (data) => {
-      console.log(`${common.getCurrentDateTime()} ${recorder.pid} stderr: ${data}`);
-    });
-    recorder.on('close', (code) => {
-      console.log(`${common.getCurrentDateTime()} ${recorder.pid} close: process exited with code ${code}`);
-    });
+    common.captureLog(recorder);
     res.sendStatus(200);
   } else {
     res.sendStatus(503);
@@ -76,16 +64,8 @@ app.post('/end', (req, res) => {
 
 app.get('/play', (_, res) => {
   if (io.isExists(tmpFile)) {
-    const play = child_process.spawn('node', [tmpFile, ]);
-    play.stdout.on('data', (data) => {
-      console.log(`${common.getCurrentDateTime()} ${play.pid} stdout: ${data}`);
-    });
-    play.stderr.on('data', (data) => {
-      console.log(`${common.getCurrentDateTime()} ${play.pid} stderr: ${data}`);
-    });
-    play.on('close', (code) => {
-      console.log(`${common.getCurrentDateTime()} ${play.pid} process exited with code ${code}`);
-    });
+    const player = child_process.spawn('node', [tmpFile, ]);
+    common.captureLog(player);
     res.sendStatus(200);
   } else {
     res.sendStatus(503);
@@ -105,5 +85,13 @@ app.get('/download', (_, res) => {
  * Run the http server.
  */
 app.listen(port, () => {
-  console.log(`🎉 Softest is running, listening on port ${port}!`);
+  console.log(`
+ _______  _______  _______  _______  _______  _______  _______ 
+|       ||       ||       ||       ||       ||       ||       |     status: running
+|  _____||   _   ||    ___||_     _||    ___||  _____||_     _|     host: localhost
+| |_____ |  | |  ||   |___   |   |  |   |___ | |_____   |   |       port: 3000
+|_____  ||  |_|  ||    ___|  |   |  |    ___||_____  |  |   |  
+ _____| ||       ||   |      |   |  |   |___  _____| |  |   |  
+|_______||_______||___|      |___|  |_______||_______|  |___|  
+`);
 });
