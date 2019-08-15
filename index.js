@@ -8,7 +8,7 @@
 
 const commander = require('commander');
 const child_process = require('child_process');
-const common = require('./utils/common');
+const common = require('./src/utils/common');
 
 const program = new commander.Command();
 
@@ -22,9 +22,9 @@ const program = new commander.Command();
  */
 function run(host, port, chromium, savePath) {
   // For wss.js and web.js, their relative paths are for index.js.
-  const cliProxy = child_process.spawn('node', ['./server/wss.js', '&']);
+  const cliProxy = child_process.spawn('node', ['./src/server/wss.js', '&']);
   common.captureLog(cliProxy);
-  const cliRecoder = child_process.spawn('node', ['./server/web.js', host, port, chromium, savePath]);
+  const cliRecoder = child_process.spawn('node', ['./src/server/web.js', host, port, chromium, savePath]);
   common.captureLog(cliRecoder);
 
   console.log(`

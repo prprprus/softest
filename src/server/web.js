@@ -20,11 +20,11 @@ const archivePath = argSavePath + '/../' + 'report.tar.gz';
 const app = express();
 var recorderPID = undefined;
 
-app.set('views', './frontend/views');
+app.set('views', './src/frontend/views');
 app.set('view engine', 'pug');
 app.use(express.json());
-app.use(express.static('./frontend'));
-app.use(express.static(__dirname + './'));
+app.use(express.static('./src/frontend'));
+app.use(express.static(__dirname + './src'));
 
 app.get('/', (_, res) => {
   res.render('index', {
@@ -40,7 +40,7 @@ app.get('/record', (_, res) => {
   if (recorderPID === undefined) {
     io.deleteAllFile(argSavePath);
     io.deleteFile(archivePath);
-    const recorder = child_process.spawn('node', ['./lib/listener.js', argChromium]);
+    const recorder = child_process.spawn('node', ['./src/core/listener.js', argChromium]);
     // mark recorder is running
     recorderPID = recorder.pid;
     common.captureLog(recorder);
