@@ -1,5 +1,5 @@
-const statement = require('../lib/statement');
-const event = require('../lib/event');
+const statement = require('../src/core/statement');
+const event = require('../src/core/event');
 
 describe('ClickTargetBlank', () => {
   const xpath = '/html/body/div/div[4]/div[2]/div/div/ul[2]/li[179]/a/img';

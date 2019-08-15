@@ -1,6 +1,6 @@
-const queue = require('../utils/queue');
+const queue = require('../src/utils/queue');
 const pptr = require('puppeteer');
-const error = require('../utils/error');
+const error = require('../src/utils/error');
 
 var browser = null;
 var page = null;

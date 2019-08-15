@@ -1,6 +1,6 @@
-const parser = require('../lib/parser');
-const error = require('../utils/error');
-const statement = require('../lib/statement');
+const parser = require('../src/core/parser');
+const error = require('../src/utils/error');
+const statement = require('../src/core/statement');
 
 describe('checkCoordinates', () => {
   it('should return error.coordinatesParam', () => {

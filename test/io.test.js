@@ -1,4 +1,4 @@
-const io = require('../utils/io');
+const io = require('../src/utils/io');
 const fs = require('fs');
 const child_process = require('child_process');
 
