@@ -9,9 +9,9 @@ var page = null;
 
 beforeAll(async () => {
   const options = {
-    headless: false,
+    headless: true,
     devtools: false,
-    executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    // executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
     args: [
       `--window-size=1265,1400`,
     ],
