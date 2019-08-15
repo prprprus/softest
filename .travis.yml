@@ -11,6 +11,4 @@ before_script:
   - npm install -g typescript
   - npm install -g ws
 script:
-  - pwd
-  - ls -l
   - cd test && npm run test

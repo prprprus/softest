@@ -10,7 +10,6 @@ beforeAll(async () => {
   const options = {
     headless: true,
     devtools: false,
-    executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
     args: [
       `--window-size=1265,1400`,
     ],
