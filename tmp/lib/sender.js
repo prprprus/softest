@@ -6,7 +6,6 @@
 
 const WebSocket = require('ws');
 
-// todo config file
 const ws = new WebSocket('ws://localhost:8080');
 
 /**
@@ -22,9 +21,7 @@ async function sendData(data) {
   }
 }
 
-/**
- * Connect to WebSocket proxy server.
- */
+// Connect to WebSocket proxy server.
 (() => {
   ws.on('open', function open() {
     console.log('🎉 connect the proxy server success');

@@ -76,10 +76,10 @@ var templateStatementEnd = `
  * @return {string}
  */
 function getCurrentDateTime() {
-    const today = new Date();
-    const date = today.getFullYear() + '-' + fill0((today.getMonth() + 1)) + '-' + fill0(today.getDate());
-    const time = fill0(today.getHours()) + ":" + fill0(today.getMinutes()) + ":" + fill0(today.getSeconds());
-    return date + ' ' + time;
+  const today = new Date();
+  const date = today.getFullYear() + '-' + fill0((today.getMonth() + 1)) + '-' + fill0(today.getDate());
+  const time = fill0(today.getHours()) + ":" + fill0(today.getMinutes()) + ":" + fill0(today.getSeconds());
+  return date + ' ' + time;
 }
 
 /**
@@ -89,10 +89,10 @@ function getCurrentDateTime() {
  * @return {string}
  */
 function fill0(num) {
-    if (num < 10) {
-        return '0' + num.toString();
-    }
-    return num;
+  if (num < 10) {
+    return '0' + num.toString();
+  }
+  return num;
 }
 
 /**
@@ -101,22 +101,21 @@ function fill0(num) {
  * @return {string}
  */
 function addFormatFunction() {
-    String.prototype.format = function () {
-        let i = 0;
-        const args = arguments;
-        return this.replace(/{}/g, function () {
-            return typeof args[i] != 'undefined' ? args[i++] : '';
-        });
-    };
+  String.prototype.format = function () {
+    let i = 0;
+    const args = arguments;
+    return this.replace(/{}/g, function () {
+      return typeof args[i] != 'undefined' ? args[i++] : '';
+    });
+  };
 }
 
-// Make syntax highlight.
 function makeHighlight() {
-    document.querySelectorAll('pre').forEach((block) => {
-        if (block.id === 'code') {
-            hljs.highlightBlock(block);
-        }
-    });
+  document.querySelectorAll('pre').forEach((block) => {
+    if (block.id === 'code') {
+      hljs.highlightBlock(block);
+    }
+  });
 }
 
 /**
@@ -125,11 +124,11 @@ function makeHighlight() {
  * @param {string} statement - The statement to display.
  */
 function displayStatement(statement) {
-    let codeElement = document.getElementById('code');
-    let subCode = document.createElement('pre');
-    subCode.innerHTML += statement;
-    subCode.style.paddingLeft = '59.5px';
-    codeElement.appendChild(subCode);
+  let codeElement = document.getElementById('code');
+  let subCode = document.createElement('pre');
+  subCode.innerHTML += statement;
+  subCode.style.paddingLeft = '59.5px';
+  codeElement.appendChild(subCode);
 }
 
 /**
@@ -138,158 +137,155 @@ function displayStatement(statement) {
  * @param {string} log - The log to display.
  */
 function displayLog(log) {
-    let logElement = document.getElementById('log');
+  let logElement = document.getElementById('log');
 
-    let timeElement = document.createElement('code');
-    timeElement.innerHTML += log.time + '    ';
+  let timeElement = document.createElement('code');
+  timeElement.innerHTML += log.time + '    ';
 
-    let operationElement = document.createElement('code');
-    operationElement.innerHTML += log.operation;
-    operationElement.style.color = '#00FF00';
+  let operationElement = document.createElement('code');
+  operationElement.innerHTML += log.operation;
+  operationElement.style.color = '#00FF00';
 
-    let targetElement = document.createElement('code');
-    targetElement.innerHTML += log.target + '\n';
-    targetElement.style.color = '#FFFF00';
-    if (log.operation !== 'screenshot') {
-        targetElement.style.marginLeft = '90px';
-    } else {
-        targetElement.style.marginLeft = '50px';
-    }
+  let targetElement = document.createElement('code');
+  targetElement.innerHTML += log.target + '\n';
+  targetElement.style.color = '#FFFF00';
+  if (log.operation !== 'screenshot') {
+    targetElement.style.marginLeft = '90px';
+  } else {
+    targetElement.style.marginLeft = '50px';
+  }
 
-    logElement.appendChild(timeElement);
-    logElement.appendChild(operationElement);
-    logElement.appendChild(targetElement);
+  logElement.appendChild(timeElement);
+  logElement.appendChild(operationElement);
+  logElement.appendChild(targetElement);
 }
 
-// Handle WebSocket connection.
 function handleConnection() {
-    const statementProxy = new WebSocket('ws://localhost:8080');
-    statementProxy.addEventListener('open', function (event) {
-        console.log('connect proxy server!');
-    });
-    statementProxy.addEventListener('message', function (event) {
-        console.log('received data from proxy server %s', event.data);
-        const res = JSON.parse(event.data);
-        displayStatement(res.statement);
-        makeHighlight();
-        displayLog(res.log);
-    });
+  const statementProxy = new WebSocket('ws://localhost:8080');
+  statementProxy.addEventListener('open', function (event) {
+    console.log('connect proxy server!');
+  });
+  statementProxy.addEventListener('message', function (event) {
+    console.log('received data from proxy server %s', event.data);
+    const res = JSON.parse(event.data);
+    displayStatement(res.statement);
+    makeHighlight();
+    displayLog(res.log);
+  });
 }
 
-// Init.
 (() => {
-    addFormatFunction();
-    handleConnection();
+  addFormatFunction();
+  handleConnection();
 })();
 
-// Bind click event listener.
 window.onload = function () {
-    const hostElement = document.getElementById('host');
-    const portElement = document.getElementById('port');
-    const savePathElement = document.getElementById('savePath');
-    const chromiumElement = document.getElementById('chromium');
-    const API = 'http://'.concat(hostElement.innerHTML, ':', portElement.innerHTML);
-    console.log(API, savePathElement.innerHTML);
+  const hostElement = document.getElementById('host');
+  const portElement = document.getElementById('port');
+  const savePathElement = document.getElementById('savePath');
+  const chromiumElement = document.getElementById('chromium');
+  const API = 'http://'.concat(hostElement.innerHTML, ':', portElement.innerHTML);
+  console.log(API, savePathElement.innerHTML);
 
-    // record
-    const element = document.getElementById('record');
-    element.addEventListener('click', function (event) {
-        fetch(API.concat('/record'))
-            .then(function (res) {
-                console.log('record: ', res.status);
-                if (res.status === 200) {
-                    // add `templateStatementHead`
-                    const codeElement = document.getElementById('code');
-                    codeElement.innerHTML = '';
-                    let subCode = document.createElement('pre');
-                    subCode.innerHTML += templateStatementHead.format(chromiumElement.innerHTML);
-                    subCode.style.paddingLeft = '35px';
-                    codeElement.appendChild(subCode);
-                    makeHighlight();
-                    // add `templateLogHead`
-                    const logElement = document.getElementById('log');
-                    logElement.innerHTML = '';
-                    logElement.innerHTML += templateLogHead;
-                }
-            });
-    });
-
-    // screenshot
-    const screenshotElement = document.getElementById('screenshot');
-    screenshotElement.addEventListener('click', function (event) {
-        fetch(API.concat('/screenshot'))
-            .then(function (res) {
-                console.log('screenshot: ', res.status);
-                if (res.status === 200) {
-                    // add `templateScreenshot`
-                    const codeElement = document.getElementById('code');
-                    let subCode = document.createElement('pre');
-                    const now = Date.now();
-                    subCode.innerHTML += templateScreenshot.format(savePathElement.innerHTML, now);
-                    subCode.style.paddingLeft = '59.5px';
-                    codeElement.appendChild(subCode);
-                    makeHighlight();
-                    // display log
-                    let log = {
-                        time: getCurrentDateTime(),
-                        operation: 'screenshot',
-                        target: document.location.href,
-                    }
-                    displayLog(log);
-                }
-            });
-    });
-
-    // end
-    const endElement = document.getElementById('end');
-    endElement.addEventListener('click', function (event) {
-        const codeElement = document.getElementById('code');
-        if (codeElement.innerHTML.includes('puppeteer.launch({') && !codeElement.innerHTML.includes('browser.close();')) {
-            // add `templateStatementEnd`
-            let subCode = document.createElement('pre');
-            subCode.innerHTML += templateStatementEnd.format(savePathElement.innerHTML, savePathElement.innerHTML);
-            subCode.style.paddingLeft = '43px';
-            codeElement.appendChild(subCode);
-            makeHighlight();
-            // POST
-            const data = {
-                statement: codeElement.textContent,
-            }
-            fetch(API.concat('/end'), {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }).then(res => {
-                console.log('end: ', res.status);
-            });
+  // record
+  const element = document.getElementById('record');
+  element.addEventListener('click', function (event) {
+    fetch(API.concat('/record'))
+      .then(function (res) {
+        console.log('record: ', res.status);
+        if (res.status === 200) {
+          // add `templateStatementHead`
+          const codeElement = document.getElementById('code');
+          codeElement.innerHTML = '';
+          let subCode = document.createElement('pre');
+          subCode.innerHTML += templateStatementHead.format(chromiumElement.innerHTML);
+          subCode.style.paddingLeft = '35px';
+          codeElement.appendChild(subCode);
+          makeHighlight();
+          // add `templateLogHead`
+          const logElement = document.getElementById('log');
+          logElement.innerHTML = '';
+          logElement.innerHTML += templateLogHead;
         }
-    });
+      });
+  });
 
-    // play
-    const playElement = document.getElementById('play');
-    playElement.addEventListener('click', function (event) {
-        fetch(API.concat('/play'))
-            .then(function (res) {
-                console.log('play: ', res.status);
-                if (res.status !== 200) {
-                    alert('Nothing to play.');
-                }
-            });
-    });
+  // screenshot
+  const screenshotElement = document.getElementById('screenshot');
+  screenshotElement.addEventListener('click', function (event) {
+    fetch(API.concat('/screenshot'))
+      .then(function (res) {
+        console.log('screenshot: ', res.status);
+        if (res.status === 200) {
+          // add `templateScreenshot`
+          const codeElement = document.getElementById('code');
+          let subCode = document.createElement('pre');
+          const now = Date.now();
+          subCode.innerHTML += templateScreenshot.format(savePathElement.innerHTML, now);
+          subCode.style.paddingLeft = '59.5px';
+          codeElement.appendChild(subCode);
+          makeHighlight();
+          // display log
+          let log = {
+            time: getCurrentDateTime(),
+            operation: 'screenshot',
+            target: document.location.href,
+          }
+          displayLog(log);
+        }
+      });
+  });
 
-    // download
-    const downloadElement = document.getElementById('download');
-    downloadElement.addEventListener('click', function (event) {
-        fetch(API.concat('/download'))
-            .then(function (res) {
-                console.log('download: ', res.status);
-                if (res.status === 200) {
-                    window.open('/download');
-                } else {
-                    alert('Nothing to download.');
-                }
-            });
-    });
+  // end
+  const endElement = document.getElementById('end');
+  endElement.addEventListener('click', function (event) {
+    const codeElement = document.getElementById('code');
+    if (codeElement.innerHTML.includes('puppeteer.launch({') && !codeElement.innerHTML.includes('browser.close();')) {
+      // add `templateStatementEnd`
+      let subCode = document.createElement('pre');
+      subCode.innerHTML += templateStatementEnd.format(savePathElement.innerHTML, savePathElement.innerHTML);
+      subCode.style.paddingLeft = '43px';
+      codeElement.appendChild(subCode);
+      makeHighlight();
+      // POST
+      const data = {
+        statement: codeElement.textContent,
+      }
+      fetch(API.concat('/end'), {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(res => {
+        console.log('end: ', res.status);
+      });
+    }
+  });
+
+  // play
+  const playElement = document.getElementById('play');
+  playElement.addEventListener('click', function (event) {
+    fetch(API.concat('/play'))
+      .then(function (res) {
+        console.log('play: ', res.status);
+        if (res.status !== 200) {
+          alert('Nothing to play.');
+        }
+      });
+  });
+
+  // download
+  const downloadElement = document.getElementById('download');
+  downloadElement.addEventListener('click', function (event) {
+    fetch(API.concat('/download'))
+      .then(function (res) {
+        console.log('download: ', res.status);
+        if (res.status === 200) {
+          window.open('/download');
+        } else {
+          alert('Nothing to download.');
+        }
+      });
+  });
 }

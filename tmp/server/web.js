@@ -9,7 +9,6 @@ const child_process = require('child_process');
 const common = require('../utils/common');
 const io = require('../utils/io');
 
-// command line arguments
 const argv = process.argv;
 const argHost = argv[2];
 const argPort = argv[3];
@@ -21,7 +20,6 @@ const archivePath = argSavePath + '/../' + 'report.tar.gz';
 const app = express();
 var recorderPID = undefined;
 
-// configure
 app.set('views', './frontend/views');
 app.set('view engine', 'pug');
 app.use(express.json());
@@ -98,9 +96,6 @@ app.get('/download', (_, res) => {
   }
 });
 
-/**
- * Run the http server.
- */
 app.listen(port = argPort, host = argHost, callback = () => {
   console.log('🎉 Running HTTP server successfully');
 });

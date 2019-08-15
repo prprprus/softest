@@ -58,9 +58,6 @@ class WebSocketServer {
     this._backlog = backlog;
   }
 
-  /**
-   * Run proxy server.
-   */
   run() {
     const wss = new WebSocket.Server({
       host: this._host,
@@ -86,6 +83,7 @@ class WebSocketServer {
   }
 }
 
+// Run the proxy server.
 (() => {
   server = new WebSocketServer();
   server.run();

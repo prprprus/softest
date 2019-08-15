@@ -238,7 +238,6 @@ async function run(options) {
 (async () => {
   const argv = process.argv;
   const argChromium = argv[2];
-
   await run({
     headless: false,
     devtools: false,
