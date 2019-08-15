@@ -41,14 +41,10 @@ function createDir(pathDir) {
  * @param {string} pathDir - The absolute path of the directory.
  */
 function deleteAllFile(pathDir) {
-  fs.readdir(pathDir, (err, files) => {
-    if (err) throw err;
-    for (const file of files) {
-      fs.unlink(path.join(pathDir, file), err => {
-        if (err) throw err;
-      });
-    }
-  });
+  const files = fs.readdirSync(pathDir);
+  for (const file of files) {
+    fs.unlinkSync(path.join(pathDir, file));
+  }
 }
 
 /**
@@ -58,9 +54,7 @@ function deleteAllFile(pathDir) {
  */
 function deleteFile(pathFile) {
   if (isExists(pathFile)) {
-    fs.unlink(pathFile, err => {
-      if (err) throw err;
-    });
+    fs.unlinkSync(pathFile);
   }
 }
 

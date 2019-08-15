@@ -2,8 +2,6 @@ const queue = require('../utils/queue');
 const pptr = require('puppeteer');
 const error = require('../utils/error');
 
-jest.setTimeout(30000);
-
 var browser = null;
 var page = null;
 
@@ -11,7 +9,7 @@ beforeAll(async () => {
   const options = {
     headless: true,
     devtools: false,
-    // executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
     args: [
       `--window-size=1265,1400`,
     ],
