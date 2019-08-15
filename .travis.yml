@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - 12.8.0
+  - 10.16.2
+script:
+  - echo 'ddd'
+  - pwd
