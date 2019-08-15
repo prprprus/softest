@@ -2,6 +2,15 @@ language: node_js
 node_js:
   - 12.8.0
   - 10.16.2
+before_script:
+  # - npm config set puppeteer_skip_chromium_download=true
+  - npm install -g puppeteer
+  - npm install -g commander
+  - npm install -g express
+  - npm install -g highlight.js
+  - npm install -g pug
+  - npm install -g typescript
+  - npm install -g ws
 script:
   - echo 'ddd'
   - pwd
