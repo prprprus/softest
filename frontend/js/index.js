@@ -162,11 +162,9 @@ function displayLog(log) {
 
 function handleConnection() {
   const statementProxy = new WebSocket('ws://localhost:8080');
-  statementProxy.addEventListener('open', function (event) {
-    console.log('connect proxy server!');
-  });
+  statementProxy.addEventListener('open', function (event) {});
   statementProxy.addEventListener('message', function (event) {
-    console.log('received data from proxy server %s', event.data);
+    // console.log('received data from proxy server %s', event.data);
     const res = JSON.parse(event.data);
     displayStatement(res.statement);
     makeHighlight();
@@ -176,7 +174,7 @@ function handleConnection() {
 
 (() => {
   addFormatFunction();
-  handleConnection();
+  handleConnection()
 })();
 
 window.onload = function () {
@@ -185,14 +183,22 @@ window.onload = function () {
   const savePathElement = document.getElementById('savePath');
   const chromiumElement = document.getElementById('chromium');
   const API = 'http://'.concat(hostElement.innerHTML, ':', portElement.innerHTML);
-  console.log(API, savePathElement.innerHTML);
+
+  console.log(`
+ _______  _______  _______  _______  _______  _______  _______ 
+|       ||       ||       ||       ||       ||       ||       |     status: running
+|  _____||   _   ||    ___||_     _||    ___||  _____||_     _|     host: ${hostElement.innerHTML}
+| |_____ |  | |  ||   |___   |   |  |   |___ | |_____   |   |       port: ${portElement.innerHTML}
+|_____  ||  |_|  ||    ___|  |   |  |    ___||_____  |  |   |  
+ _____| ||       ||   |      |   |  |   |___  _____| |  |   |  
+|_______||_______||___|      |___|  |_______||_______|  |___|  
+`);
 
   // record
   const element = document.getElementById('record');
   element.addEventListener('click', function (event) {
     fetch(API.concat('/record'))
       .then(function (res) {
-        console.log('record: ', res.status);
         if (res.status === 200) {
           // add `templateStatementHead`
           const codeElement = document.getElementById('code');
@@ -215,7 +221,6 @@ window.onload = function () {
   screenshotElement.addEventListener('click', function (event) {
     fetch(API.concat('/screenshot'))
       .then(function (res) {
-        console.log('screenshot: ', res.status);
         if (res.status === 200) {
           // add `templateScreenshot`
           const codeElement = document.getElementById('code');
@@ -257,9 +262,7 @@ window.onload = function () {
         headers: {
           'Content-Type': 'application/json',
         },
-      }).then(res => {
-        console.log('end: ', res.status);
-      });
+      }).then(res => {});
     }
   });
 
@@ -268,7 +271,6 @@ window.onload = function () {
   playElement.addEventListener('click', function (event) {
     fetch(API.concat('/play'))
       .then(function (res) {
-        console.log('play: ', res.status);
         if (res.status !== 200) {
           alert('Nothing to play.');
         }
@@ -280,7 +282,6 @@ window.onload = function () {
   downloadElement.addEventListener('click', function (event) {
     fetch(API.concat('/download'))
       .then(function (res) {
-        console.log('download: ', res.status);
         if (res.status === 200) {
           window.open('/download');
         } else {
