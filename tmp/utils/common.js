@@ -5,7 +5,6 @@
  */
 
 const queue = require('../utils/queue');
-const pptr = require('puppeteer');
 const error = require('./error');
 
 /**
