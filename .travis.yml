@@ -12,5 +12,5 @@ before_script:
   - npm install -g ws
 script:
   - pwd
-  - ll
+  - ls -l
   - cd test && npm run test
