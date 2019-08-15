@@ -82,7 +82,7 @@ class WebSocketServer {
         });
       });
     });
-    console.log('🎉 proxy server run success');
+    console.log('🎉 Running WebSocket server successfully');
   }
 }
 

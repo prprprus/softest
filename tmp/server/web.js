@@ -9,6 +9,7 @@ const child_process = require('child_process');
 const common = require('../utils/common');
 const io = require('../utils/io');
 
+// command line arguments
 const argv = process.argv;
 const argHost = argv[2];
 const argPort = argv[3];
@@ -21,10 +22,10 @@ const app = express();
 var recorderPID = undefined;
 
 // configure
-app.set('views', './public/views');
+app.set('views', './frontend/views');
 app.set('view engine', 'pug');
 app.use(express.json());
-app.use(express.static('./public'));
+app.use(express.static('./frontend'));
 app.use(express.static(__dirname + './'));
 
 app.get('/', (_, res) => {
@@ -101,5 +102,5 @@ app.get('/download', (_, res) => {
  * Run the http server.
  */
 app.listen(port = argPort, host = argHost, callback = () => {
-  console.log('🎉 HTTP server run success');
+  console.log('🎉 Running HTTP server successfully');
 });
