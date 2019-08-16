@@ -162,7 +162,9 @@ function displayLog(log) {
 
 function handleConnection() {
   const statementProxy = new WebSocket('ws://localhost:8080');
-  statementProxy.addEventListener('open', function (event) {});
+  statementProxy.addEventListener('open', function (event) {
+    console.log('connectd wss success!');
+  });
   statementProxy.addEventListener('message', function (event) {
     // console.log('received data from proxy server %s', event.data);
     const res = JSON.parse(event.data);

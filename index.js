@@ -47,4 +47,4 @@ program
   .option('-r, --report <path>', 'The absolute path of the test report, necessary.');
 
 program.parse(process.argv);
-run(program.host, program.port, program.chromium, program.save);
+run(program.host, program.port, program.chromium, program.report);
