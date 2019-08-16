@@ -234,7 +234,7 @@ window.onload = function () {
           let log = {
             time: getCurrentDateTime(),
             operation: 'screenshot',
-            target: document.location.href,
+            target: '/',
           }
           displayLog(log);
         }
