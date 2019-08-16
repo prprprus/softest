@@ -6,9 +6,9 @@
 
 const queue = require('../utils/queue');
 const error = require('../utils/error');
-const common = require('../utils/common');
 const statement = require('./statement');
 const event = require('./event');
+const bosr = require('../utils/browser');
 
 /**
  * Check the coordinates of the callback information.

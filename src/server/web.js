@@ -74,11 +74,11 @@ app.post('/end', (req, res) => {
 
 app.get('/play', (_, res) => {
   if (io.isExists(scriptPath)) {
-    const proc = child_process.spawnSync(`npm list -g | head -n 1`, {
+    const cmd = child_process.spawnSync(`npm list -g | head -n 1`, {
       shell: true,
       encoding: 'utf8'
     });
-    const NODE_PATH = proc.stdout.replace(/\n|\r/g, "") + '/node_modules';
+    const NODE_PATH = cmd.stdout.replace(/\n|\r/g, "") + '/node_modules';
     const player = child_process.spawn(`export NODE_PATH=${NODE_PATH} && node ${scriptPath}`, {
       shell: true
     });
