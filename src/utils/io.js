@@ -59,6 +59,20 @@ function deleteFile(pathFile) {
 }
 
 /**
+ * Delete all files except the js file in the directory.
+ * 
+ * @param {string} pathDir - The absolute path of the directory.
+ */
+function deleteAllFileExceptJS(pathDir) {
+  const files = fs.readdirSync(pathDir);
+  for (const file of files) {
+    if (!file.includes('.js')) {
+      fs.unlinkSync(path.join(pathDir, file));
+    }
+  }
+}
+
+/**
  * Write content to the file.
  * 
  * @param {string} pathFile - The absolute path of the file.
@@ -94,4 +108,5 @@ module.exports = {
   deleteAllFile,
   deleteFile,
   writeFile,
+  deleteAllFileExceptJS,
 }

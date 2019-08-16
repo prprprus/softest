@@ -29,7 +29,6 @@ const child_process = require('child_process');
    });
 
    let element = null;
-   let start = undefined;
 
 `;
 

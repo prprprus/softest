@@ -74,6 +74,7 @@ app.post('/end', (req, res) => {
 
 app.get('/play', (_, res) => {
   if (io.isExists(scriptPath)) {
+    io.deleteAllFileExceptJS(argSavePath);
     const cmd = child_process.spawnSync(`npm list -g | head -n 1`, {
       shell: true,
       encoding: 'utf8'
