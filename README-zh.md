@@ -4,10 +4,9 @@
 [![Known Vulnerabilities](https://snyk.io//test/github/prprprus/softest/badge.svg?targetFile=package.json)](https://snyk.io//test/github/prprprus/softest?targetFile=package.json)
 [![](https://img.shields.io/badge/npm-6.10.2-orange)]()
 [![license](https://img.shields.io/badge/license-license-yellow.svg)](./LICENSE)
-[![](https://img.shields.io/badge/CN-%E4%B8%AD%E6%96%87-%09%23ff2121.svg)](./README-zh.md)
+[![](https://img.shields.io/badge/EN-%E8%8B%B1%E6%96%87-%09%236495ED.svg)](./README.md)
 
-Softest is an automated test tool for recording browser interactions and generating test scripts, simple and practical.
-It allows you to get test scripts without writing code.
+Softest 是一个自动化测试工具，用于录制用户跟浏览器之间的交互，并生成测试脚本，简单而且实用。让你不用写一行代码就可以得到测试脚本。
 
 ```
  _______  _______  _______  _______  _______  _______  _______
@@ -21,48 +20,49 @@ It allows you to get test scripts without writing code.
 
 [![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/user101898119/review/354273223/1040ac0c06)
 
-#### Supported features
+#### 支持的功能
 
-- Single tab recording
-- Multiple tab recording
-- Screenshot
-- Generating test script
-- Play test script
-- Download test report (contains screenshots and test script)
+- 单标签页录制
+- 多标签页录制
+- 屏幕截图
+- 生成测试脚本
+- 下载测试报告（包括截图和测试脚本）
 
-#### Supported browser interactions
+#### 支持的浏览器交互
 
-- Click
-- New tab
-- Close tab
-- Change URL
-- Input
-- Scroll page
+- 点击
+- 新建标签页
+- 关闭标签页
+- 修改地址栏
+- 输入
+- 滚动页面
 
-Note: Temporarily not support manual tapping tabs to switch pages. For example, opened three tabs, currently in the latest tab3, you can't manually switch to tab2 or tab1 at this time, which will cause inconsistency, but you can go back to tab2 through close tab3, then close tab2 and return to tab1.
+注意：目前暂时不支持用户手动的跨标签页切换操作。例如，现在打开了 3 个标签页，当前所在第三个标签页 tab3，此时就不可以手动地切换到 tab2 或者 tab1，因为这样会造成录制的不一致。但是你可以通过关闭 tab3 的方式回到 tab2，再关闭 tab2 回到 tab1。
 
-# Installation
+# 安装
 
-#### Dependencies
+#### 依赖
 
-- Node >= v10.16.3 (recommend v12.8.0)
-- Npm (recommend 6.10.2)
+- Node >= v10.16.3 (推荐 v12.8.0)
+- Npm (推荐 6.10.2)
 
 ```
 $ npm i -g softest
 ```
 
-Softest is based on Puppeteer, when downloading Puppeteer, Chromium will be downloaded by default. Chinese users may be affected by GFW. If you encounter difficulties,you can move to [README-Zh.md](./README-Zh.md).
+Softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，而且由于各种原因无法下载到 Chromium 的话，可以到[这里]()下载。
 
-# Usage
+![]()
 
-Add environment variables to facilitate running commands:
+# 使用
+
+为了方便命令的执行，建议添加环境变量：
 
 ```
 $ export PATH=$PATH:$HOME/.npm-global/bin
 ```
 
-`softest` has only a few parameters:
+`softest` 只有少量的参数：
 
 ```
 $ softest --help
@@ -76,15 +76,15 @@ Options:
   -h, --help             output usage information
 ```
 
-To run the `softest` command, you need to specify the directory where the Chromium and the directory where the test report are saved:
+运行 `softest` 需要指定 Chromium 所在的目录，并且指定保存测试报告的目录（都是绝对路径）。
 
 ```
 $ soft -c PATH_CHROMIUM -r PATH_REPORT
 ```
 
-> If you don't know where the Chromium is, you can start Chromium and type `chrome://version/` in the address bar to find the location of its executable.
+> 如果你不清楚 Chromium 在哪个目录，可以启动 Chromium，在地址栏处输入 `chrome://version/` 就可以找到它的可执行文件所在的目录。
 
-If you see an output similar to the following, congratulations 🎉🎉🎉👏
+如果你看到类似如下的输出，那么恭喜你成功了 🎉🎉🎉👏
 
 ```
  _______  _______  _______  _______  _______  _______  _______
@@ -100,12 +100,12 @@ If you see an output similar to the following, congratulations 🎉🎉🎉👏
 🎉 Running HTTP server successfully
 ```
 
-If you have successfully launched Softest, open a browser, type `host` and `port`, you will see the following web interface:
+如果启动成功，打开浏览器，输入 `host` 和 `port`，你会看到如下的 web 界面：
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
-have fun 😜
+浪起来 😜
 
 # License
 
-See [LICENSE](./LICENSE) for more information.
+详细信息请参考 [LICENSE](./LICENSE)。
