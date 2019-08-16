@@ -1,3 +1,9 @@
+/**
+ * Copyright(c) 2019, prprprus All rights reserved.
+ * Use of this source code is governed by a BSD - style.
+ * license that can be found in the LICENSE file.
+ */
+
 const bosr = require('../src/utils/browser');
 const pptr = require('puppeteer');
 const error = require('../src/utils/error');

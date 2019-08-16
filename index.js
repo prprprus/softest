@@ -44,7 +44,7 @@ program
   .option('-h, --host <hostname>', 'Server hostname, optional.', '127.0.0.1')
   .option('-p, --port <port>', 'Server port, optional.', 2333)
   .option('-c, --chromium <path>', 'The absolute path of the chromium execution file, necessary.')
-  .option('-s, --save <path>', 'The absolute path of the test report, necessary.');
+  .option('-r, --report <path>', 'The absolute path of the test report, necessary.');
 
 program.parse(process.argv);
 run(program.host, program.port, program.chromium, program.save);

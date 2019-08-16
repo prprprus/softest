@@ -22,7 +22,8 @@
     "generating"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "./node_modules/.bin/eslint ./"
   },
   "bin": {
     "softest": "./index.js"
@@ -37,6 +38,7 @@
     "ws": "^7.1.1"
   },
   "devDependencies": {
+    "eslint": "^6.1.0",
     "jest": "^24.8.0"
   }
 }
