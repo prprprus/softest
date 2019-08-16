@@ -97,6 +97,8 @@ If you see an output similar to the following, congratulations 🎉🎉🎉👏
 🎉 Running HTTP server successfully
 ```
 
+have fun 😜
+
 # License
 
 See [LICENSE](./LICENSE) for more information.
