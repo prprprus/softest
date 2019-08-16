@@ -10,6 +10,8 @@ const sender = require('./sender');
 const queue = require('../utils/queue');
 const event = require('./event');
 const common = require('../utils/common');
+const bosr = require('../utils/browser');
+const proc = require('../utils/process');
 
 const invalidURL = [
   'chrome-extension://kmendfapggjehodndflmmgagdbamhnfd/_generated_background_page.html',
@@ -146,14 +148,14 @@ async function bindInputListener(page) {
  */
 async function bindNewTabListener(browser) {
   browser.on(event.newTab.type, async function (e) {
-    const page = await common.switch_to_latest_tab(browser);
+    const page = await bosr.switch_to_latest_tab(browser);
 
     await bindClickListener(page);
     await bindClickTargetBlankListener(page);
     await bindInputListener(page);
 
-    await common.refresh(page);
-    await common.setViewport(page, 1265, 1400);
+    await bosr.refresh(page);
+    await bosr.setViewport(page, 1265, 1400);
 
     // Differentiate what is operation by using a queue for synchronization,
     // since the callback of `clickTargetBlank` event will happen immediately
@@ -179,7 +181,7 @@ async function bindNewTabListener(browser) {
  */
 async function bindCloseTabListener(browser) {
   browser.on(event.closeTab.type, async function (e) {
-    await common.switch_to_latest_tab(browser);
+    await bosr.switch_to_latest_tab(browser);
     if (!invalidURL.includes(e._targetInfo.url)) {
       const stmt = parser.parseCloseTab();
       const data = common.formatData(stmt, common.getCurrentDateTime(), 'close', 'window');
@@ -203,7 +205,7 @@ async function bindCloseTabListener(browser) {
  */
 async function bindURLChangeListener(browser) {
   browser.on(event.URLChange.type, async function (e) {
-    await common.switch_to_latest_tab(browser);
+    await bosr.switch_to_latest_tab(browser);
     const stmt = parser.parseURLChange(e._targetInfo.url);
     const data = common.formatData(stmt, common.getCurrentDateTime(), 'goto ', e._targetInfo.url);
     await sender.sendData(data);
@@ -228,12 +230,12 @@ async function run(options) {
   await bindClickTargetBlankListener(page);
   await bindInputListener(page);
 
-  await common.setViewport(page, 1265, 1400);
-  await common.closeBlankPage(browser);
+  await bosr.setViewport(page, 1265, 1400);
+  await bosr.closeBlankPage(browser);
 
   common.initAllQueue();
 
-  process.on('SIGINT', common.handleSIGINT);
+  process.on('SIGINT', proc.handleSIGINT);
 }
 
 (async () => {

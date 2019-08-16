@@ -151,7 +151,7 @@ class UniqueQueue {
    * Returns undefined if not found, otherwise returns the true.
    * 
    * @param {*} element - Element of queue.
-   * @return element or undefined.
+   * @return true or undefined.
    */
   _find(element) {
     return this._queue.find((e) => {

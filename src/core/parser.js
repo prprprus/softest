@@ -32,7 +32,7 @@ function checkCoordinates(info) {
  */
 async function isInvalidClick(page, info) {
   if (isInput(info)) {
-    const xpath = await common.getXPathByElement(page, info);
+    const xpath = await bosr.getXPathByElement(page, info);
     queue.input.enqueue(xpath);
     return true;
   }
@@ -86,7 +86,7 @@ async function parseClick(page, info) {
  * @return {string} The XPath of the element.
  */
 async function parseClickTargetBlank(page, info) {
-  const xpath = await common.getXPathByElement(page, info);
+  const xpath = await bosr.getXPathByElement(page, info);
   const ctb = new statement.ClickTargetBlank(event.clickTargetBlank);
   const stmt = ctb.getStatement(xpath, info);
   return [stmt, xpath];

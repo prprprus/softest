@@ -8,6 +8,7 @@ const express = require('express');
 const child_process = require('child_process');
 const common = require('../utils/common');
 const io = require('../utils/io');
+const proc = require('../utils/process');
 
 const argv = process.argv;
 const argHost = argv[2];
@@ -43,7 +44,7 @@ app.get('/record', (_, res) => {
     const recorder = child_process.spawn('node', ['./src/core/listener.js', argChromium]);
     // mark recorder is running
     recorderPID = recorder.pid;
-    common.captureLog(recorder);
+    proc.captureLog(recorder);
     res.sendStatus(200);
   } else {
     res.sendStatus(503);
@@ -62,7 +63,7 @@ app.post('/end', (req, res) => {
   if (recorderPID !== undefined) {
     io.createDir(argSavePath);
     io.writeFile(scriptPath, req.body.statement);
-    common.shutDownRecorder(recorderPID);
+    proc.shutDownRecorder(recorderPID);
     // mark recorder was stopped
     recorderPID = undefined;
     res.sendStatus(200);
@@ -81,7 +82,7 @@ app.get('/play', (_, res) => {
     const player = child_process.spawn(`export NODE_PATH=${NODE_PATH} && node ${scriptPath}`, {
       shell: true
     });
-    common.captureLog(player);
+    proc.captureLog(player);
     res.sendStatus(200);
   } else {
     res.sendStatus(503);
