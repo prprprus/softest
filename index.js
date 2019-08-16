@@ -24,9 +24,9 @@ const program = new commander.Command();
  */
 function run(host, port, chromium, savePath) {
   // For wss.js and web.js, their relative paths are for index.js.
-  const cliProxy = child_process.spawn('node', ['./src/server/wss.js', '&']);
+  const cliProxy = child_process.spawn('node', [__basedir + '/src/server/wss.js', '&']);
   proc.captureLog(cliProxy);
-  const cliRecoder = child_process.spawn('node', ['./src/server/web.js', host, port, chromium, savePath]);
+  const cliRecoder = child_process.spawn('node', [__basedir + '/src/server/web.js', host, port, chromium, savePath]);
   proc.captureLog(cliRecoder);
 
   console.log(`
@@ -41,10 +41,10 @@ function run(host, port, chromium, savePath) {
 }
 
 program
-  .option('-h, --host <type>', 'Server hostname (default: 127.0.0.1).', '127.0.0.1')
-  .option('-p, --port <type>', 'Server port (default: 2333).', 2333)
-  .option('-c, --chromium <type>', 'The absolute path of the chromium execution file.')
-  .option('-s, --save <type>', 'Test report save path.');
+  .option('-h, --host <hostname>', 'Server hostname, optional.', '127.0.0.1')
+  .option('-p, --port <port>', 'Server port, optional.', 2333)
+  .option('-c, --chromium <path>', 'The absolute path of the chromium execution file, necessary.')
+  .option('-s, --save <path>', 'The absolute path of the test report, necessary.');
 
 program.parse(process.argv);
 run(program.host, program.port, program.chromium, program.save);

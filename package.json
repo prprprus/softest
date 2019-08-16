@@ -1,11 +1,31 @@
 {
   "name": "softest",
   "version": "1.0.0",
-  "description": "👾 ",
+  "description": "Recording browser interaction and generating test scripts",
   "main": "index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prprprus/softest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prprprus/softest/issues"
+  },
+  "homepage": "https://github.com/prprprus/softest",
+  "author": "prprprus",
+  "license": "BSD",
+  "keywords": [
+    "autotest",
+    "test",
+    "recorder",
+    "recording",
+    "puppeteer",
+    "generating"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "bin": {
+    "softest": "./index.js"
   },
   "dependencies": {
     "commander": "^3.0.0",
@@ -18,13 +38,5 @@
   },
   "devDependencies": {
     "jest": "^24.8.0"
-  },
-  "scripts": {
-    "test": "jest"
-  },
-  "author": "prprprus",
-  "license": "BSD",
-  "bin": {
-    "softest": "./index.js"
   }
 }

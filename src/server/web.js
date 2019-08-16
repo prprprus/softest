@@ -4,6 +4,8 @@
  * license that can be found in the LICENSE file.
  */
 
+global.__basedir = __dirname;
+
 const express = require('express');
 const child_process = require('child_process');
 const io = require('../utils/io');
@@ -20,11 +22,11 @@ const archivePath = argSavePath + '/../' + 'report.tar.gz';
 const app = express();
 var recorderPID = undefined;
 
-app.set('views', './src/frontend/views');
+app.set('views', __basedir + '/../frontend/views');
 app.set('view engine', 'pug');
 app.use(express.json());
-app.use(express.static('./src/frontend'));
-app.use(express.static(__dirname + './src'));
+app.use(express.static(__basedir + '/../frontend'));
+app.use(express.static(__basedir + '/..'));
 
 app.get('/', (_, res) => {
   res.render('index', {
@@ -40,7 +42,7 @@ app.get('/record', (_, res) => {
   if (recorderPID === undefined) {
     io.deleteAllFile(argSavePath);
     io.deleteFile(archivePath);
-    const recorder = child_process.spawn('node', ['./src/core/listener.js', argChromium]);
+    const recorder = child_process.spawn('node', [__basedir + '/../core/listener.js', argChromium]);
     // mark recorder is running
     recorderPID = recorder.pid;
     proc.captureLog(recorder);
