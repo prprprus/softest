@@ -245,6 +245,7 @@ async function run(options) {
     headless: false,
     devtools: false,
     executablePath: `${argChromium}`,
+    ignoreDefaultArgs: ["--enable-automation"],
     args: [
       `--window-size=1265,1400`,
     ],

@@ -12,9 +12,10 @@ const child_process = require('child_process');
 
 (async () => {
    const browser = await puppeteer.launch({
-   headless: false,
-   devtools: false,
-   executablePath: '{}',
+     headless: false,
+     devtools: false,
+     executablePath: '{}',
+     ignoreDefaultArgs: ["--enable-automation"],
      args: [
        \`--window-size=1265, 1400\`,
      ],
