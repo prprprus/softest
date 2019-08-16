@@ -6,10 +6,11 @@
  * license that can be found in the LICENSE file.
  */
 
+global.__basedir = __dirname;
+
 const commander = require('commander');
 const child_process = require('child_process');
-const common = require('./src/utils/common');
-const proc = require('./src/utils/process');
+const proc = require(__basedir + '/src/utils/process');
 
 const program = new commander.Command();
 
