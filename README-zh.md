@@ -106,7 +106,7 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 
 # 贡献
 
-非常感谢您对 Softest 的关注，您的帮助对我来说非常重要，欢迎 star、fork、提交 issue 或者 PR。
+非常感谢你对 Softest 的关注，你的帮助对我来说非常重要，欢迎 star、fork、提交 issue 或者 PR。
 
 # License
 
