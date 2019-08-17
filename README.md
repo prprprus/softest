@@ -19,7 +19,7 @@ It allows you to get test scripts without writing code.
 |_______||_______||___|      |___|  |_______||_______|  |___|
 ```
 
-[![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/user101898119/review/354273223/1040ac0c06)
+[![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/354273223)
 
 #### Supported features
 

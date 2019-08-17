@@ -18,7 +18,7 @@ Softest 是一个自动化测试工具，用于录制用户跟浏览器之间的
 |_______||_______||___|      |___|  |_______||_______|  |___|
 ```
 
-[![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/user101898119/review/354273223/1040ac0c06)
+[![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/354273223)
 
 #### 支持的功能
 
