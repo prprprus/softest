@@ -1,4 +1,4 @@
-# Softest
+# softest
 
 ![build status](https://travis-ci.org/prprprus/softest.svg?branch=master)
 [![Known Vulnerabilities](https://snyk.io//test/github/prprprus/softest/badge.svg?targetFile=package.json)](https://snyk.io//test/github/prprprus/softest?targetFile=package.json)
@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/badge/license-license-yellow.svg)](./LICENSE)
 [![](https://img.shields.io/badge/EN-%E8%8B%B1%E6%96%87-%09%236495ED.svg)](./README.md)
 
-Softest 是一款端对端的测试工具，用于录制用户跟浏览器之间的交互，并生成测试脚本，简单而且实用。让你不用写一行代码就可以得到测试脚本。
+softest 是一款端对端的测试工具，用于录制用户跟浏览器之间的交互，并生成测试脚本，简单而且实用。让你不用写一行代码就可以得到测试脚本。
 
 ```
  _______  _______  _______  _______  _______  _______  _______
@@ -50,7 +50,7 @@ Softest 是一款端对端的测试工具，用于录制用户跟浏览器之间
 $ npm i -g softest
 ```
 
-Softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，而且由于各种原因无法下载到 Chromium 的话，可以到[这里]()下载。
+softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，而且由于各种原因无法下载到 Chromium 的话，可以到[这里]()下载。
 
 ![]()
 
@@ -106,7 +106,7 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 
 # 贡献
 
-非常感谢你对 Softest 的关注，你的帮助对我来说非常重要，欢迎 star、fork、提交 issue 或者 PR。
+非常感谢你对 softest 的关注，你的帮助对我来说非常重要，欢迎 star、fork、提交 issue 或者 PR。
 
 # License
 

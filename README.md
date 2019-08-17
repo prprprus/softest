@@ -1,4 +1,4 @@
-# Softest
+# softest
 
 ![build status](https://travis-ci.org/prprprus/softest.svg?branch=master)
 [![Known Vulnerabilities](https://snyk.io//test/github/prprprus/softest/badge.svg?targetFile=package.json)](https://snyk.io//test/github/prprprus/softest?targetFile=package.json)
@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/badge/license-license-yellow.svg)](./LICENSE)
 [![](https://img.shields.io/badge/CN-%E4%B8%AD%E6%96%87-%09%23ff2121.svg)](./README-zh.md)
 
-Softest is an END-TO-END test tool for recording browser interactions and generating test scripts, simple and practical.
+The softest is an END-TO-END test tool for recording browser interactions and generating test scripts, simple and practical.
 It allows you to get test scripts without writing code.
 
 ```
@@ -52,7 +52,7 @@ Note: Temporarily not support manual tapping tabs to switch pages. For example, 
 $ npm i -g softest
 ```
 
-Softest is based on Puppeteer, when downloading Puppeteer, Chromium will be downloaded by default. Chinese users may be affected by GFW. If you encounter difficulties,you can move to [README-Zh.md](./README-zh.md).
+The softest is based on Puppeteer, when downloading Puppeteer, Chromium will be downloaded by default. Chinese users may be affected by GFW. If you encounter difficulties,you can move to [README-Zh.md](./README-zh.md).
 
 # Usage
 
@@ -100,13 +100,13 @@ If you see an output similar to the following, congratulations 🎉🎉🎉👏
 🎉 Running HTTP server successfully
 ```
 
-If you have successfully launched Softest, open a browser, type `host` and `port`, you will see the following web interface:
+If you have successfully launched softest, open a browser, type `host` and `port`, you will see the following web interface:
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
 # Contribution
 
-Thank you for your interest in the Softest, your help and contribution are very valuable, welcome star, fork, submit issue or PR.
+Thank you for your interest in the softest, your help and contribution are very valuable, welcome star, fork, submit issue or PR.
 
 # License
 
