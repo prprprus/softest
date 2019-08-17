@@ -52,7 +52,7 @@ Note: Temporarily not support manual tapping tabs to switch pages. For example, 
 $ npm i -g softest
 ```
 
-Softest is based on Puppeteer, when downloading Puppeteer, Chromium will be downloaded by default. Chinese users may be affected by GFW. If you encounter difficulties,you can move to [README-Zh.md](./README-Zh.md).
+Softest is based on Puppeteer, when downloading Puppeteer, Chromium will be downloaded by default. Chinese users may be affected by GFW. If you encounter difficulties,you can move to [README-Zh.md](./README-zh.md).
 
 # Usage
 
