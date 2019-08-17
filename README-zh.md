@@ -104,7 +104,9 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
-浪起来 😜
+# 贡献
+
+非常感谢您对 Softest 的关注，您的帮助对我来说非常重要，欢迎 star、fork、提交 issue 或者 PR。
 
 # License
 

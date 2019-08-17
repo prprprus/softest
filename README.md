@@ -104,7 +104,9 @@ If you have successfully launched Softest, open a browser, type `host` and `port
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
-have fun 😜
+# Contribution
+
+Thank you for your interest in the Softest, your help and contribution are very valuable, welcome star, fork, submit issue or PR.
 
 # License
 
