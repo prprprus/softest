@@ -1,6 +1,6 @@
 {
   "name": "softest",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Recording browser interaction and generating test scripts",
   "main": "index.js",
   "repository": {
