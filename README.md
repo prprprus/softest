@@ -45,7 +45,7 @@ Tab switching rules: temporarily not support manual tapping tabs to switch pages
 - Node >= v10.16.3 (recommend v12.8.0)
 - Npm (recommend 6.10.2)
 
-```
+```bash
 $ npm i -g softest
 ```
 
@@ -55,13 +55,13 @@ The softest is based on Puppeteer, when downloading Puppeteer, Chromium will be 
 
 Add environment variables to facilitate running commands:
 
-```
+```bash
 $ export PATH=$PATH:$HOME/.npm-global/bin
 ```
 
 `softest` has only a few parameters:
 
-```
+```bash
 $ softest --help
 Usage: index [options]
 
@@ -75,7 +75,7 @@ Options:
 
 To run the `softest` command, you need to specify the directory where the Chromium and the directory where the test report are saved:
 
-```
+```bash
 $ soft -c PATH_CHROMIUM -r PATH_REPORT
 ```
 
@@ -83,7 +83,7 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 
 If you see an output similar to the following, congratulations 🎉🎉🎉👏
 
-```
+```bash
  _______  _______  _______  _______  _______  _______  _______
 |       ||       ||       ||       ||       ||       ||       |     status: running
 |  _____||   _   ||    ___||_     _||    ___||  _____||_     _|     host: 127.0.0.1
