@@ -39,7 +39,7 @@ It allows you to get test scripts without writing code.
 - Input
 - Scroll page
 
-Note: Temporarily not support manual tapping tabs to switch pages. For example, opened three tabs, currently in the latest tab3, you can't manually switch to tab2 or tab1 at this time, which will cause inconsistency, but you can go back to tab2 through close tab3, then close tab2 and return to tab1.
+Tab switching rules: temporarily not support manual tapping tabs to switch pages. For example, opened three tabs, currently in the latest tab3, you can't manually switch to tab2 or tab1 at this time, which will cause inconsistency, but you can go back to tab2 through close tab3, then close tab2 and return to tab1.
 
 # Installation
 
