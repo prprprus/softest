@@ -105,7 +105,7 @@ If you have successfully launched softest, open a browser, type `host` and `port
 
 ## Contribution
 
-Thank you for your interest in the softest, your help and contribution are very valuable, welcome star, fork, submit issue or PR.
+Thank you for your interest in the softest, your help and contribution are very valuable, please star, fork, submit issue or PR.
 
 ## License
 
