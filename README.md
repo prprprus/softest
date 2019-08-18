@@ -40,7 +40,7 @@ The softest is a test tool for recording browser interactions and generating tes
 
 Tab switching rules: temporarily not support manual tapping tabs to switch pages. For example, opened three tabs, currently in the latest tab3, you can't manually switch to tab2 or tab1 at this time, which will cause inconsistency, but you can go back to tab2 through close tab3, then close tab2 and return to tab1.
 
-# Installation
+## Installation
 
 #### Dependencies
 
@@ -53,7 +53,7 @@ $ npm i -g softest
 
 The softest is based on Puppeteer, when downloading Puppeteer, Chromium will be downloaded by default. Chinese users may be affected by GFW. If you encounter difficulties,you can move to [README-Zh.md](./README-zh.md).
 
-# Usage
+## Usage
 
 Add environment variables to facilitate running commands:
 
@@ -103,10 +103,10 @@ If you have successfully launched softest, open a browser, type `host` and `port
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
-# Contribution
+## Contribution
 
 Thank you for your interest in the softest, your help and contribution are very valuable, welcome star, fork, submit issue or PR.
 
-# License
+## License
 
 See [LICENSE](./LICENSE) for more information.

@@ -39,7 +39,7 @@ softest 是用于录制浏览器交互并生成测试脚本的测试工具，简
 
 标签页切换规则：暂时不支持用户手动的跨标签页切换操作。例如，现在打开了 3 个标签页，当前所在第三个标签页 tab3，此时就不可以手动地切换到 tab2 或者 tab1，因为这样会造成录制的不一致。但是你可以通过关闭 tab3 的方式回到 tab2，再关闭 tab2 回到 tab1。
 
-# 安装
+## 安装
 
 #### 依赖
 
@@ -54,7 +54,7 @@ softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认�
 
 ![]()
 
-# 使用
+## 使用
 
 为了方便命令的执行，建议添加环境变量：
 
@@ -104,10 +104,10 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
-# 贡献
+## 贡献
 
 非常感谢你对 softest 的关注，你的帮助对我来说非常重要，欢迎 star、fork、提交 issue 或者 PR。
 
-# License
+## License
 
 详细信息请参考 [LICENSE](./LICENSE)。
