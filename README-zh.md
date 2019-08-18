@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/badge/license-license-yellow.svg)](./LICENSE)
 [![](https://img.shields.io/badge/EN-%E8%8B%B1%E6%96%87-%09%236495ED.svg)](./README.md)
 
-softest 是一款端对端的测试工具，用于录制用户跟浏览器之间的交互，并生成测试脚本，简单而且实用。让你不用写一行代码就可以得到测试脚本。
+softest 是用于录制浏览器交互并生成测试脚本的测试工具，简单实用。让你不用写一行代码就可以得到测试脚本。
 
 ```
  _______  _______  _______  _______  _______  _______  _______

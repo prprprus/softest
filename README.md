@@ -6,8 +6,7 @@
 [![license](https://img.shields.io/badge/license-license-yellow.svg)](./LICENSE)
 [![](https://img.shields.io/badge/CN-%E4%B8%AD%E6%96%87-%09%23ff2121.svg)](./README-zh.md)
 
-The softest is an END-TO-END test tool for recording browser interactions and generating test scripts, simple and practical.
-It allows you to get test scripts without writing code.
+The softest is a test tool for recording browser interactions and generating test scripts, simple and practical. It allows you to get test scripts without writing code.
 
 ```
  _______  _______  _______  _______  _______  _______  _______
