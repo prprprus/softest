@@ -1,5 +1,7 @@
 # softest
 
+<img src="https://raw.githubusercontent.com/prprprus/picture/master/softest4.png?token=ACA5TSW4AVRKOA63WG6J42K5LFTWO" alt="logo" width="600"/>
+
 ![build status](https://travis-ci.org/prprprus/softest.svg?branch=master)
 [![Known Vulnerabilities](https://snyk.io//test/github/prprprus/softest/badge.svg?targetFile=package.json)](https://snyk.io//test/github/prprprus/softest?targetFile=package.json)
 [![](https://img.shields.io/badge/npm-6.10.2-orange)]()
