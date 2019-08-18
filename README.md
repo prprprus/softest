@@ -95,13 +95,13 @@ If you see an output similar to the following, congratulations 🎉🎉🎉👏
 🎉 Running HTTP server successfully
 ```
 
-If you have successfully launched softest, open a browser, type `host` and `port`, you will see the following web interface:
+Open a browser, type `host` and `port`, you will see the following web interface:
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
 ## Contribution
 
-Thank you for your interest in the softest, your help and contribution are very valuable, please star, fork, submit issue or PR.
+Thank you for your interest in the softest, your help and contribution are very valuable, please Star ⭐, Fork, submit Issue or PR, thanks! 😁😘🎁🎉
 
 ## License
 

@@ -12,7 +12,7 @@ softest 是用于录制浏览器交互并生成测试脚本的测试工具，简
 
 ## 项目来由
 
-当我需要一个能够根据浏览器交互操作自动生成对应代码的工具时，找到了 [puppeteer-recorder](https://github.com/checkly/puppeteer-recorder) 和 [Selenium IDE](https://www.seleniumhq.org/selenium-ide/)，他们当然都是非常优秀的项目。但是在实际的使用中发现它们只能单 tab 录制，不支持多 tab，也不支持截图等功能，而且 Selenium IDE 在播放脚本时总是报错（应该是对滚动操作支持的问题），所以就自己造了个轮子。
+当我需要一个能够根据浏览器交互操作自动生成对应代码的工具时，找到了 [puppeteer-recorder](https://github.com/checkly/puppeteer-recorder) 和 [Selenium IDE](https://www.seleniumhq.org/selenium-ide/)，他们当然都是非常优秀的项目。但是在实际的使用中发现它们只能单 tab 录制，不支持多 tab，也不支持截图等功能，而且 Selenium IDE 在回放脚本时总是报错（应该是对滚动操作支持的问题），所以就自己造了个轮子。
 
 ## 功能
 
@@ -46,9 +46,9 @@ softest 是用于录制浏览器交互并生成测试脚本的测试工具，简
 $ npm i -g softest
 ```
 
-softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，而且由于各种原因无法下载到 Chromium 的话，可以到[这里](https://pan.baidu.com/s/1-ejd6EsOrcYGNCrzbj1hYw)下载，提取码 4vxu（其实用 Chrome 也是可以的）。
+softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，并且由于各种原因无法下载到 Chromium 的话，可以到[这里](https://pan.baidu.com/s/1-ejd6EsOrcYGNCrzbj1hYw)下载，提取码 4vxu。
 
-![]()
+![](https://raw.githubusercontent.com/prprprus/picture/master/softest3.png)
 
 ## 使用
 
@@ -72,7 +72,7 @@ Options:
   -h, --help             output usage information
 ```
 
-运行 `softest` 需要指定 Chromium 所在的目录，并且指定保存测试报告的目录（都是绝对路径）。
+运行 `softest` 需要指定 Chromium 所在的目录，并且指定保存测试报告的目录（绝对路径）。
 
 ```
 $ soft -c PATH_CHROMIUM -r PATH_REPORT
@@ -96,13 +96,13 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 🎉 Running HTTP server successfully
 ```
 
-如果启动成功，打开浏览器，输入 `host` 和 `port`，你会看到如下的 web 界面：
+打开浏览器，输入 `host` 和 `port`，你会看到如下的 web 界面：
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
 ## 贡献
 
-非常感谢你对 softest 的关注，你的帮助对我来说非常重要，欢迎 star、fork、提交 issue 或者 PR。
+非常感谢你对 softest 的关注，你的帮助对我来说非常重要，欢迎 Star ⭐、Fork、提交 Issue 或者 PR，谢谢！😁😘🎁🎉
 
 ## License
 
