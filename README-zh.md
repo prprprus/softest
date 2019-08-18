@@ -48,7 +48,7 @@ softest 是用于录制浏览器交互并生成测试脚本的测试工具，简
 $ npm i -g softest
 ```
 
-softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，并且由于各种原因无法下载到 Chromium 的话，可以到[这里](https://pan.baidu.com/s/1-ejd6EsOrcYGNCrzbj1hYw)下载，提取码 4vxu。
+softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，并且由于各种原因无法下载到 Chromium 的话，可以到[这里](https://pan.baidu.com/s/1-ejd6EsOrcYGNCrzbj1hYw)下载，提取码 4vxu（其实用 Chrome 也是可以的）。
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest3.png)
 
