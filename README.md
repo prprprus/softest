@@ -8,19 +8,15 @@
 
 The softest is a test tool for recording browser interactions and generating test scripts, simple and practical. It allows you to get test scripts without writing code.
 
-```
- _______  _______  _______  _______  _______  _______  _______
-|       ||       ||       ||       ||       ||       ||       |
-|  _____||   _   ||    ___||_     _||    ___||  _____||_     _|
-| |_____ |  | |  ||   |___   |   |  |   |___ | |_____   |   |
-|_____  ||  |_|  ||    ___|  |   |  |    ___||_____  |  |   |
- _____| ||       ||   |      |   |  |   |___  _____| |  |   |
-|_______||_______||___|      |___|  |_______||_______|  |___|
-```
-
 [![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/354273223)
 
-#### Supported features
+## Why
+
+When I needed a tool that could record browser interactions and generate corresponding scripts, I found [puppeteer-recorder](https://github.com/checkly/puppeteer-recorder) and [Selenium IDE](https://www.seleniumhq.org/selenium-ide/), of course, they are excellent projects. But I found that they can't support multi-tab recording, screenshots, etc., and Selenium IDE always gives an error when playing a script, so I made this wheel.
+
+## Features
+
+#### Supported Features
 
 - Single tab recording
 - Multiple tab recording
@@ -29,7 +25,7 @@ The softest is a test tool for recording browser interactions and generating tes
 - Play test script
 - Download test report (contains screenshots and test script)
 
-#### Supported browser interactions
+#### Supported Interactions
 
 - Click
 - New tab
