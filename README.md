@@ -24,7 +24,7 @@ When I needed a tool that could record browser interactions and generate corresp
 - Multiple tab recording
 - Screenshot
 - Generating test script
-- Play test script
+- Playback script
 - Download test report (contains screenshots and test script)
 
 #### Supported Interactions
@@ -73,7 +73,7 @@ Options:
   -h, --help             output usage information
 ```
 
-To run the `softest` command, you need to specify the directory where the Chromium and the directory where the test report are saved:
+To run the `softest` command, you need to specify the directory where the Chromium and the directory where the test report is saved:
 
 ```bash
 $ soft -c PATH_CHROMIUM -r PATH_REPORT
