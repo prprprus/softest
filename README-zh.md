@@ -12,11 +12,11 @@ softest 是用于录制浏览器交互并生成测试脚本的测试工具，简
 
 [![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://www.bilibili.com/video/av64092242/)
 
-## 项目来由
+## 🔍 项目来由
 
 当我需要一个能够根据浏览器交互操作自动生成对应代码的工具时，找到了 [puppeteer-recorder](https://github.com/checkly/puppeteer-recorder) 和 [Selenium IDE](https://www.seleniumhq.org/selenium-ide/)，他们当然都是非常优秀的项目。但是在实际的使用中发现它们只能单 tab 录制，不支持多 tab，也不支持截图等功能，而且 Selenium IDE 在回放脚本时总是报错（应该是对滚动操作支持的问题），所以就自己造了个轮子。
 
-## 功能
+## 🔥 功能
 
 #### 支持的功能
 
@@ -37,7 +37,7 @@ softest 是用于录制浏览器交互并生成测试脚本的测试工具，简
 
 标签页切换规则：暂时不支持用户手动的跨标签页切换操作。例如，现在打开了 3 个标签页，当前所在第三个标签页 tab3，此时就不可以手动地切换到 tab2 或者 tab1，因为这样会造成录制的不一致。但是你可以通过关闭 tab3 的方式回到 tab2，再关闭 tab2 回到 tab1。
 
-## 安装
+## ⚙️ 安装
 
 #### 依赖
 
@@ -52,7 +52,7 @@ softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认�
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest3.png)
 
-## 使用
+## 🚀 使用
 
 为了方便命令的执行，建议添加环境变量：
 
@@ -102,10 +102,18 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
-## 贡献
+## ⭐️ 抬一手
 
-非常感谢你对 softest 的关注，你的帮助对我来说非常重要，欢迎 Star ⭐、Fork、提交 Issue 或者 PR，谢谢！😁😘🎁🎉
+如果这个项目对你有所帮助或启发，请给个 ️️⭐️！
 
-## License
+## 👏 贡献
+
+如果你对该项目有任何问题或者需求，可以提交个 [issue](https://github.com/prprprus/softest/issues) 或者直接提交个 Pull Request 给我。
+
+## 🐞 报 Bug
+
+如果你发现了 bug，别犹豫，可以直接 [Issue](https://github.com/prprprus/softest/issues) 。
+
+## 📝 License
 
 详细信息请参考 [LICENSE](./LICENSE)。

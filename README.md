@@ -12,11 +12,11 @@ The softest is a test tool for recording browser interactions and generating tes
 
 [![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/354273223)
 
-## Why
+## 🔍 Why
 
 When I needed a tool that could record browser interactions and generate corresponding scripts, I found [puppeteer-recorder](https://github.com/checkly/puppeteer-recorder) and [Selenium IDE](https://www.seleniumhq.org/selenium-ide/), of course, they are excellent projects. But I found that they can't support multi-tab recording, screenshots, etc., and Selenium IDE always gives an error when playing a script, so I made this wheel.
 
-## Features
+## 🔥 Features
 
 #### Supported Features
 
@@ -38,7 +38,7 @@ When I needed a tool that could record browser interactions and generate corresp
 
 Tab switching rules: temporarily not support manual tapping tabs to switch pages. For example, opened three tabs, currently in the latest tab3, you can't manually switch to tab2 or tab1 at this time, which will cause inconsistency, but you can go back to tab2 through close tab3, then close tab2 and return to tab1.
 
-## Installation
+## ⚙️ Installation
 
 #### Dependencies
 
@@ -51,7 +51,7 @@ $ npm i -g softest
 
 The softest is based on Puppeteer, when downloading Puppeteer, Chromium will be downloaded by default. Chinese users may be affected by GFW. If you encounter difficulties, you can move to [README-Zh.md](./README-zh.md).
 
-## Usage
+## 🚀 Usage
 
 Add environment variables to facilitate running commands:
 
@@ -101,10 +101,18 @@ Open a browser, type `host` and `port`, you will see the following web interface
 
 ![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
 
-## Contribution
+## ⭐️ Show Your Support
 
-Thank you for your interest in the softest, your help and contribution are very valuable, please Star ⭐, Fork, submit Issue or PR, thanks! 😁😘🎁🎉
+Please give a ⭐️ if this project helped you!
 
-## License
+## 👏 Contributing
+
+If you have any questions or requests or want to contribute to `moveable` or other packages, please write the [issue](https://github.com/prprprus/softest/issues) or give me a Pull Request freely.
+
+## 🐞 Bug Report
+
+If you find a bug, please report to us opening a new [Issue](https://github.com/prprprus/softest/issues) on GitHub.
+
+## 📝 License
 
 See [LICENSE](./LICENSE) for more information.
