@@ -1,6 +1,6 @@
 # softest
 
-<img src="https://raw.githubusercontent.com/prprprus/picture/master/softest4.png?token=ACA5TSW4AVRKOA63WG6J42K5LFTWO" alt="logo" width="600"/>
+<img src="https://i.loli.net/2019/09/21/5ybk4xDOeAgJwRL.png" alt="logo" width="600"></a>
 
 ![build status](https://travis-ci.org/prprprus/softest.svg?branch=master)
 [![Known Vulnerabilities](https://snyk.io//test/github/prprprus/softest/badge.svg?targetFile=package.json)](https://snyk.io//test/github/prprprus/softest?targetFile=package.json)
@@ -10,7 +10,7 @@
 
 softest 是用于录制浏览器交互并生成测试脚本的测试工具，简单实用。让你不用写一行代码就可以得到测试脚本。
 
-[![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://www.bilibili.com/video/av64092242/)
+[![softest2.png](https://i.loli.net/2019/09/21/O3kMSqW4Deny7Al.png)](https://www.bilibili.com/video/av64092242/)
 
 ## 🔍 项目来由
 
@@ -50,7 +50,7 @@ $ npm i -g softest
 
 softest 是基于 Puppeteer 构建的，而下载 Puppeteer 的时候会默认安装 Chromium。如果你在执行上面命令的时候看到下图，并且由于各种原因无法下载到 Chromium 的话，可以到[这里](https://pan.baidu.com/s/1-ejd6EsOrcYGNCrzbj1hYw)下载，提取码 4vxu（其实用 Chrome 也是可以的）。
 
-![](https://raw.githubusercontent.com/prprprus/picture/master/softest3.png)
+![softest3.png](https://i.loli.net/2019/09/21/fRx4vW9cXP1e73U.png)
 
 ## 🚀 使用
 
@@ -100,7 +100,7 @@ $ soft -c PATH_CHROMIUM -r PATH_REPORT
 
 打开浏览器，输入 `host` 和 `port`，你会看到如下的 web 界面：
 
-![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
+![softest1.png](https://i.loli.net/2019/09/21/rpWZjdP5lkYwHJM.png)
 
 ## ⭐️ 抬一手
 

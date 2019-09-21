@@ -1,6 +1,6 @@
 # softest
 
-<img src="https://raw.githubusercontent.com/prprprus/picture/master/softest4.png?token=ACA5TSW4AVRKOA63WG6J42K5LFTWO" alt="logo" width="600"/>
+<img src="https://i.loli.net/2019/09/21/5ybk4xDOeAgJwRL.png" alt="logo" width="600"></a>
 
 ![build status](https://travis-ci.org/prprprus/softest.svg?branch=master)
 [![Known Vulnerabilities](https://snyk.io//test/github/prprprus/softest/badge.svg?targetFile=package.json)](https://snyk.io//test/github/prprprus/softest?targetFile=package.json)
@@ -10,7 +10,7 @@
 
 The softest is a test tool for recording browser interactions and generating test scripts, simple and practical. It allows you to get test scripts without writing code.
 
-[![Watch the video](https://raw.githubusercontent.com/prprprus/picture/master/softest2.png)](https://vimeo.com/354273223)
+[![softest2.png](https://i.loli.net/2019/09/21/O3kMSqW4Deny7Al.png)](https://vimeo.com/354273223)
 
 ## 🔍 Why
 
@@ -99,7 +99,7 @@ If you see an output similar to the following, congratulations 🎉🎉🎉👏
 
 Open a browser, type `host` and `port`, you will see the following web interface:
 
-![](https://raw.githubusercontent.com/prprprus/picture/master/softest1.png)
+![softest1.png](https://i.loli.net/2019/09/21/rpWZjdP5lkYwHJM.png)
 
 ## ⭐️ Show Your Support
 
