@@ -23,7 +23,9 @@
   ],
   "scripts": {
     "test": "jest",
-    "lint": "./node_modules/.bin/eslint ./"
+    "lint": "./node_modules/.bin/eslint ./",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "bin": {
     "softest": "./index.js"
@@ -35,10 +37,12 @@
     "pug": "^2.0.4",
     "puppeteer": "^1.19.0",
     "typescript": "^3.5.3",
-    "ws": "^7.1.1"
+    "ws": "^7.1.1",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
     "jest": "^24.8.0"
-  }
+  },
+  "snyk": true
 }
