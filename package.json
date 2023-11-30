@@ -33,7 +33,7 @@
     "express": "^4.17.1",
     "highlight.js": "^9.15.9",
     "pug": "^2.0.4",
-    "puppeteer": "^1.19.0",
+    "puppeteer": "^18.2.0",
     "typescript": "^3.5.3",
     "ws": "^7.1.1"
   },
